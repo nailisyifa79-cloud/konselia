@@ -4,13 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>KONSELIA by NaFaS BK - Aplikasi BK Digital</title>
-    <!-- Firebase -->
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-storage-compat.js"></script>
-    <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <!-- html2pdf -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <style>
         /* ===== RESET & VARIABLES ===== */
@@ -31,7 +28,6 @@
         *{margin:0;padding:0;box-sizing:border-box}
         body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--cream);color:#1A3D32}
         .app{display:flex;min-height:100vh}
-        /* ===== SIDEBAR ===== */
         .sidebar{width:270px;background:linear-gradient(180deg,#1A5A4A,#0D3D32);color:#fff;padding:24px 18px;position:fixed;inset:0 auto 0 0;overflow-y:auto;z-index:100}
         .logo{font-size:22px;font-weight:800;letter-spacing:.5px}
         .logo span{color:var(--secondary)}
@@ -40,7 +36,6 @@
         .nav button{width:100%;border:0;background:transparent;color:#d4e0db;text-align:left;padding:11px 14px;border-radius:12px;margin:3px 0;font-size:13px;cursor:pointer;transition:.2s;display:flex;align-items:center;gap:10px}
         .nav button:hover,.nav button.active{background:rgba(255,255,255,.12);color:#fff;box-shadow:inset 3px 0 0 var(--secondary)}
         .nav button .icon{font-size:18px;width:28px}
-        /* ===== MAIN ===== */
         .main{margin-left:270px;width:calc(100% - 270px);padding:28px 36px}
         .top{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:20px}
         .top h1{font-size:28px;font-weight:700}
@@ -49,7 +44,6 @@
         .badge-year select{background:transparent;border:0;font-weight:600;font-size:12px;color:var(--primary-dark);cursor:pointer;outline:none}
         .page{display:none}
         .page.active{display:block}
-        /* ===== CARDS & GRID ===== */
         .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px}
         .card{background:#fff;border-radius:var(--radius);padding:18px 20px;border:1px solid var(--gray-light);box-shadow:var(--shadow);transition:.2s}
         .card:hover{transform:translateY(-2px)}
@@ -60,7 +54,6 @@
         .panel-header h2{font-size:18px;color:var(--primary-dark)}
         .panel-header .actions{display:flex;gap:8px;flex-wrap:wrap}
         .two-col{display:grid;grid-template-columns:1.5fr 1fr;gap:16px}
-        /* ===== FORM ===== */
         .form-group{margin-bottom:14px}
         .form-group label{display:block;font-weight:600;font-size:13px;color:var(--primary-dark);margin-bottom:4px}
         .form-group label .required{color:var(--danger)}
@@ -68,7 +61,6 @@
         .form-control:focus{border-color:var(--primary);outline:none;box-shadow:0 0 0 4px rgba(26,90,74,0.08)}
         .form-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px}
         textarea.form-control{min-height:80px;resize:vertical}
-        /* ===== BUTTONS ===== */
         .btn{padding:10px 22px;border:0;border-radius:10px;font-weight:600;font-size:13px;cursor:pointer;transition:.2s;display:inline-flex;align-items:center;gap:6px}
         .btn:hover{transform:translateY(-2px);box-shadow:0 4px 16px rgba(26,90,74,0.20)}
         .btn-primary{background:var(--primary);color:#fff}
@@ -83,7 +75,6 @@
         .btn-outline:hover{border-color:var(--primary);color:var(--primary);background:var(--primary-light)}
         .btn-sm{padding:5px 12px;font-size:11px}
         .btn-block{width:100%}
-        /* ===== BADGE ===== */
         .badge{display:inline-block;padding:3px 12px;border-radius:20px;font-size:11px;font-weight:600}
         .badge-primary{background:var(--primary-light);color:var(--primary)}
         .badge-success{background:#d4edda;color:#155724}
@@ -91,13 +82,11 @@
         .badge-warning{background:#fff3cd;color:#856404}
         .badge-info{background:#d1ecf1;color:#0c5460}
         .badge-secondary{background:var(--gray-light);color:var(--gray)}
-        /* ===== TABLE ===== */
         .table-wrap{overflow-x:auto;border-radius:10px;border:1px solid var(--gray-light)}
         table{width:100%;border-collapse:collapse;font-size:13px}
         table th{background:var(--primary-dark);color:#fff;padding:10px 14px;text-align:left;font-weight:600;font-size:12px;position:sticky;top:0;z-index:10}
         table td{padding:10px 14px;border-bottom:1px solid var(--gray-light);vertical-align:middle}
         table tr:hover{background:#f8faf8}
-        /* ===== MODAL ===== */
         .modal-overlay{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);z-index:999;justify-content:center;align-items:center}
         .modal-overlay.active{display:flex}
         .modal-box{background:#fff;border-radius:var(--radius);padding:30px;max-width:750px;width:95%;max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,0.25);animation:modalIn .3s ease}
@@ -106,17 +95,14 @@
         .modal-box .modal-header h2{font-size:20px;color:var(--primary-dark)}
         .modal-box .close-btn{background:none;border:0;font-size:28px;cursor:pointer;color:var(--gray);padding:0 8px}
         .modal-box .close-btn:hover{color:var(--danger)}
-        /* ===== ALERT ===== */
         .alert{padding:12px 16px;border-radius:10px;margin-bottom:12px;font-size:13px}
         .alert-success{background:#d4edda;color:#155724;border:1px solid #c3e6cb}
         .alert-danger{background:#f8d7da;color:#721c24;border:1px solid #f5c6cb}
         .alert-info{background:#d1ecf1;color:#0c5460;border:1px solid #bee5eb}
         .alert-warning{background:#fff3cd;color:#856404;border:1px solid #ffeeba}
-        /* ===== LOADING ===== */
         .loading{text-align:center;padding:40px;color:var(--gray)}
         .loading .spinner{display:inline-block;width:30px;height:30px;border:3px solid var(--gray-light);border-top-color:var(--primary);border-radius:50%;animation:spin .8s linear infinite}
         @keyframes spin{to{transform:rotate(360deg)}}
-        /* ===== COMPONENTS ===== */
         .material-card{background:#fff;border-radius:var(--radius);padding:16px;border:1px solid var(--gray-light);transition:.2s;cursor:pointer}
         .material-card:hover{box-shadow:var(--shadow);transform:translateY(-3px)}
         .material-card h3{font-size:15px;color:var(--primary-dark);margin:6px 0 4px}
@@ -157,6 +143,11 @@
         .radio-group{display:flex;gap:16px;margin-top:4px;flex-wrap:wrap}
         .radio-group label{display:flex;align-items:center;gap:6px;font-weight:400;font-size:13px;cursor:pointer}
         .radio-group input[type="radio"]{width:16px;height:16px;accent-color:var(--primary)}
+        .soal-item{padding:10px 14px;margin:6px 0;background:#f8faf8;border-radius:8px;border-left:3px solid #1A5A4A;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px}
+        .soal-item .soal{flex:1;font-size:14px}
+        .soal-item .bidang{font-size:10px;padding:2px 10px;border-radius:12px;background:#E8F3EF;color:#1A5A4A}
+        .progress-bar{height:6px;background:#E8EDEA;border-radius:10px;margin:12px 0;overflow:hidden}
+        .progress-fill{height:100%;background:#1A5A4A;border-radius:10px;transition:width 0.3s}
         @media(max-width:768px){.sidebar{width:70px;padding:16px 10px}.sidebar .logo,.sidebar .sub,.sidebar .nav span{display:none}.main{margin-left:70px;width:calc(100% - 70px);padding:16px}.grid{grid-template-columns:1fr 1fr}.form-row{grid-template-columns:1fr}.modal-box{padding:16px}.two-col{grid-template-columns:1fr}}
         @media(max-width:480px){.grid{grid-template-columns:1fr}.main{padding:12px}}
     </style>
@@ -183,7 +174,6 @@
 
     <!-- ===== MAIN ===== -->
     <main class="main">
-        <!-- TOP BAR -->
         <div class="top">
             <div>
                 <h1 id="pageTitle">📊 Dashboard</h1>
@@ -380,7 +370,7 @@
         </div>
         <div class="form-group"><label>Bidang <span class="required">*</span></label><select id="materiBidang" class="form-control"><option value="Pribadi">Pribadi</option><option value="Sosial">Sosial</option><option value="Belajar">Belajar</option><option value="Karier">Karier</option></select></div>
         <div class="form-group"><label>Deskripsi</label><textarea id="materiDeskripsi" class="form-control" rows="3"></textarea></div>
-        <div class="form-group"><label>Upload PDF <span class="required">*</span></label><input type="file" id="materiFile" class="form-control" accept=".pdf,.pptx,.ppt"></div>
+        <div class="form-group"><label>Upload PDF/PPT <span class="required">*</span></label><input type="file" id="materiFile" class="form-control" accept=".pdf,.pptx,.ppt"></div>
         <div class="form-group"><label>Link Materi (Opsional)</label><input type="url" id="materiLink" class="form-control" placeholder="https://..."></div>
         <button class="btn btn-success" onclick="saveMateri()">💾 Simpan</button>
     </div>
@@ -411,7 +401,7 @@
         <div id="akpdModalAlert"></div>
         <div class="form-group"><label>Nama AKPD <span class="required">*</span></label><input type="text" id="akpdNama" class="form-control" placeholder="AKPD Kelas X TJKT 1"></div>
         <div class="form-row">
-            <div class="form-group"><label>Jenjang <span class="required">*</span></label><select id="akpdJenjang" class="form-control" onchange="updateAKPDPreview()"><option value="SMP">SMP</option><option value="SMA">SMA</option><option value="SMK">SMK</option></select></div>
+            <div class="form-group"><label>Jenjang <span class="required">*</span></label><select id="akpdJenjang" class="form-control"><option value="SMP">SMP</option><option value="SMA">SMA</option><option value="SMK">SMK</option></select></div>
             <div class="form-group"><label>Kelas <span class="required">*</span></label><input type="text" id="akpdKelas" class="form-control"></div>
         </div>
         <div class="form-group"><label>Jumlah Siswa <span class="required">*</span></label><input type="number" id="akpdJumlahSiswa" class="form-control"></div>
@@ -497,7 +487,6 @@
     </div>
 </div>
 
-<!-- ===== SCRIPT ===== -->
 <script>
 // ==================== FIREBASE ====================
 var firebaseConfig = {
@@ -522,9 +511,8 @@ var allProgram = [];
 var allAsesmen = [];
 var allGuru = [];
 var sekolahData = { name: '', year: '2026/2027' };
-var currentUser = null;
 
-// ==================== TAHUN AJARAN (12 TAHUN) ====================
+// ==================== TAHUN AJARAN ====================
 var AVAILABLE_YEARS = [];
 for (var y = 2026; y <= 2038; y++) {
     AVAILABLE_YEARS.push(y + '/' + (y + 1));
@@ -560,10 +548,10 @@ function changeYear() {
 // ==================== AKPD PER JENJANG (30 BUTIR) ====================
 var AKPD_BUTIR = {
     SMP: {
-        bidang: ['Pribadi', 'Pribadi', 'Pribadi', 'Pribadi', 'Pribadi', 'Pribadi', 'Pribadi', 'Pribadi',
-                 'Sosial', 'Sosial', 'Sosial', 'Sosial', 'Sosial', 'Sosial', 'Sosial', 'Sosial',
-                 'Belajar', 'Belajar', 'Belajar', 'Belajar', 'Belajar', 'Belajar', 'Belajar', 'Belajar',
-                 'Karier', 'Karier', 'Karier', 'Karier', 'Karier', 'Karier'],
+        bidang: ['Pribadi','Pribadi','Pribadi','Pribadi','Pribadi','Pribadi','Pribadi','Pribadi',
+                 'Sosial','Sosial','Sosial','Sosial','Sosial','Sosial','Sosial','Sosial',
+                 'Belajar','Belajar','Belajar','Belajar','Belajar','Belajar','Belajar','Belajar',
+                 'Karier','Karier','Karier','Karier','Karier','Karier'],
         pernyataan: [
             "Saya belum bersungguh-sungguh dalam beribadah",
             "Saya kadang berbohong kepada orang tua/guru",
@@ -598,10 +586,10 @@ var AKPD_BUTIR = {
         ]
     },
     SMA: {
-        bidang: ['Pribadi', 'Pribadi', 'Pribadi', 'Pribadi', 'Pribadi', 'Pribadi', 'Pribadi', 'Pribadi',
-                 'Sosial', 'Sosial', 'Sosial', 'Sosial', 'Sosial', 'Sosial', 'Sosial', 'Sosial',
-                 'Belajar', 'Belajar', 'Belajar', 'Belajar', 'Belajar', 'Belajar', 'Belajar', 'Belajar',
-                 'Karier', 'Karier', 'Karier', 'Karier', 'Karier', 'Karier'],
+        bidang: ['Pribadi','Pribadi','Pribadi','Pribadi','Pribadi','Pribadi','Pribadi','Pribadi',
+                 'Sosial','Sosial','Sosial','Sosial','Sosial','Sosial','Sosial','Sosial',
+                 'Belajar','Belajar','Belajar','Belajar','Belajar','Belajar','Belajar','Belajar',
+                 'Karier','Karier','Karier','Karier','Karier','Karier'],
         pernyataan: [
             "Saya belum konsisten dalam menjalankan ibadah",
             "Saya pernah menyontek saat ulangan",
@@ -636,10 +624,10 @@ var AKPD_BUTIR = {
         ]
     },
     SMK: {
-        bidang: ['Pribadi', 'Pribadi', 'Pribadi', 'Pribadi', 'Pribadi', 'Pribadi', 'Pribadi', 'Pribadi',
-                 'Sosial', 'Sosial', 'Sosial', 'Sosial', 'Sosial', 'Sosial', 'Sosial', 'Sosial',
-                 'Belajar', 'Belajar', 'Belajar', 'Belajar', 'Belajar', 'Belajar', 'Belajar', 'Belajar',
-                 'Karier', 'Karier', 'Karier', 'Karier', 'Karier', 'Karier'],
+        bidang: ['Pribadi','Pribadi','Pribadi','Pribadi','Pribadi','Pribadi','Pribadi','Pribadi',
+                 'Sosial','Sosial','Sosial','Sosial','Sosial','Sosial','Sosial','Sosial',
+                 'Belajar','Belajar','Belajar','Belajar','Belajar','Belajar','Belajar','Belajar',
+                 'Karier','Karier','Karier','Karier','Karier','Karier'],
         pernyataan: [
             "Saya belum disiplin dalam beribadah",
             "Saya pernah tidak jujur kepada orang lain",
@@ -677,261 +665,101 @@ var AKPD_BUTIR = {
 
 // ==================== 60 MATERI ====================
 var DEFAULT_MATERI = [];
-
-// === SMP (30 Materi) ===
-var SMP_MATERI_S1 = [
-    "Aku Bangga Menjadi Siswa SMP", "Mengenal Diri Sendiri", "Disiplin & Tanggung Jawab",
-    "Tata Tertib Sekolah", "Cara Belajar di SMP", "Percaya Diri di Depan Umum",
-    "Membangun Kedekatan dengan Tuhan YME", "Pergaulan Sehat Remaja", "Mengelola Emosi Secara Sehat",
-    "Mental Juara dan Growth Mindset", "Bijak Menggunakan Game dan Internet",
-    "Rumah sebagai Tempat Bertumbuh", "Manajemen Waktu Remaja", "Mengenal Minat dan Bakat",
-    "Etika Bermedia Sosial"
-];
-var SMP_MATERI_S2 = [
-    "Mengelola Waktu Belajar", "Menjalin Pertemanan Sehat", "Menghadapi Bullying",
-    "Belajar Kelompok Efektif", "Menjaga Kesehatan Mental", "Budaya Tertib Berlalu Lintas",
-    "Hidup Sehat Tanpa Rokok", "Ketahanan Diri dalam Keluarga", "Mental Health Awareness",
-    "Mengatasi Tekanan Akademik", "Aktif Bermasyarakat", "Digital Wellbeing",
-    "Manajemen Konflik", "Pendidikan Kesehatan Reproduksi Remaja", "Peran Gender dalam Kehidupan"
-];
-
-// === SMA (30 Materi) ===
-var SMA_MATERI_S1 = [
-    "Adaptasi di SMA", "Mengembangkan Potensi Diri", "Budaya Belajar SMA",
-    "Disiplin & Tanggung Jawab", "Memilih Jurusan", "Membangun Relasi Sehat",
-    "Manajemen Waktu & Prioritas", "Kesehatan Mental Remaja", "Komunikasi Efektif",
-    "Literasi Digital & Etika", "Motivasi Belajar", "Pengembangan Diri",
-    "Mengelola Harapan dan Masa Depan", "Motivasi Berprestasi", "Percaya Diri Berbicara"
-];
-var SMA_MATERI_S2 = [
-    "Pemilihan Minat & Bakat", "Kreativitas & Inovasi", "Tanggung Jawab Sosial",
-    "Manajemen Stres", "Kepemimpinan", "Pengambilan Keputusan",
-    "Persiapan Karir", "Mengatasi Konflik", "Kecemasan Menghadapi Ujian",
-    "Etika Pergaulan", "Motivasi Berprestasi", "Kemandirian",
-    "Strategi Meningkatkan Prestasi", "Sukses Menghadapi Ujian", "Menjadi Pribadi Kreatif"
-];
-
-// === SMK (30 Materi) ===
-var SMK_MATERI_S1 = [
-    "Adaptasi di SMK", "Etika Profesi", "Membangun Karakter Vokasi",
-    "Disiplin Kerja", "Pengenalan Dunia Kerja", "Etos Kerja",
-    "Manajemen Waktu & Prioritas", "Kesehatan Mental & Fisik", "Komunikasi Efektif",
-    "Literasi Digital Vokasi", "Motivasi Belajar Vokasi", "Pengembangan Diri Vokasi",
-    "Merancang Karier Masa Depan", "Kepribadian dan Pilihan Karier", "Eksplorasi Dunia Kerja"
-];
-var SMK_MATERI_S2 = [
-    "Perencanaan Karir Vokasi", "Kreativitas & Inovasi Vokasi", "Tanggung Jawab Profesi",
-    "Manajemen Stres Kerja", "Kepemimpinan Vokasi", "Pengambilan Keputusan",
-    "Etos Kerja & Kedisiplinan", "Mengatasi Konflik", "Kecemasan Dunia Kerja",
-    "Etika & Moral Profesi", "Motivasi Berprestasi", "Kemandirian Profesi",
-    "Persiapan Administrasi Kerja", "Potensi Diri dan Program Studi", "Menetapkan Tujuan Karier"
-];
+var SMP_MATERI_S1 = ["Aku Bangga Menjadi Siswa SMP","Mengenal Diri Sendiri","Disiplin & Tanggung Jawab","Tata Tertib Sekolah","Cara Belajar di SMP","Percaya Diri di Depan Umum","Membangun Kedekatan dengan Tuhan YME","Pergaulan Sehat Remaja","Mengelola Emosi Secara Sehat","Mental Juara dan Growth Mindset","Bijak Menggunakan Game dan Internet","Rumah sebagai Tempat Bertumbuh","Manajemen Waktu Remaja","Mengenal Minat dan Bakat","Etika Bermedia Sosial"];
+var SMP_MATERI_S2 = ["Mengelola Waktu Belajar","Menjalin Pertemanan Sehat","Menghadapi Bullying","Belajar Kelompok Efektif","Menjaga Kesehatan Mental","Budaya Tertib Berlalu Lintas","Hidup Sehat Tanpa Rokok","Ketahanan Diri dalam Keluarga","Mental Health Awareness","Mengatasi Tekanan Akademik","Aktif Bermasyarakat","Digital Wellbeing","Manajemen Konflik","Pendidikan Kesehatan Reproduksi Remaja","Peran Gender dalam Kehidupan"];
+var SMA_MATERI_S1 = ["Adaptasi di SMA","Mengembangkan Potensi Diri","Budaya Belajar SMA","Disiplin & Tanggung Jawab","Memilih Jurusan","Membangun Relasi Sehat","Manajemen Waktu & Prioritas","Kesehatan Mental Remaja","Komunikasi Efektif","Literasi Digital & Etika","Motivasi Belajar","Pengembangan Diri","Mengelola Harapan dan Masa Depan","Motivasi Berprestasi","Percaya Diri Berbicara"];
+var SMA_MATERI_S2 = ["Pemilihan Minat & Bakat","Kreativitas & Inovasi","Tanggung Jawab Sosial","Manajemen Stres","Kepemimpinan","Pengambilan Keputusan","Persiapan Karir","Mengatasi Konflik","Kecemasan Menghadapi Ujian","Etika Pergaulan","Motivasi Berprestasi","Kemandirian","Strategi Meningkatkan Prestasi","Sukses Menghadapi Ujian","Menjadi Pribadi Kreatif"];
+var SMK_MATERI_S1 = ["Adaptasi di SMK","Etika Profesi","Membangun Karakter Vokasi","Disiplin Kerja","Pengenalan Dunia Kerja","Etos Kerja","Manajemen Waktu & Prioritas","Kesehatan Mental & Fisik","Komunikasi Efektif","Literasi Digital Vokasi","Motivasi Belajar Vokasi","Pengembangan Diri Vokasi","Merancang Karier Masa Depan","Kepribadian dan Pilihan Karier","Eksplorasi Dunia Kerja"];
+var SMK_MATERI_S2 = ["Perencanaan Karir Vokasi","Kreativitas & Inovasi Vokasi","Tanggung Jawab Profesi","Manajemen Stres Kerja","Kepemimpinan Vokasi","Pengambilan Keputusan","Etos Kerja & Kedisiplinan","Mengatasi Konflik","Kecemasan Dunia Kerja","Etika & Moral Profesi","Motivasi Berprestasi","Kemandirian Profesi","Persiapan Administrasi Kerja","Potensi Diri dan Program Studi","Menetapkan Tujuan Karier"];
 
 function buildDefaultMateri() {
     var result = [];
-    var bidang = ['Pribadi', 'Sosial', 'Belajar', 'Karier'];
-    
-    // SMP Semester 1
-    for (var i = 0; i < SMP_MATERI_S1.length; i++) {
-        result.push({
-            judul: SMP_MATERI_S1[i],
-            jenjang: 'SMP',
-            kelas: 'VII',
-            semester: '1',
-            bidang: bidang[i % 4],
-            deskripsi: 'Materi BK untuk siswa SMP kelas VII semester 1'
-        });
+    var bidang = ['Pribadi','Sosial','Belajar','Karier'];
+    function addMateri(list, jenjang, kelas, semester) {
+        for (var i = 0; i < list.length; i++) {
+            result.push({
+                judul: list[i],
+                jenjang: jenjang,
+                kelas: kelas,
+                semester: semester,
+                bidang: bidang[i % 4],
+                deskripsi: 'Materi BK untuk siswa ' + jenjang + ' kelas ' + kelas + ' semester ' + semester
+            });
+        }
     }
-    // SMP Semester 2
-    for (var i = 0; i < SMP_MATERI_S2.length; i++) {
-        result.push({
-            judul: SMP_MATERI_S2[i],
-            jenjang: 'SMP',
-            kelas: 'VII',
-            semester: '2',
-            bidang: bidang[i % 4],
-            deskripsi: 'Materi BK untuk siswa SMP kelas VII semester 2'
-        });
-    }
-    // SMA Semester 1
-    for (var i = 0; i < SMA_MATERI_S1.length; i++) {
-        result.push({
-            judul: SMA_MATERI_S1[i],
-            jenjang: 'SMA',
-            kelas: 'X',
-            semester: '1',
-            bidang: bidang[i % 4],
-            deskripsi: 'Materi BK untuk siswa SMA kelas X semester 1'
-        });
-    }
-    // SMA Semester 2
-    for (var i = 0; i < SMA_MATERI_S2.length; i++) {
-        result.push({
-            judul: SMA_MATERI_S2[i],
-            jenjang: 'SMA',
-            kelas: 'X',
-            semester: '2',
-            bidang: bidang[i % 4],
-            deskripsi: 'Materi BK untuk siswa SMA kelas X semester 2'
-        });
-    }
-    // SMK Semester 1
-    for (var i = 0; i < SMK_MATERI_S1.length; i++) {
-        result.push({
-            judul: SMK_MATERI_S1[i],
-            jenjang: 'SMK',
-            kelas: 'X',
-            semester: '1',
-            bidang: bidang[i % 4],
-            deskripsi: 'Materi BK untuk siswa SMK kelas X semester 1'
-        });
-    }
-    // SMK Semester 2
-    for (var i = 0; i < SMK_MATERI_S2.length; i++) {
-        result.push({
-            judul: SMK_MATERI_S2[i],
-            jenjang: 'SMK',
-            kelas: 'X',
-            semester: '2',
-            bidang: bidang[i % 4],
-            deskripsi: 'Materi BK untuk siswa SMK kelas X semester 2'
-        });
-    }
+    addMateri(SMP_MATERI_S1, 'SMP', 'VII', '1');
+    addMateri(SMP_MATERI_S2, 'SMP', 'VII', '2');
+    addMateri(SMA_MATERI_S1, 'SMA', 'X', '1');
+    addMateri(SMA_MATERI_S2, 'SMA', 'X', '2');
+    addMateri(SMK_MATERI_S1, 'SMK', 'X', '1');
+    addMateri(SMK_MATERI_S2, 'SMK', 'X', '2');
     return result;
 }
-
 DEFAULT_MATERI = buildDefaultMateri();
 
-// ==================== ASESMEN DEFAULT ====================
+// ==================== DEFAULT DATA ====================
 var DEFAULT_ASESMEN = [
     { nama: '🎨 Asesmen Gaya Belajar', jenjang: 'SMP', kelas: 'VII', deskripsi: 'Mengidentifikasi gaya belajar siswa (Visual, Auditori, Kinestetik)', link: '#' },
     { nama: '🌱 Asesmen Minat & Bakat', jenjang: 'SMP', kelas: 'VIII', deskripsi: 'Mengenali minat dan bakat siswa', link: '#' },
     { nama: '🧠 Asesmen Kesiapan Karir', jenjang: 'SMA', kelas: 'XII', deskripsi: 'Mengukur kesiapan karir siswa', link: '#' },
     { nama: '💼 Asesmen Etos Kerja', jenjang: 'SMK', kelas: 'XI', deskripsi: 'Mengukur etos kerja siswa SMK', link: '#' }
 ];
-
-// ==================== GURU DEFAULT ====================
-var DEFAULT_GURU = [
-    { nama: 'Admin Utama', email: 'admin@konselia.com', role: 'admin' }
-];
-
-// ==================== PROGRAM DEFAULT ====================
+var DEFAULT_GURU = [{ nama: 'Admin Utama', email: 'admin@konselia.com', role: 'admin' }];
 var DEFAULT_PROGRAM = [
     { nama: 'Program BK Tahunan 2026/2027', jenis: 'Tahunan', tahun: '2026/2027', deskripsi: 'Program layanan BK mencakup AKPD, layanan klasikal 30 topik, konseling individu 60 siswa, bimbingan kelompok 8 kali, home visit 6 siswa, dan panggilan orang tua 10 siswa.' },
-    { nama: 'Program Semester 1 - 2026/2027', jenis: 'Semester 1', tahun: '2026/2027', deskripsi: 'AKPD awal semester, layanan klasikal 15 topik, konseling individu 30 siswa, bimbingan kelompok 4 kali, home visit 3 siswa, panggilan orang tua 5 siswa.' },
-    { nama: 'Program Semester 2 - 2026/2027', jenis: 'Semester 2', tahun: '2026/2027', deskripsi: 'AKPD awal semester, layanan klasikal 15 topik, konseling individu 30 siswa, bimbingan kelompok 4 kali, home visit 3 siswa, panggilan orang tua 5 siswa.' },
-    { nama: 'Program Bulanan Juli 2026', jenis: 'Bulanan', tahun: '2026/2027', deskripsi: 'Masa Pengenalan Lingkungan, adaptasi dan pengenalan layanan BK.' },
-    { nama: 'Program Bulanan Agustus 2026', jenis: 'Bulanan', tahun: '2026/2027', deskripsi: 'Membangun karakter melalui layanan klasikal dan AKPD.' },
-    { nama: 'Program Bulanan September 2026', jenis: 'Bulanan', tahun: '2026/2027', deskripsi: 'Kesehatan Mental: konseling individu dan layanan kelas.' }
+    { nama: 'Program Semester 1 - 2026/2027', jenis: 'Semester 1', tahun: '2026/2027', deskripsi: 'AKPD awal semester, layanan klasikal 15 topik, konseling individu 30 siswa, bimbingan kelompok 4 kali.' },
+    { nama: 'Program Semester 2 - 2026/2027', jenis: 'Semester 2', tahun: '2026/2027', deskripsi: 'AKPD awal semester, layanan klasikal 15 topik, konseling individu 30 siswa, bimbingan kelompok 4 kali.' },
+    { nama: 'Program Bulanan Juli 2026', jenis: 'Bulanan', tahun: '2026/2027', deskripsi: 'Masa Pengenalan Lingkungan, adaptasi dan pengenalan layanan BK.' }
 ];
 
-// ==================== INIT ====================
+// ==================== FUNGSI UTAMA ====================
 function init() {
     populateYearSelects();
     loadSettings();
     loadAllData();
     loadGuru();
     setInterval(function() {
-        loadMateri();
-        loadRPL();
-        loadAKPD();
-        loadHasilAKPD();
-        loadJurnal();
-        loadProgram();
-        loadAsesmen();
-        updateDashboard();
+        loadMateri(); loadRPL(); loadAKPD(); loadHasilAKPD(); loadJurnal(); loadProgram(); loadAsesmen(); updateDashboard();
     }, 60000);
 }
 
 function loadAllData() {
-    loadMateri();
-    loadRPL();
-    loadAKPD();
-    loadHasilAKPD();
-    loadJurnal();
-    loadProgram();
-    loadAsesmen();
-    updateDashboard();
-    populateFilters();
+    loadMateri(); loadRPL(); loadAKPD(); loadHasilAKPD(); loadJurnal(); loadProgram(); loadAsesmen();
+    updateDashboard(); populateFilters();
 }
 
-// ==================== SHOW PAGE ====================
 function showPage(id) {
     document.querySelectorAll('.page').forEach(el => el.classList.remove('active'));
     document.getElementById('page-' + id).classList.add('active');
     document.querySelectorAll('.nav button').forEach(el => el.classList.remove('active'));
     document.querySelector('.nav button[onclick="showPage(\'' + id + '\')"]').classList.add('active');
-    
-    var titles = {
-        dashboard: '📊 Dashboard',
-        materi: '📚 Materi BK',
-        rpl: '📝 RPL & LKPD',
-        akpd: '📋 AKPD Digital',
-        hasil: '📊 Hasil AKPD',
-        jurnal: '📖 Jurnal BK',
-        program: '📋 Program BK',
-        asesmen: '🧠 Asesmen Digital',
-        settings: '⚙️ Pengaturan'
-    };
+    var titles = { dashboard:'📊 Dashboard', materi:'📚 Materi BK', rpl:'📝 RPL & LKPD', akpd:'📋 AKPD Digital', hasil:'📊 Hasil AKPD', jurnal:'📖 Jurnal BK', program:'📋 Program BK', asesmen:'🧠 Asesmen Digital', settings:'⚙️ Pengaturan' };
     document.getElementById('pageTitle').textContent = titles[id] || 'KONSELIA by NaFaS BK';
-    
-    if (id === 'materi') loadMateri();
-    if (id === 'rpl') loadRPL();
-    if (id === 'akpd') loadAKPD();
-    if (id === 'hasil') loadHasilAKPD();
-    if (id === 'jurnal') loadJurnal();
-    if (id === 'program') loadProgram();
+    if (id === 'materi') loadMateri(); if (id === 'rpl') loadRPL(); if (id === 'akpd') loadAKPD();
+    if (id === 'hasil') loadHasilAKPD(); if (id === 'jurnal') loadJurnal(); if (id === 'program') loadProgram();
     if (id === 'asesmen') loadAsesmen();
 }
 
-// ==================== MODAL ====================
 function openModal(id) {
     document.getElementById(id).classList.add('active');
     document.getElementById(id + 'Alert').innerHTML = '';
     if (id === 'rplModal') populateRPLMateriSelect();
-    if (id === 'jurnalModal') {
-        populateJurnalMateriSelect();
-        document.getElementById('jurnalTanggal').value = new Date().toISOString().split('T')[0];
-    }
-    if (id === 'akpdModal') {
-        var link = window.location.href.split('?')[0] + '?mode=akpd&id=' + Date.now();
-        document.getElementById('akpdLink').value = link;
-    }
+    if (id === 'jurnalModal') { populateJurnalMateriSelect(); document.getElementById('jurnalTanggal').value = new Date().toISOString().split('T')[0]; }
+    if (id === 'akpdModal') { document.getElementById('akpdLink').value = window.location.href.split('?')[0] + '?mode=akpd&id=' + Date.now(); }
 }
-
-function closeModal(id) {
-    document.getElementById(id).classList.remove('active');
-}
-
-document.addEventListener('click', function(e) {
-    if (e.target.classList.contains('modal-overlay')) {
-        e.target.classList.remove('active');
-    }
-});
+function closeModal(id) { document.getElementById(id).classList.remove('active'); }
+document.addEventListener('click', function(e) { if (e.target.classList.contains('modal-overlay')) e.target.classList.remove('active'); });
 
 // ==================== MATERI ====================
 function loadMateri() {
     var container = document.getElementById('materiList');
     container.innerHTML = '<div class="loading"><span class="spinner"></span> Memuat materi...</div>';
-    
     db.collection('konselia_materi').orderBy('createdAt', 'desc').get().then(function(snapshot) {
         allMateri = [];
-        snapshot.forEach(function(doc) {
-            var data = doc.data();
-            data.id = doc.id;
-            allMateri.push(data);
-        });
-        if (allMateri.length === 0) {
-            for (var i = 0; i < DEFAULT_MATERI.length; i++) {
-                db.collection('konselia_materi').add(DEFAULT_MATERI[i]);
-            }
-            allMateri = DEFAULT_MATERI;
-        }
+        snapshot.forEach(function(doc) { var data = doc.data(); data.id = doc.id; allMateri.push(data); });
+        if (allMateri.length === 0) { for (var i = 0; i < DEFAULT_MATERI.length; i++) { db.collection('konselia_materi').add(DEFAULT_MATERI[i]); } allMateri = DEFAULT_MATERI; }
         renderMateri();
-    }).catch(function() {
-        allMateri = DEFAULT_MATERI;
-        renderMateri();
-    });
+    }).catch(function() { allMateri = DEFAULT_MATERI; renderMateri(); });
 }
 
 function renderMateri() {
@@ -940,39 +768,21 @@ function renderMateri() {
     var semester = document.getElementById('filterSemester').value;
     var search = document.getElementById('searchMateri').value.toLowerCase();
     var container = document.getElementById('materiList');
-    
     var filtered = allMateri;
     if (jenjang) filtered = filtered.filter(function(m) { return m.jenjang === jenjang; });
     if (kelas) filtered = filtered.filter(function(m) { return m.kelas === kelas; });
     if (semester) filtered = filtered.filter(function(m) { return m.semester === semester; });
     if (search) filtered = filtered.filter(function(m) { return m.judul.toLowerCase().includes(search); });
-    
-    if (filtered.length === 0) {
-        container.innerHTML = '<div class="alert alert-info">📭 Tidak ada materi. Klik "Tambah Materi" untuk menambahkan.</div>';
-        return;
-    }
-    
+    if (filtered.length === 0) { container.innerHTML = '<div class="alert alert-info">📭 Tidak ada materi. Klik "Tambah Materi" untuk menambahkan.</div>'; return; }
     var html = '<div class="grid">';
     for (var i = 0; i < filtered.length; i++) {
         var m = filtered[i];
-        var badgeClass = m.bidang === 'Pribadi' ? 'badge-info' : 
-                         m.bidang === 'Sosial' ? 'badge-success' : 
-                         m.bidang === 'Belajar' ? 'badge-warning' : 'badge-danger';
-        html += '<div class="material-card">';
-        html += '<div><span class="badge ' + badgeClass + '">' + m.bidang + '</span>';
-        html += '<span class="badge badge-primary" style="margin-left:4px;">' + m.jenjang + ' ' + m.kelas + '</span>';
-        html += '<span class="badge badge-secondary" style="margin-left:4px;">Sem ' + m.semester + '</span></div>';
-        html += '<h3>' + m.judul + '</h3>';
-        html += '<div class="meta">' + (m.deskripsi || '') + '</div>';
-        html += '<div style="margin-top:8px;">';
-        if (m.fileUrl) {
-            html += '<button class="btn btn-success btn-sm" onclick="downloadFile(\'' + m.fileUrl + '\',\'' + m.judul + '\')">📥 Download</button>';
-        }
-        if (m.link) {
-            html += ' <button class="btn btn-primary btn-sm" onclick="window.open(\'' + m.link + '\',\'_blank\')">🔗 Link</button>';
-        }
-        html += ' <button class="btn btn-danger btn-sm" onclick="deleteMateri(\'' + m.id + '\')">🗑️</button>';
-        html += '</div></div>';
+        var badgeClass = m.bidang === 'Pribadi' ? 'badge-info' : m.bidang === 'Sosial' ? 'badge-success' : m.bidang === 'Belajar' ? 'badge-warning' : 'badge-danger';
+        html += '<div class="material-card"><div><span class="badge ' + badgeClass + '">' + m.bidang + '</span><span class="badge badge-primary" style="margin-left:4px;">' + m.jenjang + ' ' + m.kelas + '</span><span class="badge badge-secondary" style="margin-left:4px;">Sem ' + m.semester + '</span></div>';
+        html += '<h3>' + m.judul + '</h3><div class="meta">' + (m.deskripsi || '') + '</div><div style="margin-top:8px;">';
+        if (m.fileUrl) html += '<button class="btn btn-success btn-sm" onclick="window.open(\'' + m.fileUrl + '\',\'_blank\')">📥 Download</button>';
+        if (m.link) html += ' <button class="btn btn-primary btn-sm" onclick="window.open(\'' + m.link + '\',\'_blank\')">🔗 Link</button>';
+        html += ' <button class="btn btn-danger btn-sm" onclick="deleteMateri(\'' + m.id + '\')">🗑️</button></div></div>';
     }
     html += '</div>';
     container.innerHTML = html;
@@ -988,24 +798,15 @@ function saveMateri() {
     var link = document.getElementById('materiLink').value.trim();
     var file = document.getElementById('materiFile').files[0];
     var alertEl = document.getElementById('materiModalAlert');
-    
     if (!judul) { alertEl.innerHTML = '<div class="alert alert-danger">⚠️ Judul harus diisi!</div>'; return; }
-    if (!file && !link) { alertEl.innerHTML = '<div class="alert alert-danger">⚠️ Upload file PDF atau isi link materi!</div>'; return; }
-    
+    if (!file && !link) { alertEl.innerHTML = '<div class="alert alert-danger">⚠️ Upload file PDF/PPT atau isi link materi!</div>'; return; }
     alertEl.innerHTML = '<div class="alert alert-info">⏳ Menyimpan...</div>';
-    var data = { 
-        judul: judul, jenjang: jenjang, kelas: kelas, semester: semester, 
-        bidang: bidang, deskripsi: deskripsi, link: link, 
-        tahun: sekolahData.year || '2026/2027',
-        createdAt: new Date().toISOString() 
-    };
-    
+    var data = { judul: judul, jenjang: jenjang, kelas: kelas, semester: semester, bidang: bidang, deskripsi: deskripsi, link: link, tahun: sekolahData.year || '2026/2027', createdAt: new Date().toISOString() };
     if (file) {
         var storageRef = storage.ref('materi/' + Date.now() + '_' + file.name);
         storageRef.put(file).then(function(snapshot) { return snapshot.ref.getDownloadURL(); })
         .then(function(url) { data.fileUrl = url; return db.collection('konselia_materi').add(data); })
-        .then(function() { alertEl.innerHTML = '<div class="alert alert-success">✅ Materi berhasil disimpan!</div>';
-            setTimeout(function() { closeModal('materiModal'); loadMateri(); }, 1000); })
+        .then(function() { alertEl.innerHTML = '<div class="alert alert-success">✅ Materi berhasil disimpan!</div>'; setTimeout(function() { closeModal('materiModal'); loadMateri(); }, 1000); })
         .catch(function(err) { alertEl.innerHTML = '<div class="alert alert-danger">❌ Gagal upload: ' + err.message + '</div>'; });
     } else {
         db.collection('konselia_materi').add(data).then(function() {
@@ -1014,15 +815,7 @@ function saveMateri() {
         }).catch(function(err) { alertEl.innerHTML = '<div class="alert alert-danger">❌ Gagal: ' + err.message + '</div>'; });
     }
 }
-
-function deleteMateri(id) {
-    if (!confirm('Yakin ingin menghapus materi ini?')) return;
-    db.collection('konselia_materi').doc(id).delete().then(function() { loadMateri(); });
-}
-
-function downloadFile(url, judul) {
-    window.open(url, '_blank');
-}
+function deleteMateri(id) { if (!confirm('Yakin ingin menghapus materi ini?')) return; db.collection('konselia_materi').doc(id).delete().then(function() { loadMateri(); }); }
 
 // ==================== RPL ====================
 function loadRPL() {
@@ -1034,25 +827,18 @@ function loadRPL() {
         renderRPL();
     }).catch(function() { allRPL = []; renderRPL(); });
 }
-
 function renderRPL() {
     var container = document.getElementById('rplList');
-    if (allRPL.length === 0) {
-        container.innerHTML = '<div class="alert alert-info">📭 Belum ada RPL. Klik "Buat RPL" untuk membuat.</div>';
-        return;
-    }
+    if (allRPL.length === 0) { container.innerHTML = '<div class="alert alert-info">📭 Belum ada RPL. Klik "Buat RPL" untuk membuat.</div>'; return; }
     var html = '<div class="table-wrap"><table><thead><tr><th>No</th><th>Judul</th><th>Kelas</th><th>Waktu</th><th>Aksi</th></tr></thead><tbody>';
     for (var i = 0; i < allRPL.length; i++) {
         var r = allRPL[i];
         html += '<tr><td>' + (i+1) + '</td><td><strong>' + r.judul + '</strong></td><td>' + r.kelas + '</td><td>' + r.waktu + '</td>';
-        html += '<td><button class="btn btn-primary btn-sm" onclick="viewRPL(\'' + r.id + '\')">📖</button>';
-        html += ' <button class="btn btn-success btn-sm" onclick="exportRPLPDF(\'' + r.id + '\')">📥</button>';
-        html += ' <button class="btn btn-danger btn-sm" onclick="deleteRPL(\'' + r.id + '\')">🗑️</button></td></tr>';
+        html += '<td><button class="btn btn-primary btn-sm" onclick="viewRPL(\'' + r.id + '\')">📖</button><button class="btn btn-success btn-sm" onclick="exportRPLPDF(\'' + r.id + '\')">📥</button><button class="btn btn-danger btn-sm" onclick="deleteRPL(\'' + r.id + '\')">🗑️</button></td></tr>';
     }
     html += '</tbody></table></div>';
     container.innerHTML = html;
 }
-
 function populateRPLMateriSelect() {
     var select = document.getElementById('rplMateri');
     select.innerHTML = '<option value="">Pilih Materi</option>';
@@ -1060,7 +846,6 @@ function populateRPLMateriSelect() {
         select.innerHTML += '<option value="' + allMateri[i].id + '">' + allMateri[i].judul + ' (' + allMateri[i].jenjang + ' ' + allMateri[i].kelas + ')</option>';
     }
 }
-
 function saveRPL() {
     var materiId = document.getElementById('rplMateri').value;
     var kelas = document.getElementById('rplKelas').value.trim();
@@ -1070,11 +855,7 @@ function saveRPL() {
     var media = document.getElementById('rplMedia').value.trim();
     var kegiatan = document.getElementById('rplKegiatan').value.trim();
     var alertEl = document.getElementById('rplModalAlert');
-    
-    if (!materiId || !kelas || !waktu || !tujuan || !kegiatan) {
-        alertEl.innerHTML = '<div class="alert alert-danger">⚠️ Semua field wajib diisi!</div>';
-        return;
-    }
+    if (!materiId || !kelas || !waktu || !tujuan || !kegiatan) { alertEl.innerHTML = '<div class="alert alert-danger">⚠️ Semua field wajib diisi!</div>'; return; }
     var materi = allMateri.find(function(m) { return m.id === materiId; });
     db.collection('konselia_rpl').add({
         judul: materi ? materi.judul : 'Materi BK',
@@ -1086,20 +867,16 @@ function saveRPL() {
         setTimeout(function() { closeModal('rplModal'); loadRPL(); }, 1000);
     }).catch(function(err) { alertEl.innerHTML = '<div class="alert alert-danger">❌ Gagal: ' + err.message + '</div>'; });
 }
-
 function viewRPL(id) {
     var r = allRPL.find(function(item) { return item.id === id; });
     if (!r) { alert('RPL tidak ditemukan!'); return; }
-    var msg = '📝 RPL: ' + r.judul + '\n\n📚 Kelas: ' + r.kelas + '\n⏰ Waktu: ' + r.waktu + '\n\n🎯 Tujuan:\n' + r.tujuan + '\n\n📋 Metode: ' + r.metode + '\n📺 Media: ' + r.media + '\n\n📝 Kegiatan:\n' + r.kegiatan;
-    alert(msg);
+    alert('📝 RPL: ' + r.judul + '\n\n📚 Kelas: ' + r.kelas + '\n⏰ Waktu: ' + r.waktu + '\n\n🎯 Tujuan:\n' + r.tujuan + '\n\n📋 Metode: ' + r.metode + '\n📺 Media: ' + r.media + '\n\n📝 Kegiatan:\n' + r.kegiatan);
 }
-
 function exportRPLPDF(id) {
     var r = allRPL.find(function(item) { return item.id === id; });
     if (!r) { alert('RPL tidak ditemukan!'); return; }
     var content = document.createElement('div');
-    content.innerHTML = '<h1 style="text-align:center;color:#1A5A4A;">RENCANA PELAKSANAAN LAYANAN (RPL)</h1>';
-    content.innerHTML += '<h2 style="text-align:center;">' + r.judul + '</h2><hr>';
+    content.innerHTML = '<h1 style="text-align:center;color:#1A5A4A;">RENCANA PELAKSANAAN LAYANAN (RPL)</h1><h2 style="text-align:center;">' + r.judul + '</h2><hr>';
     content.innerHTML += '<p><strong>Kelas:</strong> ' + r.kelas + '</p><p><strong>Waktu:</strong> ' + r.waktu + '</p>';
     content.innerHTML += '<h3>Tujuan Layanan</h3><p>' + r.tujuan + '</p>';
     content.innerHTML += '<h3>Metode</h3><p>' + r.metode + '</p>';
@@ -1108,20 +885,13 @@ function exportRPLPDF(id) {
     content.innerHTML += '<hr><p style="text-align:center;color:#6e7d77;">KONSELIA by NaFaS BK - ' + new Date().toLocaleDateString('id-ID') + '</p>';
     html2pdf().from(content).save('RPL_' + r.judul + '.pdf');
 }
-
-function deleteRPL(id) {
-    if (!confirm('Yakin menghapus RPL ini?')) return;
-    db.collection('konselia_rpl').doc(id).delete().then(function() { loadRPL(); });
-}
-
+function deleteRPL(id) { if (!confirm('Yakin menghapus RPL ini?')) return; db.collection('konselia_rpl').doc(id).delete().then(function() { loadRPL(); }); }
 function generateLKPD() {
     var content = document.createElement('div');
-    content.innerHTML = '<h1 style="text-align:center;color:#1A5A4A;">LEMBAR KERJA PESERTA DIDIK (LKPD)</h1>';
-    content.innerHTML += '<hr><p><strong>Nama:</strong> ______________________</p>';
-    content.innerHTML += '<p><strong>Kelas:</strong> ______________________</p>';
-    content.innerHTML += '<p><strong>Tanggal:</strong> ______________________</p><hr>';
+    content.innerHTML = '<h1 style="text-align:center;color:#1A5A4A;">LEMBAR KERJA PESERTA DIDIK (LKPD)</h1><hr>';
+    content.innerHTML += '<p><strong>Nama:</strong> ______________________</p><p><strong>Kelas:</strong> ______________________</p><p><strong>Tanggal:</strong> ______________________</p><hr>';
     content.innerHTML += '<h3>Petunjuk:</h3><ol><li>Baca materi dengan saksama</li><li>Jawab pertanyaan dengan jujur</li><li>Kerjakan secara mandiri</li></ol>';
-    content.innerHTML += '<h3>Pertanyaan:</h3><ol><li>Apa yang kamu pelajari dari materi ini?</li><li>Apa manfaat yang kamu dapatkan?</li><li>Apa yang akan kamu terapkan dalam kehidupan sehari-hari?</li></ol>';
+    content.innerHTML += '<h3>Pertanyaan:</h3><ol><li>Apa yang kamu pelajari dari materi ini?</li><li>Apa manfaat yang kamu dapatkan?</li><li>Apa yang akan kamu terapkan?</li></ol>';
     content.innerHTML += '<hr><p style="text-align:center;color:#6e7d77;">KONSELIA by NaFaS BK</p>';
     html2pdf().from(content).save('LKPD_' + new Date().toISOString().slice(0,10) + '.pdf');
 }
@@ -1136,25 +906,19 @@ function loadAKPD() {
         renderAKPD();
     }).catch(function() { allAKPD = []; renderAKPD(); });
 }
-
 function renderAKPD() {
     var container = document.getElementById('akpdList');
-    if (allAKPD.length === 0) {
-        container.innerHTML = '<div class="alert alert-info">📭 Belum ada AKPD. Klik "Buat AKPD" untuk membuat.</div>';
-        return;
-    }
+    if (allAKPD.length === 0) { container.innerHTML = '<div class="alert alert-info">📭 Belum ada AKPD. Klik "Buat AKPD" untuk membuat.</div>'; return; }
     var html = '<div class="table-wrap"><table><thead><tr><th>No</th><th>Nama</th><th>Jenjang</th><th>Kelas</th><th>Siswa</th><th>Link</th><th>Aksi</th></tr></thead><tbody>';
     for (var i = 0; i < allAKPD.length; i++) {
         var a = allAKPD[i];
         html += '<tr><td>' + (i+1) + '</td><td><strong>' + a.nama + '</strong></td><td>' + a.jenjang + '</td><td>' + a.kelas + '</td><td>' + a.jumlahSiswa + '</td>';
         html += '<td><span style="font-size:11px;color:var(--primary);">' + (a.link || '-') + '</span></td>';
-        html += '<td><button class="btn btn-primary btn-sm" onclick="copyAKPDLink(\'' + a.id + '\')">📋 Salin</button>';
-        html += ' <button class="btn btn-danger btn-sm" onclick="deleteAKPD(\'' + a.id + '\')">🗑️</button></td></tr>';
+        html += '<td><button class="btn btn-primary btn-sm" onclick="copyAKPDLink(\'' + a.id + '\')">📋 Salin</button><button class="btn btn-danger btn-sm" onclick="deleteAKPD(\'' + a.id + '\')">🗑️</button></td></tr>';
     }
     html += '</tbody></table></div>';
     container.innerHTML = html;
 }
-
 function saveAKPD() {
     var nama = document.getElementById('akpdNama').value.trim();
     var jenjang = document.getElementById('akpdJenjang').value;
@@ -1162,32 +926,17 @@ function saveAKPD() {
     var jumlahSiswa = parseInt(document.getElementById('akpdJumlahSiswa').value);
     var link = document.getElementById('akpdLink').value;
     var alertEl = document.getElementById('akpdModalAlert');
-    
-    if (!nama || !kelas || !jumlahSiswa) {
-        alertEl.innerHTML = '<div class="alert alert-danger">⚠️ Semua field wajib diisi!</div>';
-        return;
-    }
-    
-    db.collection('konselia_akpd').add({ 
-        nama: nama, jenjang: jenjang, kelas: kelas, jumlahSiswa: jumlahSiswa, 
-        link: link, tahun: sekolahData.year || '2026/2027',
-        createdAt: new Date().toISOString() 
-    }).then(function() {
-        alertEl.innerHTML = '<div class="alert alert-success">✅ AKPD berhasil dibuat! Bagikan link ke siswa.</div>';
-        setTimeout(function() { closeModal('akpdModal'); loadAKPD(); }, 1000);
-    }).catch(function(err) { alertEl.innerHTML = '<div class="alert alert-danger">❌ Gagal: ' + err.message + '</div>'; });
+    if (!nama || !kelas || !jumlahSiswa) { alertEl.innerHTML = '<div class="alert alert-danger">⚠️ Semua field wajib diisi!</div>'; return; }
+    db.collection('konselia_akpd').add({ nama: nama, jenjang: jenjang, kelas: kelas, jumlahSiswa: jumlahSiswa, link: link, tahun: sekolahData.year || '2026/2027', createdAt: new Date().toISOString() })
+    .then(function() { alertEl.innerHTML = '<div class="alert alert-success">✅ AKPD berhasil dibuat! Bagikan link ke siswa.</div>'; setTimeout(function() { closeModal('akpdModal'); loadAKPD(); }, 1000); })
+    .catch(function(err) { alertEl.innerHTML = '<div class="alert alert-danger">❌ Gagal: ' + err.message + '</div>'; });
 }
-
 function copyAKPDLink(id) {
     var a = allAKPD.find(function(item) { return item.id === id; });
     if (!a || !a.link) { alert('Link tidak tersedia!'); return; }
     navigator.clipboard.writeText(a.link).then(function() { alert('✅ Link disalin!'); });
 }
-
-function deleteAKPD(id) {
-    if (!confirm('Yakin menghapus AKPD ini?')) return;
-    db.collection('konselia_akpd').doc(id).delete().then(function() { loadAKPD(); });
-}
+function deleteAKPD(id) { if (!confirm('Yakin menghapus AKPD ini?')) return; db.collection('konselia_akpd').doc(id).delete().then(function() { loadAKPD(); }); }
 
 // ==================== HASIL AKPD ====================
 function loadHasilAKPD() {
@@ -1199,55 +948,36 @@ function loadHasilAKPD() {
         renderHasilAKPD();
     }).catch(function() { allHasilAKPD = []; renderHasilAKPD(); });
 }
-
 function renderHasilAKPD() {
     var container = document.getElementById('hasilAKPDContainer');
     var kelasFilter = document.getElementById('filterHasilKelas').value;
     var jenjangFilter = document.getElementById('filterHasilJenjang').value;
-    
     var filtered = allHasilAKPD;
     if (kelasFilter) filtered = filtered.filter(function(h) { return h.kelas === kelasFilter; });
     if (jenjangFilter) filtered = filtered.filter(function(h) { return h.jenjang === jenjangFilter; });
-    
-    if (filtered.length === 0) {
-        container.innerHTML = '<div class="alert alert-info">📭 Belum ada hasil AKPD. Siswa perlu mengisi AKPD terlebih dahulu.</div>';
-        return;
-    }
-    
+    if (filtered.length === 0) { container.innerHTML = '<div class="alert alert-info">📭 Belum ada hasil AKPD. Siswa perlu mengisi AKPD terlebih dahulu.</div>'; return; }
     var avgPribadi = 0, avgSosial = 0, avgBelajar = 0, avgKarier = 0;
     for (var i = 0; i < filtered.length; i++) {
-        avgPribadi += filtered[i].pribadi || 0;
-        avgSosial += filtered[i].sosial || 0;
-        avgBelajar += filtered[i].belajar || 0;
-        avgKarier += filtered[i].karier || 0;
+        avgPribadi += filtered[i].pribadi || 0; avgSosial += filtered[i].sosial || 0;
+        avgBelajar += filtered[i].belajar || 0; avgKarier += filtered[i].karier || 0;
     }
-    avgPribadi = Math.round(avgPribadi / filtered.length);
-    avgSosial = Math.round(avgSosial / filtered.length);
-    avgBelajar = Math.round(avgBelajar / filtered.length);
-    avgKarier = Math.round(avgKarier / filtered.length);
-    
+    avgPribadi = Math.round(avgPribadi / filtered.length); avgSosial = Math.round(avgSosial / filtered.length);
+    avgBelajar = Math.round(avgBelajar / filtered.length); avgKarier = Math.round(avgKarier / filtered.length);
     var html = '<div style="margin-bottom:12px;padding:10px;background:#E8F3EF;border-radius:10px;"><strong>📊 ' + filtered.length + ' siswa mengisi AKPD</strong></div>';
-    
     html += '<div class="chart-container"><h4>📊 Rata-rata Kebutuhan per Bidang</h4><canvas id="chartHasilAKPD" style="max-height:200px;"></canvas></div>';
-    
-    // Rekomendasi
     var rekomendasi = [];
     if (avgBelajar >= 65) rekomendasi.push({ bidang: 'Belajar', skor: avgBelajar, materi: 'Manajemen Waktu, Belajar Efektif' });
     if (avgKarier >= 65) rekomendasi.push({ bidang: 'Karier', skor: avgKarier, materi: 'Perencanaan Karir, Persiapan Dunia Kerja' });
     if (avgPribadi >= 65) rekomendasi.push({ bidang: 'Pribadi', skor: avgPribadi, materi: 'Kesehatan Mental, Kepercayaan Diri' });
     if (avgSosial >= 65) rekomendasi.push({ bidang: 'Sosial', skor: avgSosial, materi: 'Komunikasi Efektif, Pergaulan Sehat' });
-    
     if (rekomendasi.length > 0) {
         html += '<div class="panel" style="border:2px solid var(--primary);"><h4>🎯 Rekomendasi Materi BK</h4><div class="rekomendasi-list">';
         for (var r = 0; r < rekomendasi.length; r++) {
             var rec = rekomendasi[r];
-            html += '<div class="rekomendasi-item"><span class="name">' + rec.bidang + '</span>';
-            html += '<span class="score ' + (rec.skor >= 75 ? 'high' : rec.skor >= 65 ? 'medium' : 'low') + '">' + rec.skor + '%</span>';
-            html += '<div style="font-size:10px;color:var(--gray);">' + rec.materi + '</div></div>';
+            html += '<div class="rekomendasi-item"><span class="name">' + rec.bidang + '</span><span class="score ' + (rec.skor >= 75 ? 'high' : rec.skor >= 65 ? 'medium' : 'low') + '">' + rec.skor + '%</span><div style="font-size:10px;color:var(--gray);">' + rec.materi + '</div></div>';
         }
         html += '</div></div>';
     }
-    
     html += '<div class="table-wrap"><table><thead><tr><th>No</th><th>Siswa</th><th>Kelas</th><th>Pribadi</th><th>Sosial</th><th>Belajar</th><th>Karier</th><th>Aksi</th></tr></thead><tbody>';
     for (var i = 0; i < filtered.length; i++) {
         var h = filtered[i];
@@ -1260,29 +990,17 @@ function renderHasilAKPD() {
     }
     html += '</tbody></table></div>';
     container.innerHTML = html;
-    
     setTimeout(function() {
         var ctx = document.getElementById('chartHasilAKPD');
         if (ctx) {
             new Chart(ctx, {
                 type: 'radar',
-                data: {
-                    labels: ['Pribadi', 'Sosial', 'Belajar', 'Karier'],
-                    datasets: [{
-                        label: 'Rata-rata Kebutuhan',
-                        data: [avgPribadi, avgSosial, avgBelajar, avgKarier],
-                        backgroundColor: 'rgba(26,90,74,0.2)',
-                        borderColor: '#1A5A4A',
-                        borderWidth: 2,
-                        pointBackgroundColor: '#1A5A4A'
-                    }]
-                },
+                data: { labels: ['Pribadi','Sosial','Belajar','Karier'], datasets: [{ label: 'Rata-rata Kebutuhan', data: [avgPribadi, avgSosial, avgBelajar, avgKarier], backgroundColor: 'rgba(26,90,74,0.2)', borderColor: '#1A5A4A', borderWidth: 2, pointBackgroundColor: '#1A5A4A' }] },
                 options: { responsive: true, maintainAspectRatio: true, scales: { r: { min: 0, max: 100, ticks: { stepSize: 20 } } } }
             });
         }
     }, 300);
 }
-
 function viewDetailAKPD(id) {
     var h = allHasilAKPD.find(function(item) { return item.id === id; });
     if (!h) { alert('Data tidak ditemukan!'); return; }
@@ -1302,13 +1020,10 @@ function viewDetailAKPD(id) {
     if (h.karier >= 70) rekom.push('Perencanaan Karir & Persiapan Masa Depan');
     if (h.pribadi >= 70) rekom.push('Kesehatan Mental & Kepercayaan Diri');
     if (h.sosial >= 70) rekom.push('Komunikasi Efektif & Pergaulan Sehat');
-    if (rekom.length > 0) {
-        html += '<div style="background:#E8F3EF;padding:12px;border-radius:8px;margin-top:12px;"><strong>🎯 Rekomendasi:</strong><br>' + rekom.join(', ') + '</div>';
-    }
+    if (rekom.length > 0) html += '<div style="background:#E8F3EF;padding:12px;border-radius:8px;margin-top:12px;"><strong>🎯 Rekomendasi:</strong><br>' + rekom.join(', ') + '</div>';
     content.innerHTML = html;
     openModal('detailAKPDModal');
 }
-
 function exportHasilAKPD() {
     if (allHasilAKPD.length === 0) { alert('⚠️ Tidak ada data!'); return; }
     var blob = new Blob([JSON.stringify(allHasilAKPD, null, 2)], { type: 'application/json' });
@@ -1327,39 +1042,27 @@ function loadJurnal() {
         renderJurnal();
     }).catch(function() { allJurnal = []; renderJurnal(); });
 }
-
 function renderJurnal() {
     var container = document.getElementById('jurnalList');
     var kelasFilter = document.getElementById('filterJurnalKelas').value;
     var monthFilter = document.getElementById('filterJurnalMonth').value;
-    
     var filtered = allJurnal;
     if (kelasFilter) filtered = filtered.filter(function(j) { return j.kelas === kelasFilter; });
     if (monthFilter) filtered = filtered.filter(function(j) { return j.tanggal && j.tanggal.startsWith(monthFilter); });
-    
-    if (filtered.length === 0) {
-        container.innerHTML = '<div class="alert alert-info">📭 Belum ada jurnal. Klik "Tambah Jurnal" untuk mencatat.</div>';
-        return;
-    }
-    
+    if (filtered.length === 0) { container.innerHTML = '<div class="alert alert-info">📭 Belum ada jurnal. Klik "Tambah Jurnal" untuk mencatat.</div>'; return; }
     var html = '<div class="table-wrap"><table><thead><tr><th>Tanggal</th><th>Kelas</th><th>Materi</th><th>Hadir</th><th>Izin</th><th>Sakit</th><th>Alpa</th><th>Total</th><th>Catatan</th><th>Aksi</th></tr></thead><tbody>';
     for (var i = 0; i < filtered.length; i++) {
         var j = filtered[i];
         var total = (j.hadir || 0) + (j.izin || 0) + (j.sakit || 0) + (j.alpa || 0);
-        html += '<tr><td>' + (j.tanggal ? new Date(j.tanggal).toLocaleDateString('id-ID') : '-') + '</td>';
-        html += '<td><strong>' + j.kelas + '</strong></td><td>' + j.materi + '</td>';
-        html += '<td><span class="status-hadir">' + (j.hadir || 0) + '</span></td>';
-        html += '<td><span class="status-izin">' + (j.izin || 0) + '</span></td>';
-        html += '<td><span class="status-sakit">' + (j.sakit || 0) + '</span></td>';
-        html += '<td><span class="status-alpa">' + (j.alpa || 0) + '</span></td>';
-        html += '<td><strong>' + total + '</strong></td>';
-        html += '<td style="max-width:150px;">' + (j.catatan || '-') + '</td>';
+        html += '<tr><td>' + (j.tanggal ? new Date(j.tanggal).toLocaleDateString('id-ID') : '-') + '</td><td><strong>' + j.kelas + '</strong></td><td>' + j.materi + '</td>';
+        html += '<td><span class="status-hadir">' + (j.hadir || 0) + '</span></td><td><span class="status-izin">' + (j.izin || 0) + '</span></td>';
+        html += '<td><span class="status-sakit">' + (j.sakit || 0) + '</span></td><td><span class="status-alpa">' + (j.alpa || 0) + '</span></td>';
+        html += '<td><strong>' + total + '</strong></td><td style="max-width:150px;">' + (j.catatan || '-') + '</td>';
         html += '<td><button class="btn btn-danger btn-sm" onclick="deleteJurnal(\'' + j.id + '\')">🗑️</button></td></tr>';
     }
     html += '</tbody></table></div>';
     container.innerHTML = html;
 }
-
 function populateJurnalMateriSelect() {
     var select = document.getElementById('jurnalMateri');
     select.innerHTML = '<option value="">Pilih Materi</option>';
@@ -1367,7 +1070,6 @@ function populateJurnalMateriSelect() {
         select.innerHTML += '<option value="' + allMateri[i].judul + '">' + allMateri[i].judul + ' (' + allMateri[i].jenjang + ' ' + allMateri[i].kelas + ')</option>';
     }
 }
-
 function saveJurnal() {
     var tanggal = document.getElementById('jurnalTanggal').value;
     var kelas = document.getElementById('jurnalKelas').value.trim();
@@ -1379,12 +1081,7 @@ function saveJurnal() {
     var alpa = parseInt(document.getElementById('jurnalAlpa').value) || 0;
     var catatan = document.getElementById('jurnalCatatan').value.trim();
     var alertEl = document.getElementById('jurnalModalAlert');
-    
-    if (!tanggal || !kelas || !materi || !jumlah) {
-        alertEl.innerHTML = '<div class="alert alert-danger">⚠️ Tanggal, kelas, materi, dan jumlah siswa wajib diisi!</div>';
-        return;
-    }
-    
+    if (!tanggal || !kelas || !materi || !jumlah) { alertEl.innerHTML = '<div class="alert alert-danger">⚠️ Tanggal, kelas, materi, dan jumlah siswa wajib diisi!</div>'; return; }
     db.collection('konselia_jurnal').add({
         tanggal: tanggal, kelas: kelas, materi: materi, jumlah: jumlah,
         hadir: hadir, izin: izin, sakit: sakit, alpa: alpa,
@@ -1395,12 +1092,7 @@ function saveJurnal() {
         setTimeout(function() { closeModal('jurnalModal'); loadJurnal(); }, 1000);
     }).catch(function(err) { alertEl.innerHTML = '<div class="alert alert-danger">❌ Gagal: ' + err.message + '</div>'; });
 }
-
-function deleteJurnal(id) {
-    if (!confirm('Yakin menghapus jurnal ini?')) return;
-    db.collection('konselia_jurnal').doc(id).delete().then(function() { loadJurnal(); });
-}
-
+function deleteJurnal(id) { if (!confirm('Yakin menghapus jurnal ini?')) return; db.collection('konselia_jurnal').doc(id).delete().then(function() { loadJurnal(); }); }
 function exportJurnal() {
     if (allJurnal.length === 0) { alert('⚠️ Tidak ada data!'); return; }
     var blob = new Blob([JSON.stringify(allJurnal, null, 2)], { type: 'application/json' });
@@ -1416,61 +1108,35 @@ function loadProgram() {
     db.collection('konselia_program').orderBy('createdAt', 'desc').get().then(function(snapshot) {
         allProgram = [];
         snapshot.forEach(function(doc) { var data = doc.data(); data.id = doc.id; allProgram.push(data); });
-        if (allProgram.length === 0) {
-            for (var i = 0; i < DEFAULT_PROGRAM.length; i++) {
-                db.collection('konselia_program').add(DEFAULT_PROGRAM[i]);
-            }
-            allProgram = DEFAULT_PROGRAM;
-        }
+        if (allProgram.length === 0) { for (var i = 0; i < DEFAULT_PROGRAM.length; i++) { db.collection('konselia_program').add(DEFAULT_PROGRAM[i]); } allProgram = DEFAULT_PROGRAM; }
         renderProgram();
     }).catch(function() { allProgram = DEFAULT_PROGRAM; renderProgram(); });
 }
-
 function renderProgram() {
     var container = document.getElementById('programList');
-    if (allProgram.length === 0) {
-        container.innerHTML = '<div class="alert alert-info">📭 Belum ada program BK. Klik "Tambah Program" untuk membuat.</div>';
-        return;
-    }
+    if (allProgram.length === 0) { container.innerHTML = '<div class="alert alert-info">📭 Belum ada program BK. Klik "Tambah Program" untuk membuat.</div>'; return; }
     var html = '<div class="program-grid">';
     for (var i = 0; i < allProgram.length; i++) {
         var p = allProgram[i];
-        var badgeClass = p.jenis === 'Tahunan' ? 'badge-danger' : 
-                         p.jenis === 'Semester 1' ? 'badge-info' : 
-                         p.jenis === 'Semester 2' ? 'badge-success' : 'badge-warning';
-        html += '<div class="program-card"><h4>' + p.nama + '</h4>';
-        html += '<div><span class="badge ' + badgeClass + '">' + p.jenis + '</span>';
-        html += '<span class="badge badge-secondary" style="margin-left:4px;">' + p.tahun + '</span></div>';
-        html += '<div class="desc">' + p.deskripsi + '</div>';
-        html += '<button class="btn btn-danger btn-sm" onclick="deleteProgram(\'' + p.id + '\')">🗑️</button></div>';
+        var badgeClass = p.jenis === 'Tahunan' ? 'badge-danger' : p.jenis === 'Semester 1' ? 'badge-info' : p.jenis === 'Semester 2' ? 'badge-success' : 'badge-warning';
+        html += '<div class="program-card"><h4>' + p.nama + '</h4><div><span class="badge ' + badgeClass + '">' + p.jenis + '</span><span class="badge badge-secondary" style="margin-left:4px;">' + p.tahun + '</span></div>';
+        html += '<div class="desc">' + p.deskripsi + '</div><button class="btn btn-danger btn-sm" onclick="deleteProgram(\'' + p.id + '\')">🗑️</button></div>';
     }
     html += '</div>';
     container.innerHTML = html;
 }
-
 function saveProgram() {
     var nama = document.getElementById('programNama').value.trim();
     var jenis = document.getElementById('programJenis').value;
     var tahun = document.getElementById('programTahun').value;
     var deskripsi = document.getElementById('programDeskripsi').value.trim();
     var alertEl = document.getElementById('programModalAlert');
-    if (!nama || !deskripsi) {
-        alertEl.innerHTML = '<div class="alert alert-danger">⚠️ Nama dan deskripsi wajib diisi!</div>';
-        return;
-    }
-    db.collection('konselia_program').add({ 
-        nama: nama, jenis: jenis, tahun: tahun, deskripsi: deskripsi,
-        createdAt: new Date().toISOString() 
-    }).then(function() {
-        alertEl.innerHTML = '<div class="alert alert-success">✅ Program berhasil dibuat!</div>';
-        setTimeout(function() { closeModal('programModal'); loadProgram(); }, 1000);
-    }).catch(function(err) { alertEl.innerHTML = '<div class="alert alert-danger">❌ Gagal: ' + err.message + '</div>'; });
+    if (!nama || !deskripsi) { alertEl.innerHTML = '<div class="alert alert-danger">⚠️ Nama dan deskripsi wajib diisi!</div>'; return; }
+    db.collection('konselia_program').add({ nama: nama, jenis: jenis, tahun: tahun, deskripsi: deskripsi, createdAt: new Date().toISOString() })
+    .then(function() { alertEl.innerHTML = '<div class="alert alert-success">✅ Program berhasil dibuat!</div>'; setTimeout(function() { closeModal('programModal'); loadProgram(); }, 1000); })
+    .catch(function(err) { alertEl.innerHTML = '<div class="alert alert-danger">❌ Gagal: ' + err.message + '</div>'; });
 }
-
-function deleteProgram(id) {
-    if (!confirm('Yakin menghapus program ini?')) return;
-    db.collection('konselia_program').doc(id).delete().then(function() { loadProgram(); });
-}
+function deleteProgram(id) { if (!confirm('Yakin menghapus program ini?')) return; db.collection('konselia_program').doc(id).delete().then(function() { loadProgram(); }); }
 
 // ==================== ASESMEN ====================
 function loadAsesmen() {
@@ -1479,33 +1145,21 @@ function loadAsesmen() {
     db.collection('konselia_asesmen').orderBy('createdAt', 'desc').get().then(function(snapshot) {
         allAsesmen = [];
         snapshot.forEach(function(doc) { var data = doc.data(); data.id = doc.id; allAsesmen.push(data); });
-        if (allAsesmen.length === 0) {
-            for (var i = 0; i < DEFAULT_ASESMEN.length; i++) {
-                db.collection('konselia_asesmen').add(DEFAULT_ASESMEN[i]);
-            }
-            allAsesmen = DEFAULT_ASESMEN;
-        }
+        if (allAsesmen.length === 0) { for (var i = 0; i < DEFAULT_ASESMEN.length; i++) { db.collection('konselia_asesmen').add(DEFAULT_ASESMEN[i]); } allAsesmen = DEFAULT_ASESMEN; }
         renderAsesmen();
     }).catch(function() { allAsesmen = DEFAULT_ASESMEN; renderAsesmen(); });
 }
-
 function renderAsesmen() {
     var container = document.getElementById('asesmenList');
-    if (allAsesmen.length === 0) {
-        container.innerHTML = '<div class="alert alert-info">📭 Belum ada asesmen. Klik "Tambah Asesmen" untuk menambahkan.</div>';
-        return;
-    }
+    if (allAsesmen.length === 0) { container.innerHTML = '<div class="alert alert-info">📭 Belum ada asesmen. Klik "Tambah Asesmen" untuk menambahkan.</div>'; return; }
     var html = '';
     for (var i = 0; i < allAsesmen.length; i++) {
         var a = allAsesmen[i];
-        html += '<div class="asesmen-card"><div class="info"><h4>' + a.nama + '</h4>';
-        html += '<div class="desc">' + a.jenjang + ' ' + a.kelas + ' | ' + (a.deskripsi || '') + '</div></div>';
-        html += '<div><button class="btn btn-primary btn-sm" onclick="window.open(\'' + a.link + '\',\'_blank\')">🚀 Buka</button>';
-        html += ' <button class="btn btn-danger btn-sm" onclick="deleteAsesmen(\'' + a.id + '\')">🗑️</button></div></div>';
+        html += '<div class="asesmen-card"><div class="info"><h4>' + a.nama + '</h4><div class="desc">' + a.jenjang + ' ' + a.kelas + ' | ' + (a.deskripsi || '') + '</div></div>';
+        html += '<div><button class="btn btn-primary btn-sm" onclick="window.open(\'' + a.link + '\',\'_blank\')">🚀 Buka</button><button class="btn btn-danger btn-sm" onclick="deleteAsesmen(\'' + a.id + '\')">🗑️</button></div></div>';
     }
     container.innerHTML = html;
 }
-
 function saveAsesmen() {
     var nama = document.getElementById('asesmenNama').value.trim();
     var jenjang = document.getElementById('asesmenJenjang').value;
@@ -1513,24 +1167,12 @@ function saveAsesmen() {
     var deskripsi = document.getElementById('asesmenDeskripsi').value.trim();
     var link = document.getElementById('asesmenLink').value.trim();
     var alertEl = document.getElementById('asesmenModalAlert');
-    if (!nama || !link) {
-        alertEl.innerHTML = '<div class="alert alert-danger">⚠️ Nama dan link wajib diisi!</div>';
-        return;
-    }
-    db.collection('konselia_asesmen').add({ 
-        nama: nama, jenjang: jenjang, kelas: kelas, deskripsi: deskripsi, link: link,
-        tahun: sekolahData.year || '2026/2027',
-        createdAt: new Date().toISOString() 
-    }).then(function() {
-        alertEl.innerHTML = '<div class="alert alert-success">✅ Asesmen berhasil disimpan!</div>';
-        setTimeout(function() { closeModal('asesmenModal'); loadAsesmen(); }, 1000);
-    }).catch(function(err) { alertEl.innerHTML = '<div class="alert alert-danger">❌ Gagal: ' + err.message + '</div>'; });
+    if (!nama || !link) { alertEl.innerHTML = '<div class="alert alert-danger">⚠️ Nama dan link wajib diisi!</div>'; return; }
+    db.collection('konselia_asesmen').add({ nama: nama, jenjang: jenjang, kelas: kelas, deskripsi: deskripsi, link: link, tahun: sekolahData.year || '2026/2027', createdAt: new Date().toISOString() })
+    .then(function() { alertEl.innerHTML = '<div class="alert alert-success">✅ Asesmen berhasil disimpan!</div>'; setTimeout(function() { closeModal('asesmenModal'); loadAsesmen(); }, 1000); })
+    .catch(function(err) { alertEl.innerHTML = '<div class="alert alert-danger">❌ Gagal: ' + err.message + '</div>'; });
 }
-
-function deleteAsesmen(id) {
-    if (!confirm('Yakin menghapus asesmen ini?')) return;
-    db.collection('konselia_asesmen').doc(id).delete().then(function() { loadAsesmen(); });
-}
+function deleteAsesmen(id) { if (!confirm('Yakin menghapus asesmen ini?')) return; db.collection('konselia_asesmen').doc(id).delete().then(function() { loadAsesmen(); }); }
 
 // ==================== GURU ====================
 function loadGuru() {
@@ -1538,58 +1180,33 @@ function loadGuru() {
     db.collection('konselia_guru').orderBy('nama', 'asc').get().then(function(snapshot) {
         allGuru = [];
         snapshot.forEach(function(doc) { var data = doc.data(); data.id = doc.id; allGuru.push(data); });
-        if (allGuru.length === 0) {
-            for (var i = 0; i < DEFAULT_GURU.length; i++) {
-                db.collection('konselia_guru').add(DEFAULT_GURU[i]);
-            }
-            allGuru = DEFAULT_GURU;
-        }
+        if (allGuru.length === 0) { for (var i = 0; i < DEFAULT_GURU.length; i++) { db.collection('konselia_guru').add(DEFAULT_GURU[i]); } allGuru = DEFAULT_GURU; }
         renderGuru();
     }).catch(function() { allGuru = DEFAULT_GURU; renderGuru(); });
 }
-
 function renderGuru() {
     var container = document.getElementById('guruList');
-    if (allGuru.length === 0) {
-        container.innerHTML = '<div class="alert alert-info">Belum ada guru terdaftar.</div>';
-        return;
-    }
+    if (allGuru.length === 0) { container.innerHTML = '<div class="alert alert-info">Belum ada guru terdaftar.</div>'; return; }
     var html = '<div style="max-height:200px;overflow-y:auto;">';
     for (var i = 0; i < allGuru.length; i++) {
         var g = allGuru[i];
         html += '<div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--gray-light);font-size:12px;">';
-        html += '<span><strong>' + g.nama + '</strong> (' + g.email + ')</span>';
-        html += '<span class="badge badge-primary">' + (g.role || 'guru') + '</span>';
-        html += '</div>';
+        html += '<span><strong>' + g.nama + '</strong> (' + g.email + ')</span><span class="badge badge-primary">' + (g.role || 'guru') + '</span></div>';
     }
-    html += '</div>';
-    html += '<button class="btn btn-primary btn-sm" onclick="openModal(\'guruModal\')" style="margin-top:8px;">➕ Tambah Guru</button>';
+    html += '</div><button class="btn btn-primary btn-sm" onclick="openModal(\'guruModal\')" style="margin-top:8px;">➕ Tambah Guru</button>';
     container.innerHTML = html;
 }
-
 function saveGuru() {
     var nama = document.getElementById('guruNama').value.trim();
     var email = document.getElementById('guruEmail').value.trim();
     var password = document.getElementById('guruPassword').value.trim();
     var role = document.getElementById('guruRole').value;
     var alertEl = document.getElementById('guruModalAlert');
-    
-    if (!nama || !email || !password) {
-        alertEl.innerHTML = '<div class="alert alert-danger">⚠️ Semua field wajib diisi!</div>';
-        return;
-    }
-    if (password.length < 6) {
-        alertEl.innerHTML = '<div class="alert alert-danger">⚠️ Password minimal 6 karakter!</div>';
-        return;
-    }
-    
-    db.collection('konselia_guru').add({
-        nama: nama, email: email, password: password, role: role,
-        createdAt: new Date().toISOString()
-    }).then(function() {
-        alertEl.innerHTML = '<div class="alert alert-success">✅ Guru berhasil ditambahkan!</div>';
-        setTimeout(function() { closeModal('guruModal'); loadGuru(); }, 1000);
-    }).catch(function(err) { alertEl.innerHTML = '<div class="alert alert-danger">❌ Gagal: ' + err.message + '</div>'; });
+    if (!nama || !email || !password) { alertEl.innerHTML = '<div class="alert alert-danger">⚠️ Semua field wajib diisi!</div>'; return; }
+    if (password.length < 6) { alertEl.innerHTML = '<div class="alert alert-danger">⚠️ Password minimal 6 karakter!</div>'; return; }
+    db.collection('konselia_guru').add({ nama: nama, email: email, password: password, role: role, createdAt: new Date().toISOString() })
+    .then(function() { alertEl.innerHTML = '<div class="alert alert-success">✅ Guru berhasil ditambahkan!</div>'; setTimeout(function() { closeModal('guruModal'); loadGuru(); }, 1000); })
+    .catch(function(err) { alertEl.innerHTML = '<div class="alert alert-danger">❌ Gagal: ' + err.message + '</div>'; });
 }
 
 // ==================== DASHBOARD ====================
@@ -1598,21 +1215,17 @@ function updateDashboard() {
     document.getElementById('statRPL').textContent = allRPL.length;
     document.getElementById('statAKPD').textContent = allHasilAKPD.length;
     document.getElementById('statAsesmen').textContent = allAsesmen.length;
-    
     var container = document.getElementById('prioritasList');
     if (allHasilAKPD.length > 0) {
         var avg = { pribadi: 0, sosial: 0, belajar: 0, karier: 0 };
         for (var i = 0; i < allHasilAKPD.length; i++) {
-            avg.pribadi += allHasilAKPD[i].pribadi || 0;
-            avg.sosial += allHasilAKPD[i].sosial || 0;
-            avg.belajar += allHasilAKPD[i].belajar || 0;
-            avg.karier += allHasilAKPD[i].karier || 0;
+            avg.pribadi += allHasilAKPD[i].pribadi || 0; avg.sosial += allHasilAKPD[i].sosial || 0;
+            avg.belajar += allHasilAKPD[i].belajar || 0; avg.karier += allHasilAKPD[i].karier || 0;
         }
         avg.pribadi = Math.round(avg.pribadi / allHasilAKPD.length);
         avg.sosial = Math.round(avg.sosial / allHasilAKPD.length);
         avg.belajar = Math.round(avg.belajar / allHasilAKPD.length);
         avg.karier = Math.round(avg.karier / allHasilAKPD.length);
-        
         var items = [{ label: 'Belajar', value: avg.belajar }, { label: 'Karier', value: avg.karier }, { label: 'Pribadi', value: avg.pribadi }, { label: 'Sosial', value: avg.sosial }];
         items.sort(function(a, b) { return b.value - a.value; });
         var html = '';
@@ -1620,36 +1233,26 @@ function updateDashboard() {
             var item = items[j];
             var color = item.value >= 70 ? 'var(--danger)' : item.value >= 50 ? 'var(--warning)' : 'var(--success)';
             html += '<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--gray-light);">';
-            html += '<span>' + item.label + '</span>';
-            html += '<span style="font-weight:700;color:' + color + ';">' + item.value + '%</span>';
-            html += '</div>';
+            html += '<span>' + item.label + '</span><span style="font-weight:700;color:' + color + ';">' + item.value + '%</span></div>';
         }
         container.innerHTML = html;
     } else {
         container.innerHTML = '<div class="alert alert-info">Belum ada data AKPD untuk analisis prioritas.</div>';
     }
 }
-
 function populateFilters() {
     var kelasSet = new Set();
-    for (var i = 0; i < allHasilAKPD.length; i++) {
-        if (allHasilAKPD[i].kelas) kelasSet.add(allHasilAKPD[i].kelas);
-    }
+    for (var i = 0; i < allHasilAKPD.length; i++) { if (allHasilAKPD[i].kelas) kelasSet.add(allHasilAKPD[i].kelas); }
     var select = document.getElementById('filterHasilKelas');
     var currentVal = select.value;
     select.innerHTML = '<option value="">Semua</option>';
     var kelasArray = Array.from(kelasSet).sort();
-    for (var j = 0; j < kelasArray.length; j++) {
-        select.innerHTML += '<option value="' + kelasArray[j] + '">' + kelasArray[j] + '</option>';
-    }
+    for (var j = 0; j < kelasArray.length; j++) { select.innerHTML += '<option value="' + kelasArray[j] + '">' + kelasArray[j] + '</option>'; }
     select.value = currentVal;
-    
     var jurnalSelect = document.getElementById('filterJurnalKelas');
     var jurnalVal = jurnalSelect.value;
     jurnalSelect.innerHTML = '<option value="">Semua</option>';
-    for (var k = 0; k < kelasArray.length; k++) {
-        jurnalSelect.innerHTML += '<option value="' + kelasArray[k] + '">' + kelasArray[k] + '</option>';
-    }
+    for (var k = 0; k < kelasArray.length; k++) { jurnalSelect.innerHTML += '<option value="' + kelasArray[k] + '">' + kelasArray[k] + '</option>'; }
     jurnalSelect.value = jurnalVal;
 }
 
@@ -1665,7 +1268,6 @@ function loadSettings() {
         document.getElementById('userDisplay').textContent = '👤 Guru BK';
     } catch(e) {}
 }
-
 function saveSettings() {
     var name = document.getElementById('settingsSchool').value.trim();
     var year = document.getElementById('settingsYear').value;
@@ -1675,19 +1277,13 @@ function saveSettings() {
     document.getElementById('yearSelect').value = year;
     alert('✅ Pengaturan berhasil disimpan!');
 }
-
 function exportAllData() {
-    var data = {
-        materi: allMateri, rpl: allRPL, akpd: allAKPD, hasil: allHasilAKPD,
-        jurnal: allJurnal, program: allProgram, asesmen: allAsesmen, guru: allGuru,
-        settings: sekolahData, exportedAt: new Date().toISOString()
-    };
+    var data = { materi: allMateri, rpl: allRPL, akpd: allAKPD, hasil: allHasilAKPD, jurnal: allJurnal, program: allProgram, asesmen: allAsesmen, guru: allGuru, settings: sekolahData, exportedAt: new Date().toISOString() };
     var blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
     var url = URL.createObjectURL(blob);
     var a = document.createElement('a'); a.href = url; a.download = 'konselia_backup_' + new Date().toISOString().slice(0,10) + '.json'; a.click();
     URL.revokeObjectURL(url);
 }
-
 function restoreData(event) {
     var file = event.target.files[0];
     if (!file) return;
@@ -1698,17 +1294,11 @@ function restoreData(event) {
             var collections = ['materi', 'rpl', 'akpd', 'hasil_akpd', 'jurnal', 'program', 'asesmen', 'guru'];
             for (var i = 0; i < collections.length; i++) {
                 var col = collections[i];
-                if (data[col]) {
-                    for (var j = 0; j < data[col].length; j++) {
-                        db.collection('konselia_' + col).add(data[col][j]);
-                    }
-                }
+                if (data[col]) { for (var j = 0; j < data[col].length; j++) { db.collection('konselia_' + col).add(data[col][j]); } }
             }
             alert('✅ Data berhasil dipulihkan!');
             location.reload();
-        } catch(err) {
-            alert('❌ File tidak valid: ' + err.message);
-        }
+        } catch(err) { alert('❌ File tidak valid: ' + err.message); }
     };
     reader.readAsText(file);
     event.target.value = '';
@@ -1720,87 +1310,56 @@ function restoreData(event) {
     var mode = params.get('mode');
     var id = params.get('id');
     if (mode === 'akpd' && id) {
-        // Sembunyikan aplikasi utama
         document.querySelector('.app').style.display = 'none';
         document.body.innerHTML = '<div style="max-width:700px;margin:30px auto;padding:24px;background:#fff;border-radius:16px;box-shadow:0 4px 24px rgba(0,0,0,0.1);">';
-        document.body.innerHTML += '<div style="text-align:center;margin-bottom:20px;">';
-        document.body.innerHTML += '<h1 style="color:#1A5A4A;">📋 KONSELIA <span style="color:#D4A853;">PRO</span></h1>';
-        document.body.innerHTML += '<p style="color:#6E7D77;">by NaFaS BK · AKPD Digital</p>';
-        document.body.innerHTML += '</div>';
-        document.body.innerHTML += '<div id="akpdStep1">';
-        document.body.innerHTML += '<h2 style="color:#1A5A4A;">📝 Isi Identitas Diri</h2>';
+        document.body.innerHTML += '<div style="text-align:center;margin-bottom:20px;"><h1 style="color:#1A5A4A;">📋 KONSELIA <span style="color:#D4A853;">PRO</span></h1><p style="color:#6E7D77;">by NaFaS BK · AKPD Digital</p></div>';
+        document.body.innerHTML += '<div id="akpdStep1"><h2 style="color:#1A5A4A;">📝 Isi Identitas Diri</h2>';
         document.body.innerHTML += '<form id="akpdIdentitas">';
         document.body.innerHTML += '<div class="form-group"><label>Nama Lengkap <span class="required">*</span></label><input type="text" id="akpdSiswa" class="form-control" required></div>';
         document.body.innerHTML += '<div class="form-group"><label>Kelas <span class="required">*</span></label><input type="text" id="akpdSiswaKelas" class="form-control" required></div>';
         document.body.innerHTML += '<div class="form-group"><label>Jenjang <span class="required">*</span></label><select id="akpdSiswaJenjang" class="form-control"><option value="SMP">SMP</option><option value="SMA">SMA</option><option value="SMK">SMK</option></select></div>';
         document.body.innerHTML += '<button type="button" class="btn btn-primary" onclick="startAKPD()" style="width:100%;padding:14px;">🚀 Mulai Mengisi AKPD</button>';
         document.body.innerHTML += '</form></div>';
-        document.body.innerHTML += '<div id="akpdStep2" style="display:none;">';
-        document.body.innerHTML += '<h2 style="color:#1A5A4A;">📋 AKPD - 30 Pernyataan</h2>';
+        document.body.innerHTML += '<div id="akpdStep2" style="display:none;"><h2 style="color:#1A5A4A;">📋 AKPD - 30 Pernyataan</h2>';
         document.body.innerHTML += '<p style="color:#6E7D77;font-size:13px;">Jawab dengan jujur sesuai kondisi Anda. Klik <strong>Ya</strong> jika sesuai, <strong>Tidak</strong> jika tidak sesuai.</p>';
         document.body.innerHTML += '<div id="akpdSoalContainer"></div>';
-        document.body.innerHTML += '<button class="btn btn-success" onclick="submitAKPD()" style="width:100%;padding:14px;margin-top:16px;">📤 Kirim Jawaban</button>';
-        document.body.innerHTML += '</div>';
+        document.body.innerHTML += '<button class="btn btn-success" onclick="submitAKPD()" style="width:100%;padding:14px;margin-top:16px;">📤 Kirim Jawaban</button></div>';
         document.body.innerHTML += '<div id="akpdResult" style="margin-top:16px;"></div>';
-        document.body.innerHTML += '<div style="margin-top:20px;text-align:center;color:#6E7D77;font-size:11px;">KONSELIA by NaFaS BK © 2026</div>';
-        document.body.innerHTML += '</div>';
+        document.body.innerHTML += '<div style="margin-top:20px;text-align:center;color:#6E7D77;font-size:11px;">KONSELIA by NaFaS BK © 2026</div></div>';
         document.body.innerHTML += '<style>.form-group{margin-bottom:14px}.form-control{width:100%;padding:10px;border:2px solid #E8EDEA;border-radius:10px;font-size:14px;}.btn{padding:12px;border:0;border-radius:10px;font-weight:600;cursor:pointer;}.btn-primary{background:#1A5A4A;color:#fff;}.btn-success{background:#2D8B7A;color:#fff;}.alert{padding:12px;border-radius:10px;margin:8px 0;}.alert-success{background:#d4edda;color:#155724;}.alert-danger{background:#f8d7da;color:#721c24;}.required{color:#C45A6D;}.soal-item{padding:10px 14px;margin:6px 0;background:#f8faf8;border-radius:8px;border-left:3px solid #1A5A4A;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;}.soal-item .soal{flex:1;font-size:14px;}.soal-item .bidang{font-size:10px;padding:2px 10px;border-radius:12px;background:#E8F3EF;color:#1A5A4A;}.radio-group{display:flex;gap:12px;}.radio-group label{display:flex;align-items:center;gap:4px;font-size:13px;cursor:pointer;}.radio-group input[type="radio"]{width:16px;height:16px;accent-color:#1A5A4A;}.progress-bar{height:6px;background:#E8EDEA;border-radius:10px;margin:12px 0;overflow:hidden;}.progress-fill{height:100%;background:#1A5A4A;border-radius:10px;transition:width 0.3s;}</style>';
         
-        // Fungsi untuk memulai AKPD
         window.startAKPD = function() {
             var nama = document.getElementById('akpdSiswa').value.trim();
             var kelas = document.getElementById('akpdSiswaKelas').value.trim();
             var jenjang = document.getElementById('akpdSiswaJenjang').value;
-            
-            if (!nama || !kelas) {
-                alert('⚠️ Nama dan kelas wajib diisi!');
-                return;
-            }
-            
-            // Simpan identitas
+            if (!nama || !kelas) { alert('⚠️ Nama dan kelas wajib diisi!'); return; }
             window._akpdData = { nama: nama, kelas: kelas, jenjang: jenjang };
-            
-            // Tampilkan step 2
             document.getElementById('akpdStep1').style.display = 'none';
             document.getElementById('akpdStep2').style.display = 'block';
-            
-            // Render soal
             var butir = AKPD_BUTIR[jenjang] || AKPD_BUTIR.SMP;
             var container = document.getElementById('akpdSoalContainer');
             var html = '<div class="progress-bar"><div class="progress-fill" id="akpdProgress" style="width:0%;"></div></div>';
             for (var i = 0; i < butir.pernyataan.length; i++) {
-                html += '<div class="soal-item">';
-                html += '<div><span class="soal">' + (i+1) + '. ' + butir.pernyataan[i] + '</span>';
-                html += ' <span class="bidang">' + butir.bidang[i] + '</span></div>';
-                html += '<div class="radio-group">';
-                html += '<label><input type="radio" name="akpd_' + i + '" value="1" required> Ya</label>';
-                html += '<label><input type="radio" name="akpd_' + i + '" value="0" required> Tidak</label>';
-                html += '</div></div>';
+                html += '<div class="soal-item"><div><span class="soal">' + (i+1) + '. ' + butir.pernyataan[i] + '</span> <span class="bidang">' + butir.bidang[i] + '</span></div>';
+                html += '<div class="radio-group"><label><input type="radio" name="akpd_' + i + '" value="1" required> Ya</label><label><input type="radio" name="akpd_' + i + '" value="0" required> Tidak</label></div></div>';
             }
             container.innerHTML = html;
-            
-            // Update progress
             document.querySelectorAll('#akpdSoalContainer input[type="radio"]').forEach(function(el) {
                 el.addEventListener('change', function() {
                     var total = 30;
                     var terisi = document.querySelectorAll('#akpdSoalContainer input[type="radio"]:checked').length;
-                    var progress = Math.round((terisi / total) * 100);
-                    document.getElementById('akpdProgress').style.width = progress + '%';
+                    document.getElementById('akpdProgress').style.width = Math.round((terisi/total)*100) + '%';
                 });
             });
         };
         
-        // Fungsi submit AKPD
         window.submitAKPD = function() {
             var data = window._akpdData;
             if (!data) { alert('⚠️ Data identitas tidak ditemukan!'); return; }
-            
-            // Kumpulkan jawaban
             var jawaban = [];
-            var bidangCount = { Pribadi: 0, Sosial: 0, Belajar: 0, Karier: 0 };
-            var bidangTotal = { Pribadi: 8, Sosial: 8, Belajar: 8, Karier: 6 };
+            var bidangCount = { Pribadi:0, Sosial:0, Belajar:0, Karier:0 };
+            var bidangTotal = { Pribadi:8, Sosial:8, Belajar:8, Karier:6 };
             var butir = AKPD_BUTIR[data.jenjang] || AKPD_BUTIR.SMP;
-            
             var semuaTerisi = true;
             for (var i = 0; i < butir.pernyataan.length; i++) {
                 var el = document.querySelector('input[name="akpd_' + i + '"]:checked');
@@ -1810,52 +1369,38 @@ function restoreData(event) {
                 var bidang = butir.bidang[i];
                 if (nilai === 1) bidangCount[bidang] = (bidangCount[bidang] || 0) + 1;
             }
-            
-            if (!semuaTerisi) {
-                alert('⚠️ Semua pernyataan harus dijawab!');
-                return;
-            }
-            
-            // Hitung persentase per bidang
+            if (!semuaTerisi) { alert('⚠️ Semua pernyataan harus dijawab!'); return; }
             var pribadi = Math.round((bidangCount.Pribadi / bidangTotal.Pribadi) * 100);
             var sosial = Math.round((bidangCount.Sosial / bidangTotal.Sosial) * 100);
             var belajar = Math.round((bidangCount.Belajar / bidangTotal.Belajar) * 100);
             var karier = Math.round((bidangCount.Karier / bidangTotal.Karier) * 100);
-            
-            // Simpan ke Firestore
             db.collection('konselia_hasil_akpd').add({
-                siswa: data.nama,
-                kelas: data.kelas,
-                jenjang: data.jenjang,
-                pribadi: pribadi,
-                sosial: sosial,
-                belajar: belajar,
-                karier: karier,
-                jawaban: jawaban,
-                akpdId: id,
-                tahun: sekolahData.year || '2026/2027',
+                siswa: data.nama, kelas: data.kelas, jenjang: data.jenjang,
+                pribadi: pribadi, sosial: sosial, belajar: belajar, karier: karier,
+                jawaban: jawaban, akpdId: id, tahun: sekolahData.year || '2026/2027',
                 createdAt: new Date().toISOString()
             }).then(function() {
                 var result = document.getElementById('akpdResult');
-                result.innerHTML = '<div class="alert alert-success">✅ Terima kasih ' + data.nama + '! Jawaban Anda berhasil dikirim. Guru BK akan memberikan tindak lanjut.</div>';
+                result.innerHTML = '<div class="alert alert-success">✅ Terima kasih ' + data.nama + '! Jawaban Anda berhasil dikirim.</div>';
                 result.innerHTML += '<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:12px;">';
-                result.innerHTML += '<div style="background:#E8F3EF;padding:12px;border-radius:8px;text-align:center;"><div style="font-size:11px;">Pribadi</div><div style="font-size:24px;font-weight:800;color:' + (pribadi >= 70 ? '#C45A6D' : pribadi >= 50 ? '#D4A853' : '#2D8B7A') + ';">' + pribadi + '%</div></div>';
-                result.innerHTML += '<div style="background:#E8F3EF;padding:12px;border-radius:8px;text-align:center;"><div style="font-size:11px;">Sosial</div><div style="font-size:24px;font-weight:800;color:' + (sosial >= 70 ? '#C45A6D' : sosial >= 50 ? '#D4A853' : '#2D8B7A') + ';">' + sosial + '%</div></div>';
-                result.innerHTML += '<div style="background:#E8F3EF;padding:12px;border-radius:8px;text-align:center;"><div style="font-size:11px;">Belajar</div><div style="font-size:24px;font-weight:800;color:' + (belajar >= 70 ? '#C45A6D' : belajar >= 50 ? '#D4A853' : '#2D8B7A') + ';">' + belajar + '%</div></div>';
-                result.innerHTML += '<div style="background:#E8F3EF;padding:12px;border-radius:8px;text-align:center;"><div style="font-size:11px;">Karier</div><div style="font-size:24px;font-weight:800;color:' + (karier >= 70 ? '#C45A6D' : karier >= 50 ? '#D4A853' : '#2D8B7A') + ';">' + karier + '%</div></div>';
+                var items = [
+                    { label: 'Pribadi', value: pribadi, color: pribadi>=70?'#C45A6D':pribadi>=50?'#D4A853':'#2D8B7A' },
+                    { label: 'Sosial', value: sosial, color: sosial>=70?'#C45A6D':sosial>=50?'#D4A853':'#2D8B7A' },
+                    { label: 'Belajar', value: belajar, color: belajar>=70?'#C45A6D':belajar>=50?'#D4A853':'#2D8B7A' },
+                    { label: 'Karier', value: karier, color: karier>=70?'#C45A6D':karier>=50?'#D4A853':'#2D8B7A' }
+                ];
+                for (var i = 0; i < items.length; i++) {
+                    result.innerHTML += '<div style="background:#E8F3EF;padding:12px;border-radius:8px;text-align:center;"><div style="font-size:11px;">' + items[i].label + '</div><div style="font-size:24px;font-weight:800;color:' + items[i].color + ';">' + items[i].value + '%</div></div>';
+                }
                 result.innerHTML += '</div>';
-                
-                // Rekomendasi
                 var rekom = [];
                 if (belajar >= 70) rekom.push('📚 Manajemen Waktu & Belajar Efektif');
                 if (karier >= 70) rekom.push('🎯 Perencanaan Karir & Persiapan Masa Depan');
                 if (pribadi >= 70) rekom.push('💪 Kesehatan Mental & Kepercayaan Diri');
                 if (sosial >= 70) rekom.push('🤝 Komunikasi Efektif & Pergaulan Sehat');
-                
                 if (rekom.length > 0) {
                     result.innerHTML += '<div style="background:#E8F3EF;padding:12px;border-radius:8px;margin-top:12px;"><strong>🎯 Rekomendasi Materi:</strong><br>' + rekom.join('<br>') + '</div>';
                 }
-                
                 document.getElementById('akpdStep2').style.display = 'none';
             }).catch(function(err) {
                 document.getElementById('akpdResult').innerHTML = '<div class="alert alert-danger">❌ Gagal mengirim: ' + err.message + '</div>';
