@@ -829,10 +829,11 @@
             <div class="sub">BK Digital Platform</div>
             <div class="nav">
                 <button class="active" onclick="showPage('dashboard')"><span class="icon">📊</span><span>Dashboard</span></button>
-                <button onclick="showPage('materi')"><span class="icon">📚</span><span>Materi BK</span></button>
-                <button onclick="showPage('rpl')"><span class="icon">📝</span><span>RPL & LKPD</span></button>
+                <!-- URUTAN BARU: AKPD & Hasil di atas Materi -->
                 <button onclick="showPage('akpd')"><span class="icon">📋</span><span>AKPD Digital</span></button>
                 <button onclick="showPage('hasil')"><span class="icon">📊</span><span>Hasil AKPD</span></button>
+                <button onclick="showPage('materi')"><span class="icon">📚</span><span>Materi BK</span></button>
+                <button onclick="showPage('rpl')"><span class="icon">📝</span><span>RPL & LKPD</span></button>
                 <button onclick="showPage('jurnal')"><span class="icon">📖</span><span>Jurnal BK</span></button>
                 <button onclick="showPage('program')"><span class="icon">📋</span><span>Program BK</span></button>
                 <button onclick="showPage('asesmen')"><span class="icon">🧠</span><span>Asesmen Digital</span></button>
@@ -858,9 +859,9 @@
             <!-- DASHBOARD -->
             <div id="page-dashboard" class="page active">
                 <div class="grid">
+                    <div class="card"><div class="label">📋 Total Sesi AKPD</div><div class="num" id="statAKPD">0</div></div>
+                    <div class="card"><div class="label">📊 Siswa Mengisi</div><div class="num" id="statHasilAKPD">0</div></div>
                     <div class="card"><div class="label">📚 Total Materi</div><div class="num" id="statMateri">0</div></div>
-                    <div class="card"><div class="label">📝 RPL Tersedia</div><div class="num" id="statRPL">0</div></div>
-                    <div class="card"><div class="label">📋 Sesi AKPD</div><div class="num" id="statAKPD">0</div></div>
                     <div class="card"><div class="label">🧠 Asesmen Digital</div><div class="num" id="statAsesmen">0</div></div>
                 </div>
                 <div class="two-col">
@@ -872,11 +873,50 @@
                         <h3 style="color:var(--primary-dark);margin-bottom:10px;">⚡ Akses Cepat</h3>
                         <div style="display:flex;flex-direction:column;gap:8px;">
                             <button class="btn btn-primary" onclick="showPage('akpd')">📋 Buat Sesi AKPD</button>
-                            <button class="btn btn-success" onclick="showPage('materi')">📚 Lihat Materi</button>
-                            <button class="btn btn-warning" onclick="showPage('jurnal')">📖 Isi Jurnal</button>
+                            <button class="btn btn-success" onclick="showPage('hasil')">📊 Lihat Hasil</button>
+                            <button class="btn btn-warning" onclick="showPage('materi')">📚 Materi BK</button>
                             <button class="btn btn-outline" onclick="showPage('program')">📋 Program BK</button>
                         </div>
                     </div>
+                </div>
+            </div>
+
+            <!-- AKPD - Sesi -->
+            <div id="page-akpd" class="page">
+                <div class="panel">
+                    <div class="panel-header">
+                        <h2>📋 Sesi AKPD Digital</h2>
+                        <div class="actions">
+                            <button class="btn btn-primary" onclick="openModal('akpdModal')">➕ Buat Sesi AKPD</button>
+                        </div>
+                    </div>
+                    <div style="margin-bottom:12px;padding:10px;background:#E8F3EF;border-radius:8px;">
+                        <strong>💡 Alur Penggunaan:</strong><br>
+                        1. Buat sesi AKPD untuk satu kelas<br>
+                        2. Salin link dan bagikan ke siswa<br>
+                        3. Siswa mengisi AKPD via link<br>
+                        4. Hasil & rekomendasi muncul otomatis di menu "Hasil AKPD"
+                    </div>
+                    <div id="akpdList"><div class="loading"><span class="spinner"></span> Memuat sesi AKPD...</div></div>
+                </div>
+            </div>
+
+            <!-- HASIL AKPD -->
+            <div id="page-hasil" class="page">
+                <div class="panel">
+                    <div class="panel-header">
+                        <h2>📊 Hasil AKPD & Rekomendasi Materi</h2>
+                        <div class="actions">
+                            <button class="btn btn-warning" onclick="exportHasilAKPD()">📤 Ekspor</button>
+                            <button class="btn btn-outline" onclick="loadHasilAKPD()">🔄 Refresh</button>
+                        </div>
+                    </div>
+                    <div class="form-row" style="margin-bottom:12px;">
+                        <div><label>Filter Sesi</label><select id="filterHasilSesi" class="form-control" onchange="loadHasilAKPD()"><option value="">Semua Sesi</option></select></div>
+                        <div><label>Filter Kelas</label><select id="filterHasilKelas" class="form-control" onchange="loadHasilAKPD()"><option value="">Semua</option></select></div>
+                        <div><label>Filter Jenjang</label><select id="filterHasilJenjang" class="form-control" onchange="loadHasilAKPD()"><option value="">Semua</option><option value="SMP">SMP</option><option value="SMA">SMA</option><option value="SMK">SMK</option></select></div>
+                    </div>
+                    <div id="hasilAKPDContainer"><div class="loading"><span class="spinner"></span> Memuat hasil...</div></div>
                 </div>
             </div>
 
@@ -911,45 +951,6 @@
                         </div>
                     </div>
                     <div id="rplList"><div class="loading"><span class="spinner"></span> Memuat RPL...</div></div>
-                </div>
-            </div>
-
-            <!-- AKPD - Sesi -->
-            <div id="page-akpd" class="page">
-                <div class="panel">
-                    <div class="panel-header">
-                        <h2>📋 Sesi AKPD Digital</h2>
-                        <div class="actions">
-                            <button class="btn btn-primary" onclick="openModal('akpdModal')">➕ Buat Sesi AKPD</button>
-                        </div>
-                    </div>
-                    <div style="margin-bottom:12px;padding:10px;background:#E8F3EF;border-radius:8px;">
-                        <strong>💡 Cara Penggunaan:</strong><br>
-                        1. Buat sesi AKPD untuk satu kelas<br>
-                        2. Salin link dan bagikan ke siswa<br>
-                        3. Siswa mengisi AKPD via link<br>
-                        4. Lihat hasil di menu "Hasil AKPD"
-                    </div>
-                    <div id="akpdList"><div class="loading"><span class="spinner"></span> Memuat sesi AKPD...</div></div>
-                </div>
-            </div>
-
-            <!-- HASIL AKPD -->
-            <div id="page-hasil" class="page">
-                <div class="panel">
-                    <div class="panel-header">
-                        <h2>📊 Hasil AKPD</h2>
-                        <div class="actions">
-                            <button class="btn btn-warning" onclick="exportHasilAKPD()">📤 Ekspor</button>
-                            <button class="btn btn-outline" onclick="loadHasilAKPD()">🔄 Refresh</button>
-                        </div>
-                    </div>
-                    <div class="form-row" style="margin-bottom:12px;">
-                        <div><label>Filter Sesi</label><select id="filterHasilSesi" class="form-control" onchange="loadHasilAKPD()"><option value="">Semua Sesi</option></select></div>
-                        <div><label>Filter Kelas</label><select id="filterHasilKelas" class="form-control" onchange="loadHasilAKPD()"><option value="">Semua</option></select></div>
-                        <div><label>Filter Jenjang</label><select id="filterHasilJenjang" class="form-control" onchange="loadHasilAKPD()"><option value="">Semua</option><option value="SMP">SMP</option><option value="SMA">SMA</option><option value="SMK">SMK</option></select></div>
-                    </div>
-                    <div id="hasilAKPDContainer"><div class="loading"><span class="spinner"></span> Memuat hasil...</div></div>
                 </div>
             </div>
 
@@ -1089,7 +1090,7 @@
                     <input type="text" id="akpdLink" class="form-control" readonly style="flex:1;">
                     <button class="btn-copy-link" onclick="copyAKPDLinkFromModal()">📋 Salin</button>
                 </div>
-                <small style="color:var(--gray);font-size:11px;">💡 Siswa cukup klik link, isi data, dan kirim. Hasil hanya terlihat di dashboard guru.</small>
+                <small style="color:var(--gray);font-size:11px;">💡 Siswa cukup klik link, isi data, dan kirim. Hasil otomatis masuk ke dashboard guru.</small>
             </div>
             <button class="btn btn-success" onclick="saveAKPD()">💾 Simpan Sesi & Buat Link</button>
         </div>
@@ -1495,8 +1496,8 @@
             document.getElementById('page-' + id).classList.add('active');
             document.querySelectorAll('.nav button').forEach(el => el.classList.remove('active'));
             document.querySelector('.nav button[onclick="showPage(\'' + id + '\')"]').classList.add('active');
-            var titles = { dashboard: '📊 Dashboard', materi: '📚 Materi BK', rpl: '📝 RPL & LKPD',
-                akpd: '📋 AKPD Digital', hasil: '📊 Hasil AKPD', jurnal: '📖 Jurnal BK', program: '📋 Program BK',
+            var titles = { dashboard: '📊 Dashboard', akpd: '📋 AKPD Digital', hasil: '📊 Hasil AKPD',
+                materi: '📚 Materi BK', rpl: '📝 RPL & LKPD', jurnal: '📖 Jurnal BK', program: '📋 Program BK',
                 asesmen: '🧠 Asesmen Digital', settings: '⚙️ Pengaturan' };
             document.getElementById('pageTitle').textContent = titles[id] || 'KONSELIA by NaFaS BK';
             if (id === 'materi') loadMateri();
@@ -1949,7 +1950,7 @@
             html +=
                 '<div class="chart-container"><h4>📊 Rata-rata Kebutuhan per Bidang</h4><canvas id="chartHasilAKPD" style="max-height:200px;"></canvas></div>';
 
-            // Rekomendasi
+            // REKOMENDASI MATERI berdasarkan skor tertinggi
             var rekomendasi = [];
             if (avgBelajar >= 65) rekomendasi.push({ bidang: 'Belajar', skor: avgBelajar,
                 materi: 'Manajemen Waktu, Belajar Efektif' });
@@ -1971,8 +1972,12 @@
                         rec.materi + '</div></div>';
                 }
                 html += '</div></div>';
+            } else {
+                html +=
+                    '<div class="panel" style="border:2px solid var(--success);"><h4>✅ Semua bidang sudah baik! Pertahankan dan tingkatkan terus.</h4></div>';
             }
 
+            // Tabel detail siswa
             html +=
                 '<div class="table-wrap"><table><thead><tr><th>No</th><th>Siswa</th><th>Kelas</th><th>Pribadi</th><th>Sosial</th><th>Belajar</th><th>Karier</th><th>Aksi</th></tr></thead><tbody>';
             for (var i = 0; i < filtered.length; i++) {
@@ -2042,15 +2047,22 @@
                 html += '</div>';
             }
             html += '</div>';
+
+            // Rekomendasi personal per siswa
             var rekom = [];
             if (h.belajar >= 70) rekom.push('📚 Manajemen Waktu & Belajar Efektif');
             if (h.karier >= 70) rekom.push('🎯 Perencanaan Karir & Persiapan Masa Depan');
             if (h.pribadi >= 70) rekom.push('💪 Kesehatan Mental & Kepercayaan Diri');
             if (h.sosial >= 70) rekom.push('🤝 Komunikasi Efektif & Pergaulan Sehat');
+
             if (rekom.length > 0) {
                 html +=
-                    '<div style="background:#E8F3EF;padding:12px;border-radius:8px;margin-top:12px;"><strong>🎯 Rekomendasi Materi:</strong><br>' +
-                    rekom.join('<br>') + '</div>';
+                    '<div style="background:#E8F3EF;padding:12px;border-radius:8px;margin-top:12px;"><strong>🎯 Rekomendasi Materi untuk ' +
+                    h.siswa + ':</strong><br>' + rekom.join('<br>') + '</div>';
+            } else {
+                html +=
+                    '<div style="background:#E8F3EF;padding:12px;border-radius:8px;margin-top:12px;"><strong>✅ ' +
+                    h.siswa + ' sudah baik di semua bidang! Pertahankan.</strong></div>';
             }
             content.innerHTML = html;
             openModal('detailAKPDModal');
@@ -2393,9 +2405,9 @@
 
         // ==================== DASHBOARD ====================
         function updateDashboard() {
-            document.getElementById('statMateri').textContent = allMateri.length;
-            document.getElementById('statRPL').textContent = allRPL.length;
             document.getElementById('statAKPD').textContent = allAKPD.length;
+            document.getElementById('statHasilAKPD').textContent = allHasilAKPD.length;
+            document.getElementById('statMateri').textContent = allMateri.length;
             document.getElementById('statAsesmen').textContent = allAsesmen.length;
 
             var container = document.getElementById('prioritasList');
@@ -2431,7 +2443,7 @@
                 container.innerHTML = html;
             } else {
                 container.innerHTML =
-                    '<div class="alert alert-info">Belum ada data AKPD untuk analisis prioritas.</div>';
+                    '<div class="alert alert-info">Belum ada data AKPD. Buat sesi AKPD dan bagikan link ke siswa.</div>';
             }
         }
 
@@ -2529,13 +2541,12 @@
             event.target.value = '';
         }
 
-        // ==================== AKPD MODE (SISWA) - HANYA PERTANYAAN, TANPA HASIL ====================
+        // ==================== AKPD MODE (SISWA) - HANYA PERTANYAAN ====================
         (function() {
             var params = new URLSearchParams(window.location.search);
             var mode = params.get('mode');
             var id = params.get('id');
             if (mode === 'akpd' && id) {
-                // Sembunyikan aplikasi utama
                 document.querySelector('.app').style.display = 'none';
                 document.body.innerHTML = '<div style="max-width:700px;margin:30px auto;padding:24px;background:#fff;border-radius:16px;box-shadow:0 4px 24px rgba(0,0,0,0.1);">';
                 document.body.innerHTML +=
@@ -2566,7 +2577,6 @@
                 document.body.innerHTML +=
                     '<style>.form-group{margin-bottom:14px}.form-control{width:100%;padding:10px;border:2px solid #E8EDEA;border-radius:10px;font-size:14px;}.btn{padding:12px;border:0;border-radius:10px;font-weight:600;cursor:pointer;}.btn-primary{background:#1A5A4A;color:#fff;}.btn-success{background:#2D8B7A;color:#fff;}.alert{padding:12px;border-radius:10px;margin:8px 0;}.alert-success{background:#d4edda;color:#155724;}.alert-danger{background:#f8d7da;color:#721c24;}.required{color:#C45A6D;}.soal-item{padding:10px 14px;margin:6px 0;background:#f8faf8;border-radius:8px;border-left:3px solid #1A5A4A;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;}.soal-item .soal{flex:1;font-size:14px;}.soal-item .bidang{font-size:10px;padding:2px 10px;border-radius:12px;background:#E8F3EF;color:#1A5A4A;}.radio-group{display:flex;gap:12px;}.radio-group label{display:flex;align-items:center;gap:4px;font-size:13px;cursor:pointer;}.radio-group input[type="radio"]{width:16px;height:16px;accent-color:#1A5A4A;}.progress-bar{height:6px;background:#E8EDEA;border-radius:10px;margin:12px 0;overflow:hidden;}.progress-fill{height:100%;background:#1A5A4A;border-radius:10px;transition:width 0.3s;}</style>';
 
-                // Fungsi start AKPD
                 window.startAKPD = function() {
                     var nama = document.getElementById('akpdSiswa').value.trim();
                     var kelas = document.getElementById('akpdSiswaKelas').value.trim();
@@ -2598,7 +2608,6 @@
                     });
                 };
 
-                // Fungsi submit AKPD - HANYA KIRIM, TANPA HASIL
                 window.submitAKPD = function() {
                     var data = window._akpdData;
                     if (!data) { alert('⚠️ Data identitas tidak ditemukan!'); return; }
@@ -2617,13 +2626,11 @@
                     }
                     if (!semuaTerisi) { alert('⚠️ Semua pernyataan harus dijawab!'); return; }
 
-                    // Hitung persentase (untuk disimpan di database, tapi tidak ditampilkan ke siswa)
                     var pribadi = Math.round((bidangCount.Pribadi / bidangTotal.Pribadi) * 100);
                     var sosial = Math.round((bidangCount.Sosial / bidangTotal.Sosial) * 100);
                     var belajar = Math.round((bidangCount.Belajar / bidangTotal.Belajar) * 100);
                     var karier = Math.round((bidangCount.Karier / bidangTotal.Karier) * 100);
 
-                    // Simpan ke Firestore
                     db.collection('konselia_hasil_akpd').add({
                         siswa: data.nama,
                         kelas: data.kelas,
@@ -2637,7 +2644,6 @@
                         tahun: sekolahData.year || '2026/2027',
                         createdAt: new Date().toISOString()
                     }).then(function() {
-                        // Tampilkan pesan sukses saja (tanpa hasil)
                         var result = document.getElementById('akpdResult');
                         result.style.display = 'block';
                         result.innerHTML =
@@ -2656,13 +2662,11 @@
 
         // ==================== START ====================
         init();
-        console.log('✅ KONSELIA by NaFaS BK v3.0 - 60 Materi + AKPD Digital!');
+        console.log('✅ KONSELIA by NaFaS BK v3.0 - Alur: AKPD → Hasil → Materi');
         console.log('📅 Pilihan Tahun Ajaran: 2026/2027 - 2037/2038 (12 tahun)');
         console.log('📚 SMP: 30 Materi | SMA: 30 Materi | SMK: 30 Materi');
-        console.log('📋 AKPD 30 butir per jenjang sesuai Permendikbud No.111 Tahun 2014');
-        console.log('✅ Sesi AKPD per kelas - Guru buat sesi, bagikan link');
-        console.log('✅ Siswa hanya melihat pertanyaan, hasil hanya di dashboard guru');
-        console.log('✅ Pilihan kelas sesuai jenjang: SMP (VII-IX), SMA/SMK (X-XII)');
+        console.log('📋 Sesi AKPD per kelas - Hasil & Rekomendasi langsung muncul di dashboard guru');
+        console.log('✅ Siswa hanya melihat pertanyaan, hasil & rekomendasi hanya di guru');
     </script>
 </body>
 </html>
