@@ -179,6 +179,16 @@
         .chart-container canvas { max-height: 220px; width: 100% !important; }
         .akpd-link-box { background: #f0f8f5; padding: 14px 18px; border-radius: 10px; border: 2px dashed var(--primary); margin: 12px 0; }
         .akpd-link-box input { width: 100%; padding: 10px; border: 1px solid var(--gray-light); border-radius: 8px; font-size: 13px; background: #fff; }
+        .mode-selector { display: flex; gap: 12px; margin: 12px 0; flex-wrap: wrap; }
+        .mode-selector .mode-option {
+            padding: 10px 20px; border: 2px solid var(--gray-light); border-radius: 10px;
+            cursor: pointer; text-align: center; flex: 1; min-width: 120px;
+            transition: .2s; background: #fafcfa;
+        }
+        .mode-selector .mode-option:hover { border-color: var(--primary); }
+        .mode-selector .mode-option.active { border-color: var(--primary); background: var(--primary-light); }
+        .mode-selector .mode-option .icon { font-size: 24px; display: block; }
+        .mode-selector .mode-option .label { font-size: 12px; font-weight: 600; }
         .rekomendasi-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 8px; margin-top: 8px; }
         .rekomendasi-item {
             background: #f8faf8; padding: 10px 14px; border-radius: 8px;
@@ -275,13 +285,16 @@
                 margin: 3px;
             }
             .akpd-print-item .header { text-align: center; font-weight: bold; border-bottom: 1px dashed #000; padding-bottom: 4px; font-size: 11px; }
-            .akpd-print-item .qr { text-align: center; margin: 3px 0; }
+            .akpd-print-item .qr { text-align: center; margin: 3px 0; font-size: 9px; }
             .akpd-print-item .field { margin: 2px 0; font-size: 10px; }
             .akpd-print-item .field .line { display: inline-block; width: 120px; border-bottom: 1px solid #000; min-height: 14px; }
             .akpd-print-item .field .label { display: inline-block; width: 60px; }
             .akpd-print-item .keterangan { margin-top: 6px; font-size: 8px; border-top: 1px solid #ccc; padding-top: 4px; }
+            .akpd-print-item .soal-print { font-size: 8px; margin: 1px 0; }
+            .akpd-print-item .soal-print .nomor { display: inline-block; width: 18px; }
+            .akpd-print-item .soal-print .jawab { display: inline-block; width: 30px; border-bottom: 1px solid #999; margin-left: 4px; }
+            .akpd-print-item .bidang-tag { font-size: 7px; padding: 0 4px; border-radius: 3px; background: #E8F3EF; color: #1A5A4A; margin-left: 4px; }
             .page-break { page-break-after: always; clear: both; }
-            .akpd-print-item .no { font-size: 9px; color: #666; }
         }
 
         @media (max-width:768px) {
@@ -316,7 +329,7 @@
                 <button onclick="showPage('asesmen')"><span class="icon">🧠</span><span>Asesmen Digital</span></button>
                 <button onclick="showPage('settings')"><span class="icon">⚙️</span><span>Pengaturan</span></button>
             </div>
-            <div style="position:absolute;bottom:20px;left:18px;font-size:10px;opacity:.4;">v3.1 · 2026</div>
+            <div style="position:absolute;bottom:20px;left:18px;font-size:10px;opacity:.4;">v3.2 · 2026</div>
         </aside>
 
         <!-- MAIN -->
@@ -365,16 +378,13 @@
                         <h2>📋 Sesi AKPD Digital</h2>
                         <div class="actions">
                             <button class="btn btn-primary" onclick="openModal('akpdModal')">➕ Buat Sesi AKPD</button>
-                            <button class="btn btn-success" onclick="openModal('printAKPDModal')">🖨️ Print AKPD</button>
-                            <button class="btn btn-warning" onclick="openModal('entryAKPDModal')">📝 Entry Manual</button>
                         </div>
                     </div>
                     <div style="margin-bottom:12px;padding:10px;background:#E8F3EF;border-radius:8px;">
                         <strong>💡 Alur Penggunaan:</strong><br>
-                        1. Buat sesi AKPD untuk satu kelas<br>
-                        2. Bagikan link ke siswa ATAU print AKPD untuk siswa tanpa HP<br>
-                        3. Siswa mengisi via link atau guru entry manual hasilnya<br>
-                        4. Hasil & rekomendasi muncul otomatis di menu "Hasil AKPD"
+                        1. Buat sesi AKPD pilih Jenjang &amp; Kelas<br>
+                        2. Pilih Mode: <strong>📱 HP</strong> (bagikan link) atau <strong>📄 Tanpa HP</strong> (print &amp; entry manual)<br>
+                        3. Hasil &amp; rekomendasi muncul otomatis di menu "Hasil AKPD"
                     </div>
                     <div id="akpdList"><div class="loading"><span class="spinner"></span> Memuat sesi AKPD...</div></div>
                 </div>
@@ -507,7 +517,7 @@
                 <span>by NaFaS BK</span>
                 <span style="margin:0 8px;color:#d0d8e0;">|</span>
                 <span>AKPD Digital · 60 Materi BK · RPL · LKPD · Jurnal</span>
-                <span class="version-tag">v3.1</span>
+                <span class="version-tag">v3.2</span>
             </div>
         </main>
     </div>
@@ -557,53 +567,60 @@
         <div class="modal-box">
             <div class="modal-header"><h2>📋 Buat Sesi AKPD</h2><button class="close-btn" onclick="closeModal('akpdModal')">&times;</button></div>
             <div id="akpdModalAlert"></div>
-            <div class="form-group"><label>Nama Sesi <span class="required">*</span></label><input type="text" id="akpdNama" class="form-control" placeholder="AKPD Kelas X TJKT 1 - Semester 1"></div>
+            
+            <div class="form-group"><label>Nama Sesi <span class="required">*</span></label><input type="text" id="akpdNama" class="form-control" placeholder="AKPD Kelas VII - Semester 1"></div>
+            
             <div class="form-row">
-                <div class="form-group"><label>Jenjang <span class="required">*</span></label><select id="akpdJenjang" class="form-control" onchange="updateKelasOptions()"><option value="SMP">SMP</option><option value="SMA">SMA</option><option value="SMK">SMK</option></select></div>
-                <div class="form-group"><label>Kelas <span class="required">*</span></label><select id="akpdKelas" class="form-control"></select></div>
+                <div class="form-group"><label>Jenjang <span class="required">*</span></label>
+                    <select id="akpdJenjang" class="form-control" onchange="updateAKPDKelasOptions()">
+                        <option value="SMP">SMP</option>
+                        <option value="SMA">SMA</option>
+                        <option value="SMK">SMK</option>
+                    </select>
+                </div>
+                <div class="form-group"><label>Kelas <span class="required">*</span></label>
+                    <select id="akpdKelas" class="form-control"></select>
+                </div>
             </div>
+
             <div class="form-group"><label>Jumlah Siswa <span class="required">*</span></label><input type="number" id="akpdJumlahSiswa" class="form-control" placeholder="36"></div>
-            <div class="akpd-link-box">
+
+            <div class="form-group"><label>Pilih Mode <span class="required">*</span></label>
+                <div class="mode-selector">
+                    <div class="mode-option active" onclick="selectMode('hp')" id="modeHp">
+                        <span class="icon">📱</span>
+                        <span class="label">Mode HP</span>
+                        <span style="font-size:10px;color:var(--gray);display:block;">Siswa isi via link</span>
+                    </div>
+                    <div class="mode-option" onclick="selectMode('print')" id="modePrint">
+                        <span class="icon">📄</span>
+                        <span class="label">Mode Tanpa HP</span>
+                        <span style="font-size:10px;color:var(--gray);display:block;">Print &amp; Entry Manual</span>
+                    </div>
+                </div>
+                <input type="hidden" id="akpdMode" value="hp">
+            </div>
+
+            <div id="akpdModeHpContent" class="akpd-link-box">
                 <label>🔗 Link AKPD (bagikan ke siswa)</label>
                 <div style="display:flex;gap:8px;">
                     <input type="text" id="akpdLink" class="form-control" readonly style="flex:1;">
                     <button class="btn-copy-link" onclick="copyAKPDLinkFromModal()">📋 Salin</button>
                 </div>
-                <small style="color:var(--gray);font-size:11px;">💡 Siswa cukup klik link, isi NAMA (tanpa input kelas), dan kirim. Hasil otomatis masuk ke dashboard guru.</small>
+                <small style="color:var(--gray);font-size:11px;">💡 Siswa klik link, isi NAMA (kelas otomatis), dan kirim. Hasil otomatis masuk ke guru.</small>
             </div>
-            <button class="btn btn-success" onclick="saveAKPD()">💾 Simpan Sesi & Buat Link</button>
-        </div>
-    </div>
 
-    <!-- MODAL PRINT AKPD -->
-    <div class="modal-overlay" id="printAKPDModal">
-        <div class="modal-box" style="max-width:900px;">
-            <div class="modal-header"><h2>🖨️ Print AKPD (Mode Tanpa HP)</h2><button class="close-btn" onclick="closeModal('printAKPDModal')">&times;</button></div>
-            <div id="printAKPDAlert"></div>
-            <div class="form-row">
-                <div class="form-group"><label>Pilih Sesi <span class="required">*</span></label><select id="printSesi" class="form-control"></select></div>
-                <div class="form-group"><label>Jumlah Print <span class="required">*</span></label><input type="number" id="printJumlah" class="form-control" value="30" min="1" max="50"></div>
+            <div id="akpdModePrintContent" style="display:none;background:#f0f8f5;padding:14px 18px;border-radius:10px;border:2px dashed var(--primary);margin:12px 0;">
+                <strong>🖨️ Mode Tanpa HP</strong>
+                <p style="font-size:13px;color:var(--gray);margin:6px 0;">Setelah sesi dibuat, guru dapat:</p>
+                <ul style="font-size:12px;color:var(--gray);margin-left:18px;">
+                    <li>🖨️ Print AKPD (2 per halaman) untuk dibagikan ke siswa</li>
+                    <li>📝 Entry manual hasil AKPD dari kertas ke aplikasi</li>
+                    <li>📊 Hasil otomatis muncul di menu "Hasil AKPD"</li>
+                </ul>
             </div>
-            <div style="background:#f0f8f5;padding:12px;border-radius:8px;margin:10px 0;border-left:4px solid var(--primary);">
-                <strong>💡 Tips:</strong> Print 2 AKPD per halaman (hemat kertas). Siswa mengisi di kertas, lalu guru entry hasilnya ke menu "Entry Manual".
-            </div>
-            <button class="btn btn-primary" onclick="generatePrintAKPD()" style="width:100%;padding:12px;">🖨️ Generate & Print</button>
-        </div>
-    </div>
 
-    <!-- MODAL ENTRY AKPD -->
-    <div class="modal-overlay" id="entryAKPDModal">
-        <div class="modal-box" style="max-width:900px;">
-            <div class="modal-header"><h2>📝 Entry Manual Hasil AKPD</h2><button class="close-btn" onclick="closeModal('entryAKPDModal')">&times;</button></div>
-            <div id="entryAKPDAlert"></div>
-            <div class="form-row">
-                <div class="form-group"><label>Pilih Sesi <span class="required">*</span></label><select id="entrySesi" class="form-control" onchange="loadEntrySiswa()"></select></div>
-                <div class="form-group"><label>Nama Siswa <span class="required">*</span></label><input type="text" id="entryNama" class="form-control" placeholder="Nama lengkap siswa"></div>
-            </div>
-            <div id="entrySoalContainer">
-                <div class="alert alert-info">⏳ Pilih sesi terlebih dahulu untuk menampilkan soal AKPD.</div>
-            </div>
-            <button class="btn btn-success" onclick="saveEntryAKPD()" style="width:100%;padding:12px;">💾 Simpan Hasil Entry</button>
+            <button class="btn btn-success" onclick="saveAKPD()" style="width:100%;padding:14px;margin-top:8px;">💾 Simpan Sesi</button>
         </div>
     </div>
 
@@ -706,7 +723,6 @@
         var allGuru = [];
         var sekolahData = { name: '', year: '2026/2027' };
         var currentAKPDLink = '';
-        var currentEntrySoal = [];
 
         // ==================== TAHUN AJARAN ====================
         var AVAILABLE_YEARS = [];
@@ -742,7 +758,7 @@
         }
 
         // ==================== UPDATE KELAS OPSI ====================
-        function updateKelasOptions() {
+        function updateAKPDKelasOptions() {
             var jenjang = document.getElementById('akpdJenjang').value;
             var select = document.getElementById('akpdKelas');
             var currentVal = select.value;
@@ -762,7 +778,22 @@
             }
         }
 
-        // ==================== AKPD PER JENJANG (30 BUTIR) ====================
+        // ==================== MODE SELECTOR ====================
+        function selectMode(mode) {
+            document.getElementById('akpdMode').value = mode;
+            document.querySelectorAll('.mode-option').forEach(function(el) { el.classList.remove('active'); });
+            if (mode === 'hp') {
+                document.getElementById('modeHp').classList.add('active');
+                document.getElementById('akpdModeHpContent').style.display = 'block';
+                document.getElementById('akpdModePrintContent').style.display = 'none';
+            } else {
+                document.getElementById('modePrint').classList.add('active');
+                document.getElementById('akpdModeHpContent').style.display = 'none';
+                document.getElementById('akpdModePrintContent').style.display = 'block';
+            }
+        }
+
+        // ==================== AKPD PER JENJANG & KELAS (30 BUTIR) ====================
         var AKPD_BUTIR = {
             SMP: {
                 bidang: ['Pribadi','Pribadi','Pribadi','Pribadi','Pribadi','Pribadi','Pribadi','Pribadi',
@@ -966,7 +997,7 @@
             loadSettings();
             loadAllData();
             loadGuru();
-            updateKelasOptions();
+            updateAKPDKelasOptions();
             setInterval(function() {
                 loadMateri();
                 loadRPL();
@@ -1020,16 +1051,11 @@
                 document.getElementById('jurnalTanggal').value = new Date().toISOString().split('T')[0];
             }
             if (id === 'akpdModal') {
-                updateKelasOptions();
+                updateAKPDKelasOptions();
                 var link = window.location.href.split('?')[0] + '?mode=akpd&id=' + Date.now();
                 document.getElementById('akpdLink').value = link;
                 currentAKPDLink = link;
-            }
-            if (id === 'printAKPDModal') {
-                populatePrintSesiSelect();
-            }
-            if (id === 'entryAKPDModal') {
-                populateEntrySesiSelect();
+                selectMode('hp');
             }
         }
 
@@ -1279,14 +1305,25 @@
             for (var i = 0; i < allAKPD.length; i++) {
                 var a = allAKPD[i];
                 var totalSiswa = a.jumlahSiswa || 0;
+                var mode = a.mode || 'hp';
+                var modeIcon = mode === 'hp' ? '📱' : '📄';
+                var modeLabel = mode === 'hp' ? 'Mode HP' : 'Mode Tanpa HP';
                 html += '<div class="sesi-card">';
-                html += '<div class="judul">📋 ' + a.nama + '</div>';
+                html += '<div class="judul">📋 ' + a.nama + ' <span class="badge badge-primary">' + modeIcon + ' ' + modeLabel + '</span></div>';
                 html += '<div class="info">📚 ' + a.jenjang + ' ' + a.kelas + ' | 👥 ' + totalSiswa + ' siswa | 📅 ' + new Date(a.createdAt).toLocaleDateString('id-ID') + '</div>';
-                html += '<div class="link-sesi">🔗 ' + (a.link || '-') + '</div>';
+                if (a.link) {
+                    html += '<div class="link-sesi">🔗 ' + a.link + '</div>';
+                }
                 html += '<div class="actions">';
-                html += '<button class="btn btn-primary btn-sm" onclick="copyAKPDLink(\'' + a.id + '\')">📋 Salin Link</button>';
-                html += '<button class="btn btn-success btn-sm" onclick="printAKPDSesi(\'' + a.id + '\')">🖨️ Print AKPD</button>';
-                html += '<button class="btn btn-warning btn-sm" onclick="entryAKPDSesi(\'' + a.id + '\')">📝 Entry Manual</button>';
+                if (a.mode === 'hp' && a.link) {
+                    html += '<button class="btn btn-primary btn-sm" onclick="copyAKPDLink(\'' + a.id + '\')">📋 Salin Link</button>';
+                }
+                if (a.mode === 'print') {
+                    html += '<button class="btn btn-success btn-sm" onclick="printAKPDSesi(\'' + a.id + '\')">🖨️ Print AKPD</button>';
+                    html += '<button class="btn btn-warning btn-sm" onclick="entryAKPDSesi(\'' + a.id + '\')">📝 Entry Manual</button>';
+                } else {
+                    html += '<button class="btn btn-success btn-sm" onclick="printAKPDSesi(\'' + a.id + '\')">🖨️ Print (opsional)</button>';
+                }
                 html += '<button class="btn btn-danger btn-sm" onclick="deleteAKPD(\'' + a.id + '\')">🗑️ Hapus</button>';
                 html += '</div></div>';
             }
@@ -1299,18 +1336,32 @@
             var kelas = document.getElementById('akpdKelas').value;
             var jumlahSiswa = parseInt(document.getElementById('akpdJumlahSiswa').value);
             var link = document.getElementById('akpdLink').value;
+            var mode = document.getElementById('akpdMode').value;
             var alertEl = document.getElementById('akpdModalAlert');
+
             if (!nama || !kelas || !jumlahSiswa) {
                 alertEl.innerHTML = '<div class="alert alert-danger">⚠️ Semua field wajib diisi!</div>';
                 return;
             }
+
+            // Generate link if mode hp
+            var finalLink = '';
+            if (mode === 'hp') {
+                finalLink = window.location.href.split('?')[0] + '?mode=akpd&id=' + Date.now();
+                document.getElementById('akpdLink').value = finalLink;
+            }
+
             db.collection('konselia_akpd').add({
-                nama: nama, jenjang: jenjang, kelas: kelas,
-                jumlahSiswa: jumlahSiswa, link: link,
+                nama: nama,
+                jenjang: jenjang,
+                kelas: kelas,
+                jumlahSiswa: jumlahSiswa,
+                link: finalLink,
+                mode: mode,
                 tahun: sekolahData.year || '2026/2027',
                 createdAt: new Date().toISOString()
             }).then(function() {
-                alertEl.innerHTML = '<div class="alert alert-success">✅ Sesi AKPD berhasil dibuat! Bagikan link ke siswa.</div>';
+                alertEl.innerHTML = '<div class="alert alert-success">✅ Sesi AKPD berhasil dibuat!</div>';
                 setTimeout(function() { closeModal('akpdModal'); loadAKPD(); }, 1000);
             }).catch(function(err) { alertEl.innerHTML = '<div class="alert alert-danger">❌ Gagal: ' + err.message + '</div>'; });
         }
@@ -1337,38 +1388,16 @@
         }
 
         // ==================== PRINT AKPD ====================
-        function populatePrintSesiSelect() {
-            var select = document.getElementById('printSesi');
-            select.innerHTML = '<option value="">Pilih Sesi</option>';
-            for (var i = 0; i < allAKPD.length; i++) {
-                select.innerHTML += '<option value="' + allAKPD[i].id + '">' + allAKPD[i].nama + ' (' + allAKPD[i].jenjang + ' ' + allAKPD[i].kelas + ')</option>';
-            }
-        }
+        function printAKPDSesi(id) {
+            var sesi = allAKPD.find(function(s) { return s.id === id; });
+            if (!sesi) { alert('Sesi tidak ditemukan!'); return; }
 
-        function generatePrintAKPD() {
-            var sesiId = document.getElementById('printSesi').value;
-            var jumlah = parseInt(document.getElementById('printJumlah').value) || 30;
-            var alertEl = document.getElementById('printAKPDAlert');
-
-            if (!sesiId) {
-                alertEl.innerHTML = '<div class="alert alert-danger">⚠️ Pilih sesi terlebih dahulu!</div>';
-                return;
-            }
-
-            var sesi = allAKPD.find(function(s) { return s.id === sesiId; });
-            if (!sesi) {
-                alertEl.innerHTML = '<div class="alert alert-danger">⚠️ Sesi tidak ditemukan!</div>';
-                return;
-            }
-
-            closeModal('printAKPDModal');
-
-            // Build print content
-            var urlSiswa = window.location.href.split('?')[0] + '?mode=akpd&id=' + sesiId;
+            var urlSiswa = sesi.link || (window.location.href.split('?')[0] + '?mode=akpd&id=' + id);
             var jenjang = sesi.jenjang;
             var butir = AKPD_BUTIR[jenjang] || AKPD_BUTIR.SMP;
             var soalList = butir.pernyataan;
             var bidangList = butir.bidang;
+            var jumlah = sesi.jumlahSiswa || 30;
 
             var printWin = window.open('', '_blank', 'width=900,height=700');
             printWin.document.write('<html><head><title>AKPD - ' + sesi.nama + '</title>');
@@ -1384,6 +1413,9 @@
             printWin.document.write('.akpd-item .keterangan { margin-top: 5px; font-size: 8px; border-top: 1px solid #ccc; padding-top: 4px; }');
             printWin.document.write('.akpd-item .no { font-size: 9px; color: #666; }');
             printWin.document.write('.akpd-item .soal-print { font-size: 8px; margin: 1px 0; }');
+            printWin.document.write('.akpd-item .soal-print .nomor { display: inline-block; width: 18px; }');
+            printWin.document.write('.akpd-item .soal-print .jawab { display: inline-block; width: 30px; border-bottom: 1px solid #999; margin-left: 4px; }');
+            printWin.document.write('.akpd-item .bidang-tag { font-size: 7px; padding: 0 4px; border-radius: 3px; background: #E8F3EF; color: #1A5A4A; margin-left: 4px; }');
             printWin.document.write('.page-break { page-break-after: always; clear: both; }');
             printWin.document.write('.header-print { text-align: center; margin-bottom: 10px; }');
             printWin.document.write('.header-print h2 { color: #1A5A4A; }');
@@ -1392,21 +1424,21 @@
             printWin.document.write('.soal-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px 10px; font-size: 8px; }');
             printWin.document.write('.soal-grid .s { padding: 1px 0; }');
             printWin.document.write('.soal-grid .s .nomor { display: inline-block; width: 18px; }');
-            printWin.document.write('.soal-grid .s .jawab { display: inline-block; width: 35px; border-bottom: 1px solid #999; margin-left: 4px; }');
+            printWin.document.write('.soal-grid .s .jawab { display: inline-block; width: 30px; border-bottom: 1px solid #999; margin-left: 4px; }');
             printWin.document.write('.soal-grid .s .bidang-tag { font-size: 7px; padding: 0 4px; border-radius: 3px; background: #E8F3EF; color: #1A5A4A; margin-left: 4px; }');
             printWin.document.write('</style>');
             printWin.document.write('</head><body>');
 
             printWin.document.write('<div class="header-print">');
             printWin.document.write('<h2>📋 AKPD - ' + sesi.nama + '</h2>');
-            printWin.document.write('<p>Kelas: ' + sesi.jenjang + ' ' + sesi.kelas + ' | Scan QR atau akses: ' + urlSiswa + '</p>');
+            printWin.document.write('<p>Kelas: ' + sesi.jenjang + ' ' + sesi.kelas + ' | Jumlah: ' + jumlah + ' siswa</p>');
             printWin.document.write('<p style="font-size:9px;color:#999;">💡 Siswa cukup tulis NAMA (kelas otomatis dari sesi)</p>');
             printWin.document.write('</div>');
 
             for (var i = 1; i <= jumlah; i++) {
                 printWin.document.write('<div class="akpd-item">');
                 printWin.document.write('<div class="header">AKPD - ' + sesi.nama + ' <span class="no">(No.' + i + ')</span></div>');
-                printWin.document.write('<div class="qr">📱 Scan QR untuk akses online<br><span style="font-size:7px;color:#666;">' + urlSiswa + '</span></div>');
+                printWin.document.write('<div class="qr">📱 ' + urlSiswa + '</div>');
                 printWin.document.write('<div class="field"><span class="label">Nama:</span> <span class="line"></span></div>');
                 printWin.document.write('<div class="field"><span class="label">Tanggal:</span> <span class="line"></span></div>');
                 printWin.document.write('<div class="keterangan">');
@@ -1414,7 +1446,9 @@
                 printWin.document.write('<div class="soal-grid">');
                 for (var j = 0; j < soalList.length; j++) {
                     var bidangTag = bidangList[j] || 'Pribadi';
-                    printWin.document.write('<div class="s"><span class="nomor">' + (j+1) + '.</span> ' + soalList[j].substring(0, 50) + (soalList[j].length > 50 ? '...' : '') + ' <span class="bidang-tag">' + bidangTag + '</span> <span class="jawab">&nbsp;&nbsp;&nbsp;</span></div>');
+                    var text = soalList[j];
+                    if (text.length > 45) text = text.substring(0, 45) + '...';
+                    printWin.document.write('<div class="s"><span class="nomor">' + (j+1) + '.</span> ' + text + ' <span class="bidang-tag">' + bidangTag + '</span> <span class="jawab">&nbsp;&nbsp;</span></div>');
                 }
                 printWin.document.write('</div>');
                 printWin.document.write('</div>');
@@ -1432,84 +1466,57 @@
             setTimeout(function() { printWin.print(); }, 500);
         }
 
-        function printAKPDSesi(id) {
+        // ==================== ENTRY MANUAL AKPD ====================
+        function entryAKPDSesi(id) {
             var sesi = allAKPD.find(function(s) { return s.id === id; });
             if (!sesi) { alert('Sesi tidak ditemukan!'); return; }
-            document.getElementById('printSesi').value = id;
-            document.getElementById('printJumlah').value = sesi.jumlahSiswa || 30;
-            openModal('printAKPDModal');
-        }
-
-        // ==================== ENTRY MANUAL AKPD ====================
-        function populateEntrySesiSelect() {
-            var select = document.getElementById('entrySesi');
-            select.innerHTML = '<option value="">Pilih Sesi</option>';
-            for (var i = 0; i < allAKPD.length; i++) {
-                select.innerHTML += '<option value="' + allAKPD[i].id + '">' + allAKPD[i].nama + ' (' + allAKPD[i].jenjang + ' ' + allAKPD[i].kelas + ')</option>';
-            }
-        }
-
-        function loadEntrySiswa() {
-            var sesiId = document.getElementById('entrySesi').value;
-            var container = document.getElementById('entrySoalContainer');
-            var alertEl = document.getElementById('entryAKPDAlert');
-            alertEl.innerHTML = '';
-
-            if (!sesiId) {
-                container.innerHTML = '<div class="alert alert-info">⚠️ Pilih sesi terlebih dahulu.</div>';
-                return;
-            }
-
-            var sesi = allAKPD.find(function(s) { return s.id === sesiId; });
-            if (!sesi) {
-                container.innerHTML = '<div class="alert alert-danger">⚠️ Sesi tidak ditemukan!</div>';
-                return;
-            }
 
             var butir = AKPD_BUTIR[sesi.jenjang] || AKPD_BUTIR.SMP;
-            currentEntrySoal = butir.pernyataan;
 
-            var html = '<div style="background:#f0f8f5;padding:12px;border-radius:8px;margin:8px 0;border-left:4px solid var(--primary);">';
-            html += '<strong>📚 ' + sesi.nama + '</strong> - ' + sesi.jenjang + ' ' + sesi.kelas;
-            html += '</div>';
-
-            html += '<div style="max-height:400px;overflow-y:auto;border:1px solid var(--gray-light);border-radius:8px;padding:8px;">';
+            // Buat modal entry
+            var modal = document.createElement('div');
+            modal.className = 'modal-overlay active';
+            modal.id = 'entryModalTemp';
+            modal.innerHTML = '<div class="modal-box" style="max-width:850px;">';
+            modal.innerHTML += '<div class="modal-header"><h2>📝 Entry Manual - ' + sesi.nama + '</h2><button class="close-btn" onclick="closeEntryModal()">&times;</button></div>';
+            modal.innerHTML += '<div id="entryModalAlert"></div>';
+            modal.innerHTML += '<div style="background:#f0f8f5;padding:10px;border-radius:8px;margin:8px 0;border-left:4px solid var(--primary);">';
+            modal.innerHTML += '<strong>📚 ' + sesi.jenjang + ' ' + sesi.kelas + '</strong> - ' + sesi.jumlahSiswa + ' siswa';
+            modal.innerHTML += '</div>';
+            modal.innerHTML += '<div class="form-group"><label>Nama Siswa <span class="required">*</span></label><input type="text" id="entryNamaTemp" class="form-control" placeholder="Nama lengkap siswa"></div>';
+            modal.innerHTML += '<div style="max-height:400px;overflow-y:auto;border:1px solid var(--gray-light);border-radius:8px;padding:8px;">';
             for (var i = 0; i < butir.pernyataan.length; i++) {
-                html += '<div class="soal-item" style="font-size:12px;padding:6px 10px;margin:3px 0;">';
-                html += '<span class="soal" style="font-size:12px;">' + (i+1) + '. ' + butir.pernyataan[i] + ' <span class="bidang" style="font-size:9px;">' + butir.bidang[i] + '</span></span>';
-                html += '<div class="radio-group" style="gap:8px;">';
-                html += '<label style="font-size:12px;"><input type="radio" name="entry_soal_' + i + '" value="1"> Ya</label>';
-                html += '<label style="font-size:12px;"><input type="radio" name="entry_soal_' + i + '" value="0" checked> Tidak</label>';
-                html += '</div></div>';
+                modal.innerHTML += '<div class="soal-item" style="font-size:12px;padding:6px 10px;margin:3px 0;">';
+                modal.innerHTML += '<span class="soal" style="font-size:12px;">' + (i+1) + '. ' + butir.pernyataan[i] + ' <span class="bidang" style="font-size:9px;">' + butir.bidang[i] + '</span></span>';
+                modal.innerHTML += '<div class="radio-group" style="gap:8px;">';
+                modal.innerHTML += '<label style="font-size:12px;"><input type="radio" name="entry_temp_' + i + '" value="1"> Ya</label>';
+                modal.innerHTML += '<label style="font-size:12px;"><input type="radio" name="entry_temp_' + i + '" value="0" checked> Tidak</label>';
+                modal.innerHTML += '</div></div>';
             }
-            html += '</div>';
+            modal.innerHTML += '</div>';
+            modal.innerHTML += '<button class="btn btn-success" onclick="saveEntryTemp(\'' + id + '\')" style="width:100%;padding:12px;margin-top:12px;">💾 Simpan Hasil Entry</button>';
+            modal.innerHTML += '</div>';
+            document.body.appendChild(modal);
 
-            container.innerHTML = html;
+            // Simpan data sesi untuk digunakan di saveEntryTemp
+            window._entrySesiData = sesi;
         }
 
-        function entryAKPDSesi(id) {
-            document.getElementById('entrySesi').value = id;
-            openModal('entryAKPDModal');
-            loadEntrySiswa();
+        function closeEntryModal() {
+            var el = document.getElementById('entryModalTemp');
+            if (el) el.remove();
+            window._entrySesiData = null;
         }
 
-        function saveEntryAKPD() {
-            var sesiId = document.getElementById('entrySesi').value;
-            var nama = document.getElementById('entryNama').value.trim();
-            var alertEl = document.getElementById('entryAKPDAlert');
+        function saveEntryTemp(akpdId) {
+            var sesi = window._entrySesiData;
+            if (!sesi) { alert('⚠️ Data sesi tidak ditemukan!'); return; }
 
-            if (!sesiId) {
-                alertEl.innerHTML = '<div class="alert alert-danger">⚠️ Pilih sesi terlebih dahulu!</div>';
-                return;
-            }
+            var nama = document.getElementById('entryNamaTemp').value.trim();
+            var alertEl = document.getElementById('entryModalAlert');
+
             if (!nama) {
                 alertEl.innerHTML = '<div class="alert alert-danger">⚠️ Nama siswa harus diisi!</div>';
-                return;
-            }
-
-            var sesi = allAKPD.find(function(s) { return s.id === sesiId; });
-            if (!sesi) {
-                alertEl.innerHTML = '<div class="alert alert-danger">⚠️ Sesi tidak ditemukan!</div>';
                 return;
             }
 
@@ -1517,7 +1524,7 @@
             var jawaban = [];
             var semuaTerisi = true;
             for (var i = 0; i < butir.pernyataan.length; i++) {
-                var el = document.querySelector('input[name="entry_soal_' + i + '"]:checked');
+                var el = document.querySelector('input[name="entry_temp_' + i + '"]:checked');
                 if (!el) { semuaTerisi = false; break; }
                 jawaban.push(parseInt(el.value));
             }
@@ -1548,17 +1555,19 @@
                 belajar: belajar,
                 karier: karier,
                 jawaban: jawaban,
-                akpdId: sesiId,
+                akpdId: akpdId,
                 tahun: sekolahData.year || '2026/2027',
                 entryBy: 'guru',
                 createdAt: new Date().toISOString()
             }).then(function() {
                 alertEl.innerHTML = '<div class="alert alert-success">✅ Data ' + nama + ' berhasil disimpan!</div>';
-                document.getElementById('entryNama').value = '';
-                setTimeout(function() {
-                    alertEl.innerHTML = '';
-                    loadEntrySiswa();
-                }, 2000);
+                document.getElementById('entryNamaTemp').value = '';
+                // Reset radio ke default
+                document.querySelectorAll('#entryModalTemp input[type="radio"][value="0"]').forEach(function(el) {
+                    el.checked = true;
+                });
+                setTimeout(function() { alertEl.innerHTML = ''; }, 2000);
+                loadHasilAKPD();
             }).catch(function(err) {
                 alertEl.innerHTML = '<div class="alert alert-danger">❌ Gagal: ' + err.message + '</div>';
             });
@@ -2191,117 +2200,121 @@
                 document.body.innerHTML = '<div style="max-width:700px;margin:30px auto;padding:24px;background:#fff;border-radius:16px;box-shadow:0 4px 24px rgba(0,0,0,0.1);">';
                 document.body.innerHTML += '<div style="text-align:center;margin-bottom:20px;"><h1 style="color:#1A5A4A;">📋 KONSELIA <span style="color:#D4A853;">BK</span></h1><p style="color:#6E7D77;">by NaFaS BK · AKPD Digital</p></div>';
 
-                // Cari sesi
-                var sesiData = null;
-                for (var i = 0; i < allAKPD.length; i++) {
-                    if (allAKPD[i].id === id) {
-                        sesiData = allAKPD[i];
-                        break;
+                // Cari sesi dari Firestore
+                db.collection('konselia_akpd').doc(id).get().then(function(doc) {
+                    if (!doc.exists) {
+                        document.body.innerHTML += '<div class="alert alert-danger">⚠️ Sesi AKPD tidak ditemukan!</div>';
+                        return;
                     }
-                }
+                    var sesiData = doc.data();
+                    sesiData.id = doc.id;
 
-                document.body.innerHTML += '<div id="akpdStep1"><h2 style="color:#1A5A4A;">📝 Isi Identitas</h2>';
-                document.body.innerHTML += '<form id="akpdIdentitas">';
-                document.body.innerHTML += '<div class="form-group"><label>Nama Lengkap <span class="required">*</span></label><input type="text" id="akpdSiswa" class="form-control" required></div>';
-                // SISWA TIDAK INPUT KELAS - ambil dari sesi
-                document.body.innerHTML += '<div class="form-group" style="background:#f0f8f5;padding:10px;border-radius:8px;border-left:4px solid var(--primary);">';
-                document.body.innerHTML += '<strong>📚 Kelas: ' + (sesiData ? sesiData.jenjang + ' ' + sesiData.kelas : '') + '</strong>';
-                document.body.innerHTML += '<input type="hidden" id="akpdSiswaKelas" value="' + (sesiData ? sesiData.kelas : '') + '">';
-                document.body.innerHTML += '<input type="hidden" id="akpdSiswaJenjang" value="' + (sesiData ? sesiData.jenjang : 'SMP') + '">';
-                document.body.innerHTML += '</div>';
-                document.body.innerHTML += '<button type="button" class="btn btn-primary" onclick="startAKPD()" style="width:100%;padding:14px;">🚀 Mulai Mengisi AKPD</button>';
-                document.body.innerHTML += '</form></div>';
+                    document.body.innerHTML += '<div id="akpdStep1"><h2 style="color:#1A5A4A;">📝 Isi Identitas</h2>';
+                    document.body.innerHTML += '<form id="akpdIdentitas">';
+                    document.body.innerHTML += '<div class="form-group"><label>Nama Lengkap <span class="required">*</span></label><input type="text" id="akpdSiswa" class="form-control" required></div>';
+                    document.body.innerHTML += '<div class="form-group" style="background:#f0f8f5;padding:10px;border-radius:8px;border-left:4px solid var(--primary);">';
+                    document.body.innerHTML += '<strong>📚 Kelas: ' + sesiData.jenjang + ' ' + sesiData.kelas + '</strong>';
+                    document.body.innerHTML += '<input type="hidden" id="akpdSiswaKelas" value="' + sesiData.kelas + '">';
+                    document.body.innerHTML += '<input type="hidden" id="akpdSiswaJenjang" value="' + sesiData.jenjang + '">';
+                    document.body.innerHTML += '</div>';
+                    document.body.innerHTML += '<button type="button" class="btn btn-primary" onclick="startAKPD()" style="width:100%;padding:14px;">🚀 Mulai Mengisi AKPD</button>';
+                    document.body.innerHTML += '</form></div>';
 
-                document.body.innerHTML += '<div id="akpdStep2" style="display:none;"><h2 style="color:#1A5A4A;">📋 AKPD - 30 Pernyataan</h2>';
-                document.body.innerHTML += '<p style="color:#6E7D77;font-size:13px;">Jawab dengan jujur sesuai kondisi Anda. Klik <strong>Ya</strong> jika sesuai, <strong>Tidak</strong> jika tidak sesuai.</p>';
-                document.body.innerHTML += '<div id="akpdSoalContainer"></div>';
-                document.body.innerHTML += '<button class="btn btn-success" onclick="submitAKPD()" style="width:100%;padding:14px;margin-top:16px;">📤 Kirim Jawaban</button>';
-                document.body.innerHTML += '<div id="akpdResult" style="margin-top:16px;display:none;"></div>';
-                document.body.innerHTML += '<div style="margin-top:20px;text-align:center;color:#6E7D77;font-size:11px;">KONSELIA by NaFaS BK © 2026</div></div>';
-                document.body.innerHTML += '<style>.form-group{margin-bottom:14px}.form-control{width:100%;padding:10px;border:2px solid #E8EDEA;border-radius:10px;font-size:14px;}.btn{padding:12px;border:0;border-radius:10px;font-weight:600;cursor:pointer;}.btn-primary{background:#1A5A4A;color:#fff;}.btn-success{background:#2D8B7A;color:#fff;}.alert{padding:12px;border-radius:10px;margin:8px 0;}.alert-success{background:#d4edda;color:#155724;}.alert-danger{background:#f8d7da;color:#721c24;}.required{color:#C45A6D;}.soal-item{padding:10px 14px;margin:6px 0;background:#f8faf8;border-radius:8px;border-left:3px solid #1A5A4A;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;}.soal-item .soal{flex:1;font-size:14px;}.soal-item .bidang{font-size:10px;padding:2px 10px;border-radius:12px;background:#E8F3EF;color:#1A5A4A;}.radio-group{display:flex;gap:12px;}.radio-group label{display:flex;align-items:center;gap:4px;font-size:13px;cursor:pointer;}.radio-group input[type="radio"]{width:16px;height:16px;accent-color:#1A5A4A;}.progress-bar{height:6px;background:#E8EDEA;border-radius:10px;margin:12px 0;overflow:hidden;}.progress-fill{height:100%;background:#1A5A4A;border-radius:10px;transition:width 0.3s;}</style>';
+                    document.body.innerHTML += '<div id="akpdStep2" style="display:none;"><h2 style="color:#1A5A4A;">📋 AKPD - 30 Pernyataan</h2>';
+                    document.body.innerHTML += '<p style="color:#6E7D77;font-size:13px;">Jawab dengan jujur sesuai kondisi Anda. Klik <strong>Ya</strong> jika sesuai, <strong>Tidak</strong> jika tidak sesuai.</p>';
+                    document.body.innerHTML += '<div id="akpdSoalContainer"></div>';
+                    document.body.innerHTML += '<button class="btn btn-success" onclick="submitAKPD()" style="width:100%;padding:14px;margin-top:16px;">📤 Kirim Jawaban</button>';
+                    document.body.innerHTML += '<div id="akpdResult" style="margin-top:16px;display:none;"></div>';
+                    document.body.innerHTML += '<div style="margin-top:20px;text-align:center;color:#6E7D77;font-size:11px;">KONSELIA by NaFaS BK © 2026</div></div>';
+                    document.body.innerHTML += '<style>.form-group{margin-bottom:14px}.form-control{width:100%;padding:10px;border:2px solid #E8EDEA;border-radius:10px;font-size:14px;}.btn{padding:12px;border:0;border-radius:10px;font-weight:600;cursor:pointer;}.btn-primary{background:#1A5A4A;color:#fff;}.btn-success{background:#2D8B7A;color:#fff;}.alert{padding:12px;border-radius:10px;margin:8px 0;}.alert-success{background:#d4edda;color:#155724;}.alert-danger{background:#f8d7da;color:#721c24;}.required{color:#C45A6D;}.soal-item{padding:10px 14px;margin:6px 0;background:#f8faf8;border-radius:8px;border-left:3px solid #1A5A4A;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;}.soal-item .soal{flex:1;font-size:14px;}.soal-item .bidang{font-size:10px;padding:2px 10px;border-radius:12px;background:#E8F3EF;color:#1A5A4A;}.radio-group{display:flex;gap:12px;}.radio-group label{display:flex;align-items:center;gap:4px;font-size:13px;cursor:pointer;}.radio-group input[type="radio"]{width:16px;height:16px;accent-color:#1A5A4A;}.progress-bar{height:6px;background:#E8EDEA;border-radius:10px;margin:12px 0;overflow:hidden;}.progress-fill{height:100%;background:#1A5A4A;border-radius:10px;transition:width 0.3s;}</style>';
 
-                window.startAKPD = function() {
-                    var nama = document.getElementById('akpdSiswa').value.trim();
-                    if (!nama) { alert('⚠️ Nama wajib diisi!'); return; }
-                    window._akpdData = {
-                        nama: nama,
-                        kelas: document.getElementById('akpdSiswaKelas').value,
-                        jenjang: document.getElementById('akpdSiswaJenjang').value
-                    };
-                    document.getElementById('akpdStep1').style.display = 'none';
-                    document.getElementById('akpdStep2').style.display = 'block';
-                    var butir = AKPD_BUTIR[window._akpdData.jenjang] || AKPD_BUTIR.SMP;
-                    var container = document.getElementById('akpdSoalContainer');
-                    var html = '<div class="progress-bar"><div class="progress-fill" id="akpdProgress" style="width:0%;"></div></div>';
-                    for (var i = 0; i < butir.pernyataan.length; i++) {
-                        html += '<div class="soal-item"><div><span class="soal">' + (i+1) + '. ' + butir.pernyataan[i] + '</span> <span class="bidang">' + butir.bidang[i] + '</span></div>';
-                        html += '<div class="radio-group"><label><input type="radio" name="akpd_' + i + '" value="1" required> Ya</label><label><input type="radio" name="akpd_' + i + '" value="0" required> Tidak</label></div></div>';
-                    }
-                    container.innerHTML = html;
-                    document.querySelectorAll('#akpdSoalContainer input[type="radio"]').forEach(function(el) {
-                        el.addEventListener('change', function() {
-                            var total = 30;
-                            var terisi = document.querySelectorAll('#akpdSoalContainer input[type="radio"]:checked').length;
-                            document.getElementById('akpdProgress').style.width = Math.round((terisi / total) * 100) + '%';
+                    window._akpdSesi = sesiData;
+
+                    window.startAKPD = function() {
+                        var nama = document.getElementById('akpdSiswa').value.trim();
+                        if (!nama) { alert('⚠️ Nama wajib diisi!'); return; }
+                        window._akpdData = {
+                            nama: nama,
+                            kelas: document.getElementById('akpdSiswaKelas').value,
+                            jenjang: document.getElementById('akpdSiswaJenjang').value
+                        };
+                        document.getElementById('akpdStep1').style.display = 'none';
+                        document.getElementById('akpdStep2').style.display = 'block';
+                        var butir = AKPD_BUTIR[window._akpdData.jenjang] || AKPD_BUTIR.SMP;
+                        var container = document.getElementById('akpdSoalContainer');
+                        var html = '<div class="progress-bar"><div class="progress-fill" id="akpdProgress" style="width:0%;"></div></div>';
+                        for (var i = 0; i < butir.pernyataan.length; i++) {
+                            html += '<div class="soal-item"><div><span class="soal">' + (i+1) + '. ' + butir.pernyataan[i] + '</span> <span class="bidang">' + butir.bidang[i] + '</span></div>';
+                            html += '<div class="radio-group"><label><input type="radio" name="akpd_' + i + '" value="1" required> Ya</label><label><input type="radio" name="akpd_' + i + '" value="0" required> Tidak</label></div></div>';
+                        }
+                        container.innerHTML = html;
+                        document.querySelectorAll('#akpdSoalContainer input[type="radio"]').forEach(function(el) {
+                            el.addEventListener('change', function() {
+                                var total = 30;
+                                var terisi = document.querySelectorAll('#akpdSoalContainer input[type="radio"]:checked').length;
+                                document.getElementById('akpdProgress').style.width = Math.round((terisi / total) * 100) + '%';
+                            });
                         });
-                    });
-                };
+                    };
 
-                window.submitAKPD = function() {
-                    var data = window._akpdData;
-                    if (!data) { alert('⚠️ Data identitas tidak ditemukan!'); return; }
-                    var jawaban = [];
-                    var bidangCount = { Pribadi: 0, Sosial: 0, Belajar: 0, Karier: 0 };
-                    var bidangTotal = { Pribadi: 8, Sosial: 8, Belajar: 8, Karier: 6 };
-                    var butir = AKPD_BUTIR[data.jenjang] || AKPD_BUTIR.SMP;
-                    var semuaTerisi = true;
-                    for (var i = 0; i < butir.pernyataan.length; i++) {
-                        var el = document.querySelector('input[name="akpd_' + i + '"]:checked');
-                        if (!el) { semuaTerisi = false; break; }
-                        var nilai = parseInt(el.value);
-                        jawaban.push(nilai);
-                        var bidang = butir.bidang[i];
-                        if (nilai === 1) bidangCount[bidang] = (bidangCount[bidang] || 0) + 1;
-                    }
-                    if (!semuaTerisi) { alert('⚠️ Semua pernyataan harus dijawab!'); return; }
+                    window.submitAKPD = function() {
+                        var data = window._akpdData;
+                        if (!data) { alert('⚠️ Data identitas tidak ditemukan!'); return; }
+                        var jawaban = [];
+                        var bidangCount = { Pribadi: 0, Sosial: 0, Belajar: 0, Karier: 0 };
+                        var bidangTotal = { Pribadi: 8, Sosial: 8, Belajar: 8, Karier: 6 };
+                        var butir = AKPD_BUTIR[data.jenjang] || AKPD_BUTIR.SMP;
+                        var semuaTerisi = true;
+                        for (var i = 0; i < butir.pernyataan.length; i++) {
+                            var el = document.querySelector('input[name="akpd_' + i + '"]:checked');
+                            if (!el) { semuaTerisi = false; break; }
+                            var nilai = parseInt(el.value);
+                            jawaban.push(nilai);
+                            var bidang = butir.bidang[i];
+                            if (nilai === 1) bidangCount[bidang] = (bidangCount[bidang] || 0) + 1;
+                        }
+                        if (!semuaTerisi) { alert('⚠️ Semua pernyataan harus dijawab!'); return; }
 
-                    var pribadi = Math.round((bidangCount.Pribadi / bidangTotal.Pribadi) * 100);
-                    var sosial = Math.round((bidangCount.Sosial / bidangTotal.Sosial) * 100);
-                    var belajar = Math.round((bidangCount.Belajar / bidangTotal.Belajar) * 100);
-                    var karier = Math.round((bidangCount.Karier / bidangTotal.Karier) * 100);
+                        var pribadi = Math.round((bidangCount.Pribadi / bidangTotal.Pribadi) * 100);
+                        var sosial = Math.round((bidangCount.Sosial / bidangTotal.Sosial) * 100);
+                        var belajar = Math.round((bidangCount.Belajar / bidangTotal.Belajar) * 100);
+                        var karier = Math.round((bidangCount.Karier / bidangTotal.Karier) * 100);
 
-                    db.collection('konselia_hasil_akpd').add({
-                        siswa: data.nama,
-                        kelas: data.kelas,
-                        jenjang: data.jenjang,
-                        pribadi: pribadi,
-                        sosial: sosial,
-                        belajar: belajar,
-                        karier: karier,
-                        jawaban: jawaban,
-                        akpdId: id,
-                        tahun: sekolahData.year || '2026/2027',
-                        createdAt: new Date().toISOString()
-                    }).then(function() {
-                        var result = document.getElementById('akpdResult');
-                        result.style.display = 'block';
-                        result.innerHTML = '<div class="alert alert-success">✅ Terima kasih <strong>' + data.nama + '</strong>! Jawaban Anda berhasil dikirim. Guru BK akan memberikan tindak lanjut.</div>';
-                        document.getElementById('akpdStep2').style.display = 'none';
-                    }).catch(function(err) {
-                        var result = document.getElementById('akpdResult');
-                        result.style.display = 'block';
-                        result.innerHTML = '<div class="alert alert-danger">❌ Gagal mengirim: ' + err.message + '</div>';
-                    });
-                };
+                        db.collection('konselia_hasil_akpd').add({
+                            siswa: data.nama,
+                            kelas: data.kelas,
+                            jenjang: data.jenjang,
+                            pribadi: pribadi,
+                            sosial: sosial,
+                            belajar: belajar,
+                            karier: karier,
+                            jawaban: jawaban,
+                            akpdId: id,
+                            tahun: sekolahData.year || '2026/2027',
+                            createdAt: new Date().toISOString()
+                        }).then(function() {
+                            var result = document.getElementById('akpdResult');
+                            result.style.display = 'block';
+                            result.innerHTML = '<div class="alert alert-success">✅ Terima kasih <strong>' + data.nama + '</strong>! Jawaban Anda berhasil dikirim. Guru BK akan memberikan tindak lanjut.</div>';
+                            document.getElementById('akpdStep2').style.display = 'none';
+                        }).catch(function(err) {
+                            var result = document.getElementById('akpdResult');
+                            result.style.display = 'block';
+                            result.innerHTML = '<div class="alert alert-danger">❌ Gagal mengirim: ' + err.message + '</div>';
+                        });
+                    };
+                }).catch(function(err) {
+                    document.body.innerHTML += '<div class="alert alert-danger">❌ Gagal memuat sesi: ' + err.message + '</div>';
+                });
             }
         })();
 
         // ==================== START ====================
         init();
-        console.log('✅ KONSELIA by NaFaS BK v3.1 - AKPD Digital + Print + Entry Manual');
+        console.log('✅ KONSELIA by NaFaS BK v3.2 - AKPD per Kelas + 2 Mode');
         console.log('📅 Pilihan Tahun Ajaran: 2026/2027 - 2037/2038 (12 tahun)');
-        console.log('📚 60 Materi BK siap pakai');
-        console.log('📋 Sesi AKPD per kelas - Hasil & Rekomendasi langsung muncul');
+        console.log('📚 60 Materi BK per Kelas');
+        console.log('📋 Sesi AKPD per Kelas dengan 2 Mode: HP & Tanpa HP');
         console.log('🖨️ Print AKPD ringkas (2 per halaman)');
         console.log('📝 Entry Manual untuk siswa tanpa HP');
         console.log('✅ Siswa hanya input NAMA (kelas otomatis dari sesi)');
