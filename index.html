@@ -24,20 +24,9 @@
             --shadow: 0 4px 24px rgba(26, 90, 74, 0.12);
             --radius: 16px;
         }
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        body {
-            font-family: 'Segoe UI', system-ui, sans-serif;
-            background: var(--cream);
-            color: #1A3D32;
-        }
-        .app {
-            display: flex;
-            min-height: 100vh;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--cream); color: #1A3D32; }
+        .app { display: flex; min-height: 100vh; }
         .sidebar {
             width: 270px;
             background: linear-gradient(180deg, #1A5A4A, #0D3D32);
@@ -48,776 +37,265 @@
             overflow-y: auto;
             z-index: 100;
         }
-        .logo {
-            font-size: 22px;
-            font-weight: 800;
-            letter-spacing: .5px;
-        }
-        .logo span {
-            color: var(--secondary);
-        }
-        .logo .by {
-            font-size: 10px;
-            font-weight: 400;
-            opacity: .6;
-            display: block;
-            margin-top: 2px;
-        }
-        .nav {
-            margin-top: 28px;
-        }
+        .logo { font-size: 22px; font-weight: 800; letter-spacing: .5px; }
+        .logo span { color: var(--secondary); }
+        .logo .by { font-size: 10px; font-weight: 400; opacity: .6; display: block; margin-top: 2px; }
+        .nav { margin-top: 28px; }
         .nav button {
-            width: 100%;
-            border: 0;
-            background: transparent;
-            color: #d4e0db;
-            text-align: left;
-            padding: 11px 14px;
-            border-radius: 12px;
-            margin: 3px 0;
-            font-size: 13px;
-            cursor: pointer;
-            transition: .2s;
-            display: flex;
-            align-items: center;
-            gap: 10px;
+            width: 100%; border: 0; background: transparent; color: #d4e0db;
+            text-align: left; padding: 11px 14px; border-radius: 12px;
+            margin: 3px 0; font-size: 13px; cursor: pointer; transition: .2s;
+            display: flex; align-items: center; gap: 10px;
         }
-        .nav button:hover,
-        .nav button.active {
-            background: rgba(255, 255, 255, .12);
-            color: #fff;
+        .nav button:hover, .nav button.active {
+            background: rgba(255,255,255,.12); color: #fff;
             box-shadow: inset 3px 0 0 var(--secondary);
         }
-        .nav button .icon {
-            font-size: 18px;
-            width: 28px;
-        }
-        .main {
-            margin-left: 270px;
-            width: calc(100% - 270px);
-            padding: 28px 36px;
-        }
+        .nav button .icon { font-size: 18px; width: 28px; }
+        .main { margin-left: 270px; width: calc(100% - 270px); padding: 28px 36px; }
         .top {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 12px;
-            margin-bottom: 20px;
+            display: flex; justify-content: space-between; align-items: center;
+            flex-wrap: wrap; gap: 12px; margin-bottom: 20px;
         }
-        .top h1 {
-            font-size: 28px;
-            font-weight: 700;
-        }
-        .top .lead {
-            color: var(--gray);
-            margin-top: 4px;
-            font-size: 14px;
-        }
+        .top h1 { font-size: 28px; font-weight: 700; }
+        .top .lead { color: var(--gray); margin-top: 4px; font-size: 14px; }
         .badge-year {
-            background: #fff;
-            border: 1px solid var(--gray-light);
-            padding: 8px 16px;
-            border-radius: 30px;
-            font-size: 12px;
-            font-weight: 600;
-            box-shadow: var(--shadow);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            flex-wrap: wrap;
+            background: #fff; border: 1px solid var(--gray-light);
+            padding: 8px 16px; border-radius: 30px; font-size: 12px;
+            font-weight: 600; box-shadow: var(--shadow);
+            display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
         }
-        .badge-year select {
-            background: transparent;
-            border: 0;
-            font-weight: 600;
-            font-size: 12px;
-            color: var(--primary-dark);
-            cursor: pointer;
-            outline: none;
-        }
-        .page {
-            display: none;
-        }
-        .page.active {
-            display: block;
-        }
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 16px;
-        }
+        .badge-year select { background: transparent; border: 0; font-weight: 600; font-size: 12px; color: var(--primary-dark); cursor: pointer; outline: none; }
+        .page { display: none; }
+        .page.active { display: block; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; }
         .card {
-            background: #fff;
-            border-radius: var(--radius);
-            padding: 18px 20px;
-            border: 1px solid var(--gray-light);
-            box-shadow: var(--shadow);
-            transition: .2s;
+            background: #fff; border-radius: var(--radius); padding: 18px 20px;
+            border: 1px solid var(--gray-light); box-shadow: var(--shadow); transition: .2s;
         }
-        .card:hover {
-            transform: translateY(-2px);
-        }
-        .card .num {
-            font-size: 28px;
-            font-weight: 800;
-            color: var(--primary-dark);
-            margin-top: 4px;
-        }
-        .card .label {
-            font-size: 12px;
-            color: var(--gray);
-        }
+        .card:hover { transform: translateY(-2px); }
+        .card .num { font-size: 28px; font-weight: 800; color: var(--primary-dark); margin-top: 4px; }
+        .card .label { font-size: 12px; color: var(--gray); }
         .panel {
-            background: #fff;
-            border-radius: var(--radius);
-            padding: 20px 24px;
-            margin-bottom: 16px;
-            border: 1px solid var(--gray-light);
-            box-shadow: var(--shadow);
+            background: #fff; border-radius: var(--radius); padding: 20px 24px;
+            margin-bottom: 16px; border: 1px solid var(--gray-light); box-shadow: var(--shadow);
         }
         .panel-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-bottom: 14px;
+            display: flex; justify-content: space-between; align-items: center;
+            flex-wrap: wrap; gap: 10px; margin-bottom: 14px;
         }
-        .panel-header h2 {
-            font-size: 18px;
-            color: var(--primary-dark);
-        }
-        .panel-header .actions {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-        }
-        .two-col {
-            display: grid;
-            grid-template-columns: 1.5fr 1fr;
-            gap: 16px;
-        }
-        .form-group {
-            margin-bottom: 14px;
-        }
-        .form-group label {
-            display: block;
-            font-weight: 600;
-            font-size: 13px;
-            color: var(--primary-dark);
-            margin-bottom: 4px;
-        }
-        .form-group label .required {
-            color: var(--danger);
-        }
+        .panel-header h2 { font-size: 18px; color: var(--primary-dark); }
+        .panel-header .actions { display: flex; gap: 8px; flex-wrap: wrap; }
+        .two-col { display: grid; grid-template-columns: 1.5fr 1fr; gap: 16px; }
+        .form-group { margin-bottom: 14px; }
+        .form-group label { display: block; font-weight: 600; font-size: 13px; color: var(--primary-dark); margin-bottom: 4px; }
+        .form-group label .required { color: var(--danger); }
         .form-control {
-            width: 100%;
-            padding: 10px 14px;
-            border: 2px solid var(--gray-light);
-            border-radius: 10px;
-            font-size: 14px;
-            transition: .2s;
-            background: #fafcfa;
+            width: 100%; padding: 10px 14px; border: 2px solid var(--gray-light);
+            border-radius: 10px; font-size: 14px; transition: .2s; background: #fafcfa;
         }
-        .form-control:focus {
-            border-color: var(--primary);
-            outline: none;
-            box-shadow: 0 0 0 4px rgba(26, 90, 74, 0.08);
-        }
-        .form-row {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 14px;
-        }
-        textarea.form-control {
-            min-height: 80px;
-            resize: vertical;
-        }
+        .form-control:focus { border-color: var(--primary); outline: none; box-shadow: 0 0 0 4px rgba(26,90,74,0.08); }
+        .form-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; }
+        textarea.form-control { min-height: 80px; resize: vertical; }
         .btn {
-            padding: 10px 22px;
-            border: 0;
-            border-radius: 10px;
-            font-weight: 600;
-            font-size: 13px;
-            cursor: pointer;
-            transition: .2s;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
+            padding: 10px 22px; border: 0; border-radius: 10px; font-weight: 600;
+            font-size: 13px; cursor: pointer; transition: .2s;
+            display: inline-flex; align-items: center; gap: 6px;
         }
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 16px rgba(26, 90, 74, 0.20);
-        }
-        .btn-primary {
-            background: var(--primary);
-            color: #fff;
-        }
-        .btn-primary:hover {
-            background: var(--primary-dark);
-        }
-        .btn-success {
-            background: var(--success);
-            color: #fff;
-        }
-        .btn-success:hover {
-            background: #1f6d5f;
-        }
-        .btn-danger {
-            background: var(--danger);
-            color: #fff;
-        }
-        .btn-danger:hover {
-            background: #a84a5c;
-        }
-        .btn-warning {
-            background: var(--warning);
-            color: #fff;
-        }
-        .btn-warning:hover {
-            background: #d49c30;
-        }
-        .btn-outline {
-            background: transparent;
-            border: 2px solid var(--gray-light);
-            color: var(--gray);
-        }
-        .btn-outline:hover {
-            border-color: var(--primary);
-            color: var(--primary);
-            background: var(--primary-light);
-        }
-        .btn-sm {
-            padding: 5px 12px;
-            font-size: 11px;
-        }
-        .btn-block {
-            width: 100%;
-        }
+        .btn:hover { transform: translateY(-2px); box-shadow: 0 4px 16px rgba(26,90,74,0.20); }
+        .btn-primary { background: var(--primary); color: #fff; }
+        .btn-primary:hover { background: var(--primary-dark); }
+        .btn-success { background: var(--success); color: #fff; }
+        .btn-success:hover { background: #1f6d5f; }
+        .btn-danger { background: var(--danger); color: #fff; }
+        .btn-danger:hover { background: #a84a5c; }
+        .btn-warning { background: var(--warning); color: #fff; }
+        .btn-warning:hover { background: #d49c30; }
+        .btn-outline { background: transparent; border: 2px solid var(--gray-light); color: var(--gray); }
+        .btn-outline:hover { border-color: var(--primary); color: var(--primary); background: var(--primary-light); }
+        .btn-sm { padding: 5px 12px; font-size: 11px; }
+        .btn-block { width: 100%; }
         .badge {
-            display: inline-block;
-            padding: 3px 12px;
-            border-radius: 20px;
-            font-size: 11px;
-            font-weight: 600;
+            display: inline-block; padding: 3px 12px; border-radius: 20px;
+            font-size: 11px; font-weight: 600;
         }
-        .badge-primary {
-            background: var(--primary-light);
-            color: var(--primary);
-        }
-        .badge-success {
-            background: #d4edda;
-            color: #155724;
-        }
-        .badge-danger {
-            background: #f8d7da;
-            color: #721c24;
-        }
-        .badge-warning {
-            background: #fff3cd;
-            color: #856404;
-        }
-        .badge-info {
-            background: #d1ecf1;
-            color: #0c5460;
-        }
-        .badge-secondary {
-            background: var(--gray-light);
-            color: var(--gray);
-        }
-        .table-wrap {
-            overflow-x: auto;
-            border-radius: 10px;
-            border: 1px solid var(--gray-light);
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 13px;
-        }
+        .badge-primary { background: var(--primary-light); color: var(--primary); }
+        .badge-success { background: #d4edda; color: #155724; }
+        .badge-danger { background: #f8d7da; color: #721c24; }
+        .badge-warning { background: #fff3cd; color: #856404; }
+        .badge-info { background: #d1ecf1; color: #0c5460; }
+        .badge-secondary { background: var(--gray-light); color: var(--gray); }
+        .table-wrap { overflow-x: auto; border-radius: 10px; border: 1px solid var(--gray-light); }
+        table { width: 100%; border-collapse: collapse; font-size: 13px; }
         table th {
-            background: var(--primary-dark);
-            color: #fff;
-            padding: 10px 14px;
-            text-align: left;
-            font-weight: 600;
-            font-size: 12px;
-            position: sticky;
-            top: 0;
-            z-index: 10;
+            background: var(--primary-dark); color: #fff; padding: 10px 14px;
+            text-align: left; font-weight: 600; font-size: 12px;
+            position: sticky; top: 0; z-index: 10;
         }
-        table td {
-            padding: 10px 14px;
-            border-bottom: 1px solid var(--gray-light);
-            vertical-align: middle;
-        }
-        table tr:hover {
-            background: #f8faf8;
-        }
+        table td { padding: 10px 14px; border-bottom: 1px solid var(--gray-light); vertical-align: middle; }
+        table tr:hover { background: #f8faf8; }
         .modal-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            z-index: 999;
-            justify-content: center;
-            align-items: center;
+            display: none; position: fixed; top: 0; left: 0;
+            width: 100%; height: 100%; background: rgba(0,0,0,0.5);
+            z-index: 999; justify-content: center; align-items: center;
         }
-        .modal-overlay.active {
-            display: flex;
-        }
+        .modal-overlay.active { display: flex; }
         .modal-box {
-            background: #fff;
-            border-radius: var(--radius);
-            padding: 30px;
-            max-width: 750px;
-            width: 95%;
-            max-height: 90vh;
-            overflow-y: auto;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
-            animation: modalIn .3s ease;
+            background: #fff; border-radius: var(--radius); padding: 30px;
+            max-width: 750px; width: 95%; max-height: 90vh; overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.25); animation: modalIn .3s ease;
         }
         @keyframes modalIn {
-            from {
-                transform: translateY(-20px);
-                opacity: 0
-            }
-            to {
-                transform: translateY(0);
-                opacity: 1
-            }
+            from { transform: translateY(-20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
         }
         .modal-box .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 16px;
-            padding-bottom: 12px;
-            border-bottom: 2px solid var(--gray-light);
+            display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 16px; padding-bottom: 12px; border-bottom: 2px solid var(--gray-light);
         }
-        .modal-box .modal-header h2 {
-            font-size: 20px;
-            color: var(--primary-dark);
-        }
-        .modal-box .close-btn {
-            background: none;
-            border: 0;
-            font-size: 28px;
-            cursor: pointer;
-            color: var(--gray);
-            padding: 0 8px;
-        }
-        .modal-box .close-btn:hover {
-            color: var(--danger);
-        }
-        .alert {
-            padding: 12px 16px;
-            border-radius: 10px;
-            margin-bottom: 12px;
-            font-size: 13px;
-        }
-        .alert-success {
-            background: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
-        }
-        .alert-danger {
-            background: #f8d7da;
-            color: #721c24;
-            border: 1px solid #f5c6cb;
-        }
-        .alert-info {
-            background: #d1ecf1;
-            color: #0c5460;
-            border: 1px solid #bee5eb;
-        }
-        .alert-warning {
-            background: #fff3cd;
-            color: #856404;
-            border: 1px solid #ffeeba;
-        }
-        .loading {
-            text-align: center;
-            padding: 40px;
-            color: var(--gray);
-        }
+        .modal-box .modal-header h2 { font-size: 20px; color: var(--primary-dark); }
+        .modal-box .close-btn { background: none; border: 0; font-size: 28px; cursor: pointer; color: var(--gray); padding: 0 8px; }
+        .modal-box .close-btn:hover { color: var(--danger); }
+        .alert { padding: 12px 16px; border-radius: 10px; margin-bottom: 12px; font-size: 13px; }
+        .alert-success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .alert-danger { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+        .alert-info { background: #d1ecf1; color: #0c5460; border: 1px solid #bee5eb; }
+        .alert-warning { background: #fff3cd; color: #856404; border: 1px solid #ffeeba; }
+        .loading { text-align: center; padding: 40px; color: var(--gray); }
         .loading .spinner {
-            display: inline-block;
-            width: 30px;
-            height: 30px;
-            border: 3px solid var(--gray-light);
-            border-top-color: var(--primary);
-            border-radius: 50%;
-            animation: spin .8s linear infinite;
+            display: inline-block; width: 30px; height: 30px;
+            border: 3px solid var(--gray-light); border-top-color: var(--primary);
+            border-radius: 50%; animation: spin .8s linear infinite;
         }
-        @keyframes spin {
-            to {
-                transform: rotate(360deg)
-            }
-        }
+        @keyframes spin { to { transform: rotate(360deg); } }
         .material-card {
-            background: #fff;
-            border-radius: var(--radius);
-            padding: 16px;
-            border: 1px solid var(--gray-light);
-            transition: .2s;
-            cursor: pointer;
+            background: #fff; border-radius: var(--radius); padding: 16px;
+            border: 1px solid var(--gray-light); transition: .2s; cursor: pointer;
         }
-        .material-card:hover {
-            box-shadow: var(--shadow);
-            transform: translateY(-3px);
-        }
-        .material-card h3 {
-            font-size: 15px;
-            color: var(--primary-dark);
-            margin: 6px 0 4px;
-        }
-        .material-card .meta {
-            font-size: 11px;
-            color: var(--gray);
-        }
-        .chart-container {
-            background: #fafcfa;
-            padding: 16px;
-            border-radius: var(--radius);
-            border: 1px solid var(--gray-light);
-            margin: 10px 0;
-        }
-        .chart-container canvas {
-            max-height: 220px;
-            width: 100% !important;
-        }
-        .akpd-link-box {
-            background: #f0f8f5;
-            padding: 14px 18px;
-            border-radius: 10px;
-            border: 2px dashed var(--primary);
-            margin: 12px 0;
-        }
-        .akpd-link-box input {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid var(--gray-light);
-            border-radius: 8px;
-            font-size: 13px;
-            background: #fff;
-        }
-        .rekomendasi-list {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 8px;
-            margin-top: 8px;
-        }
+        .material-card:hover { box-shadow: var(--shadow); transform: translateY(-3px); }
+        .material-card h3 { font-size: 15px; color: var(--primary-dark); margin: 6px 0 4px; }
+        .material-card .meta { font-size: 11px; color: var(--gray); }
+        .chart-container { background: #fafcfa; padding: 16px; border-radius: var(--radius); border: 1px solid var(--gray-light); margin: 10px 0; }
+        .chart-container canvas { max-height: 220px; width: 100% !important; }
+        .akpd-link-box { background: #f0f8f5; padding: 14px 18px; border-radius: 10px; border: 2px dashed var(--primary); margin: 12px 0; }
+        .akpd-link-box input { width: 100%; padding: 10px; border: 1px solid var(--gray-light); border-radius: 8px; font-size: 13px; background: #fff; }
+        .rekomendasi-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 8px; margin-top: 8px; }
         .rekomendasi-item {
-            background: #f8faf8;
-            padding: 10px 14px;
-            border-radius: 8px;
+            background: #f8faf8; padding: 10px 14px; border-radius: 8px;
             border-left: 4px solid var(--primary);
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
+            display: flex; flex-direction: column; gap: 4px;
         }
-        .rekomendasi-item .name {
-            font-weight: 600;
-            font-size: 13px;
-        }
-        .rekomendasi-item .score {
-            font-weight: 700;
-            font-size: 14px;
-        }
-        .rekomendasi-item .score.high {
-            color: var(--danger);
-        }
-        .rekomendasi-item .score.medium {
-            color: var(--warning);
-        }
-        .rekomendasi-item .score.low {
-            color: var(--success);
-        }
-        .jurnal-status {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-            margin: 8px 0;
-        }
-        .jurnal-status .status-item {
-            padding: 4px 14px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 600;
-        }
-        .status-hadir {
-            background: #d4edda;
-            color: #155724;
-        }
-        .status-izin {
-            background: #fff3cd;
-            color: #856404;
-        }
-        .status-sakit {
-            background: #d1ecf1;
-            color: #0c5460;
-        }
-        .status-alpa {
-            background: #f8d7da;
-            color: #721c24;
-        }
-        .program-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 14px;
-        }
+        .rekomendasi-item .name { font-weight: 600; font-size: 13px; }
+        .rekomendasi-item .score { font-weight: 700; font-size: 14px; }
+        .rekomendasi-item .score.high { color: var(--danger); }
+        .rekomendasi-item .score.medium { color: var(--warning); }
+        .rekomendasi-item .score.low { color: var(--success); }
+        .jurnal-status { display: flex; gap: 8px; flex-wrap: wrap; margin: 8px 0; }
+        .jurnal-status .status-item { padding: 4px 14px; border-radius: 20px; font-size: 12px; font-weight: 600; }
+        .status-hadir { background: #d4edda; color: #155724; }
+        .status-izin { background: #fff3cd; color: #856404; }
+        .status-sakit { background: #d1ecf1; color: #0c5460; }
+        .status-alpa { background: #f8d7da; color: #721c24; }
+        .program-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 14px; }
         .program-card {
-            background: #f8faf8;
-            border-radius: var(--radius);
-            padding: 16px;
-            border: 1px solid var(--gray-light);
-            transition: .2s;
+            background: #f8faf8; border-radius: var(--radius); padding: 16px;
+            border: 1px solid var(--gray-light); transition: .2s;
         }
-        .program-card:hover {
-            box-shadow: var(--shadow);
-        }
-        .program-card h4 {
-            color: var(--primary-dark);
-            margin-bottom: 4px;
-        }
-        .program-card .meta {
-            font-size: 11px;
-            color: var(--gray);
-        }
-        .program-card .desc {
-            font-size: 13px;
-            margin: 6px 0;
-        }
+        .program-card:hover { box-shadow: var(--shadow); }
+        .program-card h4 { color: var(--primary-dark); margin-bottom: 4px; }
+        .program-card .meta { font-size: 11px; color: var(--gray); }
+        .program-card .desc { font-size: 13px; margin: 6px 0; }
         .asesmen-card {
-            background: #f8faf8;
-            border-radius: var(--radius);
-            padding: 16px;
+            background: #f8faf8; border-radius: var(--radius); padding: 16px;
             border: 1px solid var(--gray-light);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 10px;
+            display: flex; justify-content: space-between; align-items: center;
+            flex-wrap: wrap; gap: 10px;
         }
-        .asesmen-card:hover {
-            box-shadow: var(--shadow);
-        }
-        .asesmen-card .info h4 {
-            color: var(--primary-dark);
-            font-size: 15px;
-        }
-        .asesmen-card .info .desc {
-            font-size: 12px;
-            color: var(--gray);
-        }
+        .asesmen-card:hover { box-shadow: var(--shadow); }
+        .asesmen-card .info h4 { color: var(--primary-dark); font-size: 15px; }
+        .asesmen-card .info .desc { font-size: 12px; color: var(--gray); }
         .footer {
-            text-align: center;
-            padding: 16px 20px;
-            color: var(--gray);
-            font-size: 11px;
-            border-top: 1px solid var(--gray-light);
-            margin-top: 16px;
+            text-align: center; padding: 16px 20px; color: var(--gray);
+            font-size: 11px; border-top: 1px solid var(--gray-light); margin-top: 16px;
         }
-        .footer .brand {
-            font-weight: 600;
-            color: var(--primary);
-        }
-        .footer .brand span {
-            color: var(--secondary);
-        }
-        .version-tag {
-            font-size: 9px;
-            opacity: .5;
-            margin-left: 6px;
-        }
-        .user-badge {
-            background: rgba(255, 255, 255, 0.15);
-            padding: 4px 14px;
-            border-radius: 20px;
-            font-size: 12px;
-        }
-        .school-name {
-            font-weight: 600;
-            background: rgba(255, 255, 255, 0.10);
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 13px;
-        }
-        .radio-group {
-            display: flex;
-            gap: 16px;
-            margin-top: 4px;
-            flex-wrap: wrap;
-        }
-        .radio-group label {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            font-weight: 400;
-            font-size: 13px;
-            cursor: pointer;
-        }
-        .radio-group input[type="radio"] {
-            width: 16px;
-            height: 16px;
-            accent-color: var(--primary);
-        }
+        .footer .brand { font-weight: 600; color: var(--primary); }
+        .footer .brand span { color: var(--secondary); }
+        .version-tag { font-size: 9px; opacity: .5; margin-left: 6px; }
+        .user-badge { background: rgba(255,255,255,0.15); padding: 4px 14px; border-radius: 20px; font-size: 12px; }
+        .school-name { font-weight: 600; background: rgba(255,255,255,0.10); padding: 4px 12px; border-radius: 20px; font-size: 13px; }
+        .radio-group { display: flex; gap: 16px; margin-top: 4px; flex-wrap: wrap; }
+        .radio-group label { display: flex; align-items: center; gap: 6px; font-weight: 400; font-size: 13px; cursor: pointer; }
+        .radio-group input[type="radio"] { width: 16px; height: 16px; accent-color: var(--primary); }
         .soal-item {
-            padding: 10px 14px;
-            margin: 6px 0;
-            background: #f8faf8;
-            border-radius: 8px;
-            border-left: 3px solid #1A5A4A;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 8px;
+            padding: 10px 14px; margin: 6px 0; background: #f8faf8;
+            border-radius: 8px; border-left: 3px solid #1A5A4A;
+            display: flex; justify-content: space-between; align-items: center;
+            flex-wrap: wrap; gap: 8px;
         }
-        .soal-item .soal {
-            flex: 1;
-            font-size: 14px;
-        }
-        .soal-item .bidang {
-            font-size: 10px;
-            padding: 2px 10px;
-            border-radius: 12px;
-            background: #E8F3EF;
-            color: #1A5A4A;
-        }
-        .progress-bar {
-            height: 6px;
-            background: #E8EDEA;
-            border-radius: 10px;
-            margin: 12px 0;
-            overflow: hidden;
-        }
-        .progress-fill {
-            height: 100%;
-            background: #1A5A4A;
-            border-radius: 10px;
-            transition: width 0.3s;
-        }
+        .soal-item .soal { flex: 1; font-size: 14px; }
+        .soal-item .bidang { font-size: 10px; padding: 2px 10px; border-radius: 12px; background: #E8F3EF; color: #1A5A4A; }
+        .progress-bar { height: 6px; background: #E8EDEA; border-radius: 10px; margin: 12px 0; overflow: hidden; }
+        .progress-fill { height: 100%; background: #1A5A4A; border-radius: 10px; transition: width 0.3s; }
         .hasil-akpd-card {
-            background: #f8faf8;
-            border-radius: var(--radius);
-            padding: 16px;
-            border: 1px solid var(--gray-light);
-            margin: 8px 0;
-            text-align: center;
+            background: #f8faf8; border-radius: var(--radius); padding: 16px;
+            border: 1px solid var(--gray-light); margin: 8px 0; text-align: center;
         }
-        .hasil-akpd-card .nilai {
-            font-size: 32px;
-            font-weight: 800;
-        }
-        .hasil-akpd-card .nilai.tinggi {
-            color: var(--success);
-        }
-        .hasil-akpd-card .nilai.sedang {
-            color: var(--warning);
-        }
-        .hasil-akpd-card .nilai.rendah {
-            color: var(--danger);
-        }
-        .rekap-hasil-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 12px;
-            margin: 12px 0;
-        }
-        @media (max-width: 600px) {
-            .rekap-hasil-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-        .link-copy-success {
-            color: var(--success);
-            font-weight: 600;
-        }
-        .btn-copy-link {
-            background: var(--primary);
-            color: #fff;
-            border: 0;
-            padding: 6px 16px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 12px;
-            font-weight: 600;
-        }
-        .btn-copy-link:hover {
-            background: var(--primary-dark);
-        }
+        .hasil-akpd-card .nilai { font-size: 32px; font-weight: 800; }
+        .hasil-akpd-card .nilai.tinggi { color: var(--success); }
+        .hasil-akpd-card .nilai.sedang { color: var(--warning); }
+        .hasil-akpd-card .nilai.rendah { color: var(--danger); }
+        .rekap-hasil-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin: 12px 0; }
+        @media (max-width:600px) { .rekap-hasil-grid { grid-template-columns: repeat(2, 1fr); } }
+        .link-copy-success { color: var(--success); font-weight: 600; }
+        .btn-copy-link { background: var(--primary); color: #fff; border: 0; padding: 6px 16px; border-radius: 8px; cursor: pointer; font-size: 12px; font-weight: 600; }
+        .btn-copy-link:hover { background: var(--primary-dark); }
         .sesi-card {
-            background: #f8faf8;
-            border-radius: var(--radius);
-            padding: 16px;
-            border: 1px solid var(--gray-light);
-            margin: 8px 0;
-            transition: .2s;
+            background: #f8faf8; border-radius: var(--radius); padding: 16px;
+            border: 1px solid var(--gray-light); margin: 8px 0; transition: .2s;
         }
-        .sesi-card:hover {
-            box-shadow: var(--shadow);
+        .sesi-card:hover { box-shadow: var(--shadow); }
+        .sesi-card .judul { font-weight: 700; font-size: 15px; color: var(--primary-dark); }
+        .sesi-card .info { font-size: 12px; color: var(--gray); margin: 4px 0; }
+        .sesi-card .link-sesi { font-size: 12px; color: var(--primary); word-break: break-all; background: #fff; padding: 6px 10px; border-radius: 6px; border: 1px solid var(--gray-light); margin: 6px 0; }
+        .sesi-card .actions { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px; }
+
+        /* PRINT AKPD STYLE */
+        .print-akpd-container { display: none; }
+        @media print {
+            .no-print { display: none !important; }
+            .print-akpd-container { display: block !important; }
+            .akpd-print-item {
+                border: 1px solid #000;
+                padding: 8px 10px;
+                width: 48%;
+                float: left;
+                min-height: 180px;
+                font-size: 10px;
+                page-break-inside: avoid;
+                margin: 3px;
+            }
+            .akpd-print-item .header { text-align: center; font-weight: bold; border-bottom: 1px dashed #000; padding-bottom: 4px; font-size: 11px; }
+            .akpd-print-item .qr { text-align: center; margin: 3px 0; }
+            .akpd-print-item .field { margin: 2px 0; font-size: 10px; }
+            .akpd-print-item .field .line { display: inline-block; width: 120px; border-bottom: 1px solid #000; min-height: 14px; }
+            .akpd-print-item .field .label { display: inline-block; width: 60px; }
+            .akpd-print-item .keterangan { margin-top: 6px; font-size: 8px; border-top: 1px solid #ccc; padding-top: 4px; }
+            .page-break { page-break-after: always; clear: both; }
+            .akpd-print-item .no { font-size: 9px; color: #666; }
         }
-        .sesi-card .judul {
-            font-weight: 700;
-            font-size: 15px;
-            color: var(--primary-dark);
-        }
-        .sesi-card .info {
-            font-size: 12px;
-            color: var(--gray);
-            margin: 4px 0;
-        }
-        .sesi-card .link-sesi {
-            font-size: 12px;
-            color: var(--primary);
-            word-break: break-all;
-            background: #fff;
-            padding: 6px 10px;
-            border-radius: 6px;
-            border: 1px solid var(--gray-light);
-            margin: 6px 0;
-        }
+
         @media (max-width:768px) {
-            .sidebar {
-                width: 70px;
-                padding: 16px 10px
-            }
-            .sidebar .logo,
-            .sidebar .sub,
-            .sidebar .nav span {
-                display: none
-            }
-            .main {
-                margin-left: 70px;
-                width: calc(100% - 70px);
-                padding: 16px
-            }
-            .grid {
-                grid-template-columns: 1fr 1fr
-            }
-            .form-row {
-                grid-template-columns: 1fr
-            }
-            .modal-box {
-                padding: 16px
-            }
-            .two-col {
-                grid-template-columns: 1fr
-            }
+            .sidebar { width: 70px; padding: 16px 10px; }
+            .sidebar .logo, .sidebar .sub, .sidebar .nav span { display: none; }
+            .main { margin-left: 70px; width: calc(100% - 70px); padding: 16px; }
+            .grid { grid-template-columns: 1fr 1fr; }
+            .form-row { grid-template-columns: 1fr; }
+            .modal-box { padding: 16px; }
+            .two-col { grid-template-columns: 1fr; }
         }
         @media (max-width:480px) {
-            .grid {
-                grid-template-columns: 1fr
-            }
-            .main {
-                padding: 12px
-            }
+            .grid { grid-template-columns: 1fr; }
+            .main { padding: 12px; }
         }
     </style>
 </head>
@@ -838,7 +316,7 @@
                 <button onclick="showPage('asesmen')"><span class="icon">🧠</span><span>Asesmen Digital</span></button>
                 <button onclick="showPage('settings')"><span class="icon">⚙️</span><span>Pengaturan</span></button>
             </div>
-            <div style="position:absolute;bottom:20px;left:18px;font-size:10px;opacity:.4;">v3.0 · 2026</div>
+            <div style="position:absolute;bottom:20px;left:18px;font-size:10px;opacity:.4;">v3.1 · 2026</div>
         </aside>
 
         <!-- MAIN -->
@@ -887,13 +365,15 @@
                         <h2>📋 Sesi AKPD Digital</h2>
                         <div class="actions">
                             <button class="btn btn-primary" onclick="openModal('akpdModal')">➕ Buat Sesi AKPD</button>
+                            <button class="btn btn-success" onclick="openModal('printAKPDModal')">🖨️ Print AKPD</button>
+                            <button class="btn btn-warning" onclick="openModal('entryAKPDModal')">📝 Entry Manual</button>
                         </div>
                     </div>
                     <div style="margin-bottom:12px;padding:10px;background:#E8F3EF;border-radius:8px;">
                         <strong>💡 Alur Penggunaan:</strong><br>
                         1. Buat sesi AKPD untuk satu kelas<br>
-                        2. Salin link dan bagikan ke siswa<br>
-                        3. Siswa mengisi AKPD via link<br>
+                        2. Bagikan link ke siswa ATAU print AKPD untuk siswa tanpa HP<br>
+                        3. Siswa mengisi via link atau guru entry manual hasilnya<br>
                         4. Hasil & rekomendasi muncul otomatis di menu "Hasil AKPD"
                     </div>
                     <div id="akpdList"><div class="loading"><span class="spinner"></span> Memuat sesi AKPD...</div></div>
@@ -1027,7 +507,7 @@
                 <span>by NaFaS BK</span>
                 <span style="margin:0 8px;color:#d0d8e0;">|</span>
                 <span>AKPD Digital · 60 Materi BK · RPL · LKPD · Jurnal</span>
-                <span class="version-tag">v3.0</span>
+                <span class="version-tag">v3.1</span>
             </div>
         </main>
     </div>
@@ -1089,9 +569,41 @@
                     <input type="text" id="akpdLink" class="form-control" readonly style="flex:1;">
                     <button class="btn-copy-link" onclick="copyAKPDLinkFromModal()">📋 Salin</button>
                 </div>
-                <small style="color:var(--gray);font-size:11px;">💡 Siswa cukup klik link, isi data, dan kirim. Hasil otomatis masuk ke dashboard guru.</small>
+                <small style="color:var(--gray);font-size:11px;">💡 Siswa cukup klik link, isi NAMA (tanpa input kelas), dan kirim. Hasil otomatis masuk ke dashboard guru.</small>
             </div>
             <button class="btn btn-success" onclick="saveAKPD()">💾 Simpan Sesi & Buat Link</button>
+        </div>
+    </div>
+
+    <!-- MODAL PRINT AKPD -->
+    <div class="modal-overlay" id="printAKPDModal">
+        <div class="modal-box" style="max-width:900px;">
+            <div class="modal-header"><h2>🖨️ Print AKPD (Mode Tanpa HP)</h2><button class="close-btn" onclick="closeModal('printAKPDModal')">&times;</button></div>
+            <div id="printAKPDAlert"></div>
+            <div class="form-row">
+                <div class="form-group"><label>Pilih Sesi <span class="required">*</span></label><select id="printSesi" class="form-control"></select></div>
+                <div class="form-group"><label>Jumlah Print <span class="required">*</span></label><input type="number" id="printJumlah" class="form-control" value="30" min="1" max="50"></div>
+            </div>
+            <div style="background:#f0f8f5;padding:12px;border-radius:8px;margin:10px 0;border-left:4px solid var(--primary);">
+                <strong>💡 Tips:</strong> Print 2 AKPD per halaman (hemat kertas). Siswa mengisi di kertas, lalu guru entry hasilnya ke menu "Entry Manual".
+            </div>
+            <button class="btn btn-primary" onclick="generatePrintAKPD()" style="width:100%;padding:12px;">🖨️ Generate & Print</button>
+        </div>
+    </div>
+
+    <!-- MODAL ENTRY AKPD -->
+    <div class="modal-overlay" id="entryAKPDModal">
+        <div class="modal-box" style="max-width:900px;">
+            <div class="modal-header"><h2>📝 Entry Manual Hasil AKPD</h2><button class="close-btn" onclick="closeModal('entryAKPDModal')">&times;</button></div>
+            <div id="entryAKPDAlert"></div>
+            <div class="form-row">
+                <div class="form-group"><label>Pilih Sesi <span class="required">*</span></label><select id="entrySesi" class="form-control" onchange="loadEntrySiswa()"></select></div>
+                <div class="form-group"><label>Nama Siswa <span class="required">*</span></label><input type="text" id="entryNama" class="form-control" placeholder="Nama lengkap siswa"></div>
+            </div>
+            <div id="entrySoalContainer">
+                <div class="alert alert-info">⏳ Pilih sesi terlebih dahulu untuk menampilkan soal AKPD.</div>
+            </div>
+            <button class="btn btn-success" onclick="saveEntryAKPD()" style="width:100%;padding:12px;">💾 Simpan Hasil Entry</button>
         </div>
     </div>
 
@@ -1194,6 +706,7 @@
         var allGuru = [];
         var sekolahData = { name: '', year: '2026/2027' };
         var currentAKPDLink = '';
+        var currentEntrySoal = [];
 
         // ==================== TAHUN AJARAN ====================
         var AVAILABLE_YEARS = [];
@@ -1252,10 +765,10 @@
         // ==================== AKPD PER JENJANG (30 BUTIR) ====================
         var AKPD_BUTIR = {
             SMP: {
-                bidang: ['Pribadi', 'Pribadi', 'Pribadi', 'Pribadi', 'Pribadi', 'Pribadi', 'Pribadi', 'Pribadi',
-                    'Sosial', 'Sosial', 'Sosial', 'Sosial', 'Sosial', 'Sosial', 'Sosial', 'Sosial',
-                    'Belajar', 'Belajar', 'Belajar', 'Belajar', 'Belajar', 'Belajar', 'Belajar', 'Belajar',
-                    'Karier', 'Karier', 'Karier', 'Karier', 'Karier', 'Karier'
+                bidang: ['Pribadi','Pribadi','Pribadi','Pribadi','Pribadi','Pribadi','Pribadi','Pribadi',
+                    'Sosial','Sosial','Sosial','Sosial','Sosial','Sosial','Sosial','Sosial',
+                    'Belajar','Belajar','Belajar','Belajar','Belajar','Belajar','Belajar','Belajar',
+                    'Karier','Karier','Karier','Karier','Karier','Karier'
                 ],
                 pernyataan: [
                     "Saya belum bersungguh-sungguh dalam beribadah",
@@ -1291,10 +804,10 @@
                 ]
             },
             SMA: {
-                bidang: ['Pribadi', 'Pribadi', 'Pribadi', 'Pribadi', 'Pribadi', 'Pribadi', 'Pribadi', 'Pribadi',
-                    'Sosial', 'Sosial', 'Sosial', 'Sosial', 'Sosial', 'Sosial', 'Sosial', 'Sosial',
-                    'Belajar', 'Belajar', 'Belajar', 'Belajar', 'Belajar', 'Belajar', 'Belajar', 'Belajar',
-                    'Karier', 'Karier', 'Karier', 'Karier', 'Karier', 'Karier'
+                bidang: ['Pribadi','Pribadi','Pribadi','Pribadi','Pribadi','Pribadi','Pribadi','Pribadi',
+                    'Sosial','Sosial','Sosial','Sosial','Sosial','Sosial','Sosial','Sosial',
+                    'Belajar','Belajar','Belajar','Belajar','Belajar','Belajar','Belajar','Belajar',
+                    'Karier','Karier','Karier','Karier','Karier','Karier'
                 ],
                 pernyataan: [
                     "Saya belum konsisten dalam menjalankan ibadah",
@@ -1330,10 +843,10 @@
                 ]
             },
             SMK: {
-                bidang: ['Pribadi', 'Pribadi', 'Pribadi', 'Pribadi', 'Pribadi', 'Pribadi', 'Pribadi', 'Pribadi',
-                    'Sosial', 'Sosial', 'Sosial', 'Sosial', 'Sosial', 'Sosial', 'Sosial', 'Sosial',
-                    'Belajar', 'Belajar', 'Belajar', 'Belajar', 'Belajar', 'Belajar', 'Belajar', 'Belajar',
-                    'Karier', 'Karier', 'Karier', 'Karier', 'Karier', 'Karier'
+                bidang: ['Pribadi','Pribadi','Pribadi','Pribadi','Pribadi','Pribadi','Pribadi','Pribadi',
+                    'Sosial','Sosial','Sosial','Sosial','Sosial','Sosial','Sosial','Sosial',
+                    'Belajar','Belajar','Belajar','Belajar','Belajar','Belajar','Belajar','Belajar',
+                    'Karier','Karier','Karier','Karier','Karier','Karier'
                 ],
                 pernyataan: [
                     "Saya belum disiplin dalam beribadah",
@@ -1372,56 +885,52 @@
 
         // ==================== 60 MATERI ====================
         var DEFAULT_MATERI = [];
-        var SMP_MATERI_S1 = ["Aku Bangga Menjadi Siswa SMP", "Mengenal Diri Sendiri", "Disiplin & Tanggung Jawab",
-            "Tata Tertib Sekolah", "Cara Belajar di SMP", "Percaya Diri di Depan Umum",
-            "Membangun Kedekatan dengan Tuhan YME", "Pergaulan Sehat Remaja", "Mengelola Emosi Secara Sehat",
-            "Mental Juara dan Growth Mindset", "Bijak Menggunakan Game dan Internet",
-            "Rumah sebagai Tempat Bertumbuh", "Manajemen Waktu Remaja", "Mengenal Minat dan Bakat",
+        var SMP_MATERI_S1 = ["Aku Bangga Menjadi Siswa SMP","Mengenal Diri Sendiri","Disiplin & Tanggung Jawab",
+            "Tata Tertib Sekolah","Cara Belajar di SMP","Percaya Diri di Depan Umum",
+            "Membangun Kedekatan dengan Tuhan YME","Pergaulan Sehat Remaja","Mengelola Emosi Secara Sehat",
+            "Mental Juara dan Growth Mindset","Bijak Menggunakan Game dan Internet",
+            "Rumah sebagai Tempat Bertumbuh","Manajemen Waktu Remaja","Mengenal Minat dan Bakat",
             "Etika Bermedia Sosial"
         ];
-        var SMP_MATERI_S2 = ["Mengelola Waktu Belajar", "Menjalin Pertemanan Sehat", "Menghadapi Bullying",
-            "Belajar Kelompok Efektif", "Menjaga Kesehatan Mental", "Budaya Tertib Berlalu Lintas",
-            "Hidup Sehat Tanpa Rokok", "Ketahanan Diri dalam Keluarga", "Mental Health Awareness",
-            "Mengatasi Tekanan Akademik", "Aktif Bermasyarakat", "Digital Wellbeing",
-            "Manajemen Konflik", "Pendidikan Kesehatan Reproduksi Remaja", "Peran Gender dalam Kehidupan"
+        var SMP_MATERI_S2 = ["Mengelola Waktu Belajar","Menjalin Pertemanan Sehat","Menghadapi Bullying",
+            "Belajar Kelompok Efektif","Menjaga Kesehatan Mental","Budaya Tertib Berlalu Lintas",
+            "Hidup Sehat Tanpa Rokok","Ketahanan Diri dalam Keluarga","Mental Health Awareness",
+            "Mengatasi Tekanan Akademik","Aktif Bermasyarakat","Digital Wellbeing",
+            "Manajemen Konflik","Pendidikan Kesehatan Reproduksi Remaja","Peran Gender dalam Kehidupan"
         ];
-        var SMA_MATERI_S1 = ["Adaptasi di SMA", "Mengembangkan Potensi Diri", "Budaya Belajar SMA",
-            "Disiplin & Tanggung Jawab", "Memilih Jurusan", "Membangun Relasi Sehat",
-            "Manajemen Waktu & Prioritas", "Kesehatan Mental Remaja", "Komunikasi Efektif",
-            "Literasi Digital & Etika", "Motivasi Belajar", "Pengembangan Diri",
-            "Mengelola Harapan dan Masa Depan", "Motivasi Berprestasi", "Percaya Diri Berbicara"
+        var SMA_MATERI_S1 = ["Adaptasi di SMA","Mengembangkan Potensi Diri","Budaya Belajar SMA",
+            "Disiplin & Tanggung Jawab","Memilih Jurusan","Membangun Relasi Sehat",
+            "Manajemen Waktu & Prioritas","Kesehatan Mental Remaja","Komunikasi Efektif",
+            "Literasi Digital & Etika","Motivasi Belajar","Pengembangan Diri",
+            "Mengelola Harapan dan Masa Depan","Motivasi Berprestasi","Percaya Diri Berbicara"
         ];
-        var SMA_MATERI_S2 = ["Pemilihan Minat & Bakat", "Kreativitas & Inovasi", "Tanggung Jawab Sosial",
-            "Manajemen Stres", "Kepemimpinan", "Pengambilan Keputusan",
-            "Persiapan Karir", "Mengatasi Konflik", "Kecemasan Menghadapi Ujian",
-            "Etika Pergaulan", "Motivasi Berprestasi", "Kemandirian",
-            "Strategi Meningkatkan Prestasi", "Sukses Menghadapi Ujian", "Menjadi Pribadi Kreatif"
+        var SMA_MATERI_S2 = ["Pemilihan Minat & Bakat","Kreativitas & Inovasi","Tanggung Jawab Sosial",
+            "Manajemen Stres","Kepemimpinan","Pengambilan Keputusan",
+            "Persiapan Karir","Mengatasi Konflik","Kecemasan Menghadapi Ujian",
+            "Etika Pergaulan","Motivasi Berprestasi","Kemandirian",
+            "Strategi Meningkatkan Prestasi","Sukses Menghadapi Ujian","Menjadi Pribadi Kreatif"
         ];
-        var SMK_MATERI_S1 = ["Adaptasi di SMK", "Etika Profesi", "Membangun Karakter Vokasi",
-            "Disiplin Kerja", "Pengenalan Dunia Kerja", "Etos Kerja",
-            "Manajemen Waktu & Prioritas", "Kesehatan Mental & Fisik", "Komunikasi Efektif",
-            "Literasi Digital Vokasi", "Motivasi Belajar Vokasi", "Pengembangan Diri Vokasi",
-            "Merancang Karier Masa Depan", "Kepribadian dan Pilihan Karier", "Eksplorasi Dunia Kerja"
+        var SMK_MATERI_S1 = ["Adaptasi di SMK","Etika Profesi","Membangun Karakter Vokasi",
+            "Disiplin Kerja","Pengenalan Dunia Kerja","Etos Kerja",
+            "Manajemen Waktu & Prioritas","Kesehatan Mental & Fisik","Komunikasi Efektif",
+            "Literasi Digital Vokasi","Motivasi Belajar Vokasi","Pengembangan Diri Vokasi",
+            "Merancang Karier Masa Depan","Kepribadian dan Pilihan Karier","Eksplorasi Dunia Kerja"
         ];
-        var SMK_MATERI_S2 = ["Perencanaan Karir Vokasi", "Kreativitas & Inovasi Vokasi", "Tanggung Jawab Profesi",
-            "Manajemen Stres Kerja", "Kepemimpinan Vokasi", "Pengambilan Keputusan",
-            "Etos Kerja & Kedisiplinan", "Mengatasi Konflik", "Kecemasan Dunia Kerja",
-            "Etika & Moral Profesi", "Motivasi Berprestasi", "Kemandirian Profesi",
-            "Persiapan Administrasi Kerja", "Potensi Diri dan Program Studi", "Menetapkan Tujuan Karier"
+        var SMK_MATERI_S2 = ["Perencanaan Karir Vokasi","Kreativitas & Inovasi Vokasi","Tanggung Jawab Profesi",
+            "Manajemen Stres Kerja","Kepemimpinan Vokasi","Pengambilan Keputusan",
+            "Etos Kerja & Kedisiplinan","Mengatasi Konflik","Kecemasan Dunia Kerja",
+            "Etika & Moral Profesi","Motivasi Berprestasi","Kemandirian Profesi",
+            "Persiapan Administrasi Kerja","Potensi Diri dan Program Studi","Menetapkan Tujuan Karier"
         ];
 
         function buildDefaultMateri() {
             var result = [];
-            var bidang = ['Pribadi', 'Sosial', 'Belajar', 'Karier'];
-
+            var bidang = ['Pribadi','Sosial','Belajar','Karier'];
             function addMateri(list, jenjang, kelas, semester) {
                 for (var i = 0; i < list.length; i++) {
                     result.push({
-                        judul: list[i],
-                        jenjang: jenjang,
-                        kelas: kelas,
-                        semester: semester,
-                        bidang: bidang[i % 4],
+                        judul: list[i], jenjang: jenjang, kelas: kelas,
+                        semester: semester, bidang: bidang[i % 4],
                         deskripsi: 'Materi BK untuk siswa ' + jenjang + ' kelas ' + kelas + ' semester ' + semester
                     });
                 }
@@ -1438,25 +947,17 @@
 
         // ==================== DEFAULT DATA ====================
         var DEFAULT_ASESMEN = [
-            { nama: '🎨 Asesmen Gaya Belajar', jenjang: 'SMP', kelas: 'VII',
-            deskripsi: 'Mengidentifikasi gaya belajar siswa (Visual, Auditori, Kinestetik)', link: '#' },
-            { nama: '🌱 Asesmen Minat & Bakat', jenjang: 'SMP', kelas: 'VIII',
-            deskripsi: 'Mengenali minat dan bakat siswa', link: '#' },
-            { nama: '🧠 Asesmen Kesiapan Karir', jenjang: 'SMA', kelas: 'XII',
-            deskripsi: 'Mengukur kesiapan karir siswa', link: '#' },
-            { nama: '💼 Asesmen Etos Kerja', jenjang: 'SMK', kelas: 'XI', deskripsi: 'Mengukur etos kerja siswa SMK',
-                link: '#' }
+            { nama: '🎨 Asesmen Gaya Belajar', jenjang: 'SMP', kelas: 'VII', deskripsi: 'Mengidentifikasi gaya belajar siswa (Visual, Auditori, Kinestetik)', link: '#' },
+            { nama: '🌱 Asesmen Minat & Bakat', jenjang: 'SMP', kelas: 'VIII', deskripsi: 'Mengenali minat dan bakat siswa', link: '#' },
+            { nama: '🧠 Asesmen Kesiapan Karir', jenjang: 'SMA', kelas: 'XII', deskripsi: 'Mengukur kesiapan karir siswa', link: '#' },
+            { nama: '💼 Asesmen Etos Kerja', jenjang: 'SMK', kelas: 'XI', deskripsi: 'Mengukur etos kerja siswa SMK', link: '#' }
         ];
         var DEFAULT_GURU = [{ nama: 'Admin Utama', email: 'admin@konselia.com', role: 'admin' }];
         var DEFAULT_PROGRAM = [
-            { nama: 'Program BK Tahunan 2026/2027', jenis: 'Tahunan', tahun: '2026/2027',
-            deskripsi: 'Program layanan BK mencakup AKPD, layanan klasikal 30 topik, konseling individu 60 siswa, bimbingan kelompok 8 kali, home visit 6 siswa, dan panggilan orang tua 10 siswa.' },
-            { nama: 'Program Semester 1 - 2026/2027', jenis: 'Semester 1', tahun: '2026/2027',
-            deskripsi: 'AKPD awal semester, layanan klasikal 15 topik, konseling individu 30 siswa, bimbingan kelompok 4 kali.' },
-            { nama: 'Program Semester 2 - 2026/2027', jenis: 'Semester 2', tahun: '2026/2027',
-            deskripsi: 'AKPD awal semester, layanan klasikal 15 topik, konseling individu 30 siswa, bimbingan kelompok 4 kali.' },
-            { nama: 'Program Bulanan Juli 2026', jenis: 'Bulanan', tahun: '2026/2027',
-            deskripsi: 'Masa Pengenalan Lingkungan, adaptasi dan pengenalan layanan BK.' }
+            { nama: 'Program BK Tahunan 2026/2027', jenis: 'Tahunan', tahun: '2026/2027', deskripsi: 'Program layanan BK mencakup AKPD, layanan klasikal 30 topik, konseling individu 60 siswa, bimbingan kelompok 8 kali, home visit 6 siswa, dan panggilan orang tua 10 siswa.' },
+            { nama: 'Program Semester 1 - 2026/2027', jenis: 'Semester 1', tahun: '2026/2027', deskripsi: 'AKPD awal semester, layanan klasikal 15 topik, konseling individu 30 siswa, bimbingan kelompok 4 kali.' },
+            { nama: 'Program Semester 2 - 2026/2027', jenis: 'Semester 2', tahun: '2026/2027', deskripsi: 'AKPD awal semester, layanan klasikal 15 topik, konseling individu 30 siswa, bimbingan kelompok 4 kali.' },
+            { nama: 'Program Bulanan Juli 2026', jenis: 'Bulanan', tahun: '2026/2027', deskripsi: 'Masa Pengenalan Lingkungan, adaptasi dan pengenalan layanan BK.' }
         ];
 
         // ==================== FUNGSI UTAMA ====================
@@ -1510,7 +1011,9 @@
 
         function openModal(id) {
             document.getElementById(id).classList.add('active');
-            document.getElementById(id + 'Alert').innerHTML = '';
+            var alertId = id.replace('Modal', 'Alert');
+            var alertEl = document.getElementById(alertId);
+            if (alertEl) alertEl.innerHTML = '';
             if (id === 'rplModal') populateRPLMateriSelect();
             if (id === 'jurnalModal') {
                 populateJurnalMateriSelect();
@@ -1521,6 +1024,12 @@
                 var link = window.location.href.split('?')[0] + '?mode=akpd&id=' + Date.now();
                 document.getElementById('akpdLink').value = link;
                 currentAKPDLink = link;
+            }
+            if (id === 'printAKPDModal') {
+                populatePrintSesiSelect();
+            }
+            if (id === 'entryAKPDModal') {
+                populateEntrySesiSelect();
             }
         }
 
@@ -1581,29 +1090,20 @@
             if (semester) filtered = filtered.filter(function(m) { return m.semester === semester; });
             if (search) filtered = filtered.filter(function(m) { return m.judul.toLowerCase().includes(search); });
             if (filtered.length === 0) {
-                container.innerHTML =
-                '<div class="alert alert-info">📭 Tidak ada materi. Klik "Tambah Materi" untuk menambahkan.</div>';
+                container.innerHTML = '<div class="alert alert-info">📭 Tidak ada materi. Klik "Tambah Materi" untuk menambahkan.</div>';
                 return;
             }
             var html = '<div class="grid">';
             for (var i = 0; i < filtered.length; i++) {
                 var m = filtered[i];
-                var badgeClass = m.bidang === 'Pribadi' ? 'badge-info' : m.bidang === 'Sosial' ? 'badge-success' : m
-                    .bidang === 'Belajar' ? 'badge-warning' : 'badge-danger';
+                var badgeClass = m.bidang === 'Pribadi' ? 'badge-info' : m.bidang === 'Sosial' ? 'badge-success' : m.bidang === 'Belajar' ? 'badge-warning' : 'badge-danger';
                 html += '<div class="material-card"><div><span class="badge ' + badgeClass + '">' + m.bidang +
-                    '</span><span class="badge badge-primary" style="margin-left:4px;">' + m.jenjang + ' ' + m
-                    .kelas + '</span><span class="badge badge-secondary" style="margin-left:4px;">Sem ' + m
-                    .semester + '</span></div>';
+                    '</span><span class="badge badge-primary" style="margin-left:4px;">' + m.jenjang + ' ' + m.kelas + '</span><span class="badge badge-secondary" style="margin-left:4px;">Sem ' + m.semester + '</span></div>';
                 html += '<h3>' + m.judul + '</h3><div class="meta">' + (m.deskripsi || '') +
                 '</div><div style="margin-top:8px;">';
-                if (m.fileUrl) html +=
-                    '<button class="btn btn-success btn-sm" onclick="window.open(\'' + m.fileUrl +
-                    '\',\'_blank\')">📥 Download</button>';
-                if (m.link) html +=
-                    ' <button class="btn btn-primary btn-sm" onclick="window.open(\'' + m.link +
-                    '\',\'_blank\')">🔗 Link</button>';
-                html += ' <button class="btn btn-danger btn-sm" onclick="deleteMateri(\'' + m.id +
-                '\')">🗑️</button></div></div>';
+                if (m.fileUrl) html += '<button class="btn btn-success btn-sm" onclick="window.open(\'' + m.fileUrl + '\',\'_blank\')">📥 Download</button>';
+                if (m.link) html += ' <button class="btn btn-primary btn-sm" onclick="window.open(\'' + m.link + '\',\'_blank\')">🔗 Link</button>';
+                html += ' <button class="btn btn-danger btn-sm" onclick="deleteMateri(\'' + m.id + '\')">🗑️</button></div></div>';
             }
             html += '</div>';
             container.innerHTML = html;
@@ -1620,17 +1120,11 @@
             var file = document.getElementById('materiFile').files[0];
             var alertEl = document.getElementById('materiModalAlert');
             if (!judul) { alertEl.innerHTML = '<div class="alert alert-danger">⚠️ Judul harus diisi!</div>'; return; }
-            if (!file && !link) { alertEl.innerHTML =
-                    '<div class="alert alert-danger">⚠️ Upload file PDF/PPT atau isi link materi!</div>'; return; }
+            if (!file && !link) { alertEl.innerHTML = '<div class="alert alert-danger">⚠️ Upload file PDF/PPT atau isi link materi!</div>'; return; }
             alertEl.innerHTML = '<div class="alert alert-info">⏳ Menyimpan...</div>';
             var data = {
-                judul: judul,
-                jenjang: jenjang,
-                kelas: kelas,
-                semester: semester,
-                bidang: bidang,
-                deskripsi: deskripsi,
-                link: link,
+                judul: judul, jenjang: jenjang, kelas: kelas, semester: semester,
+                bidang: bidang, deskripsi: deskripsi, link: link,
                 tahun: sekolahData.year || '2026/2027',
                 createdAt: new Date().toISOString()
             };
@@ -1643,18 +1137,14 @@
                     })
                     .then(function() {
                         alertEl.innerHTML = '<div class="alert alert-success">✅ Materi berhasil disimpan!</div>';
-                        setTimeout(function() { closeModal('materiModal');
-                            loadMateri(); }, 1000);
+                        setTimeout(function() { closeModal('materiModal'); loadMateri(); }, 1000);
                     })
-                    .catch(function(err) { alertEl.innerHTML = '<div class="alert alert-danger">❌ Gagal upload: ' +
-                            err.message + '</div>'; });
+                    .catch(function(err) { alertEl.innerHTML = '<div class="alert alert-danger">❌ Gagal upload: ' + err.message + '</div>'; });
             } else {
                 db.collection('konselia_materi').add(data).then(function() {
                     alertEl.innerHTML = '<div class="alert alert-success">✅ Materi berhasil disimpan!</div>';
-                    setTimeout(function() { closeModal('materiModal');
-                        loadMateri(); }, 1000);
-                }).catch(function(err) { alertEl.innerHTML = '<div class="alert alert-danger">❌ Gagal: ' + err
-                        .message + '</div>'; });
+                    setTimeout(function() { closeModal('materiModal'); loadMateri(); }, 1000);
+                }).catch(function(err) { alertEl.innerHTML = '<div class="alert alert-danger">❌ Gagal: ' + err.message + '</div>'; });
             }
         }
 
@@ -1675,27 +1165,20 @@
                     allRPL.push(data);
                 });
                 renderRPL();
-            }).catch(function() { allRPL = [];
-                renderRPL(); });
+            }).catch(function() { allRPL = []; renderRPL(); });
         }
 
         function renderRPL() {
             var container = document.getElementById('rplList');
             if (allRPL.length === 0) {
-                container.innerHTML =
-                    '<div class="alert alert-info">📭 Belum ada RPL. Klik "Buat RPL" untuk membuat.</div>';
+                container.innerHTML = '<div class="alert alert-info">📭 Belum ada RPL. Klik "Buat RPL" untuk membuat.</div>';
                 return;
             }
             var html = '<div class="table-wrap"><table><thead><tr><th>No</th><th>Judul</th><th>Kelas</th><th>Waktu</th><th>Aksi</th></tr></thead><tbody>';
             for (var i = 0; i < allRPL.length; i++) {
                 var r = allRPL[i];
-                html += '<tr><td>' + (i + 1) + '</td><td><strong>' + r.judul + '</strong></td><td>' + r.kelas +
-                    '</td><td>' + r.waktu + '</td>';
-                html +=
-                    '<td><button class="btn btn-primary btn-sm" onclick="viewRPL(\'' + r.id +
-                    '\')">📖</button><button class="btn btn-success btn-sm" onclick="exportRPLPDF(\'' + r.id +
-                    '\')">📥</button><button class="btn btn-danger btn-sm" onclick="deleteRPL(\'' + r.id +
-                    '\')">🗑️</button></td></tr>';
+                html += '<tr><td>' + (i+1) + '</td><td><strong>' + r.judul + '</strong></td><td>' + r.kelas + '</td><td>' + r.waktu + '</td>';
+                html += '<td><button class="btn btn-primary btn-sm" onclick="viewRPL(\'' + r.id + '\')">📖</button><button class="btn btn-success btn-sm" onclick="exportRPLPDF(\'' + r.id + '\')">📥</button><button class="btn btn-danger btn-sm" onclick="deleteRPL(\'' + r.id + '\')">🗑️</button></td></tr>';
             }
             html += '</tbody></table></div>';
             container.innerHTML = html;
@@ -1705,8 +1188,7 @@
             var select = document.getElementById('rplMateri');
             select.innerHTML = '<option value="">Pilih Materi</option>';
             for (var i = 0; i < allMateri.length; i++) {
-                select.innerHTML += '<option value="' + allMateri[i].id + '">' + allMateri[i].judul + ' (' + allMateri[
-                    i].jenjang + ' ' + allMateri[i].kelas + ')</option>';
+                select.innerHTML += '<option value="' + allMateri[i].id + '">' + allMateri[i].judul + ' (' + allMateri[i].jenjang + ' ' + allMateri[i].kelas + ')</option>';
             }
         }
 
@@ -1726,46 +1208,34 @@
             var materi = allMateri.find(function(m) { return m.id === materiId; });
             db.collection('konselia_rpl').add({
                 judul: materi ? materi.judul : 'Materi BK',
-                kelas: kelas,
-                waktu: waktu,
-                tujuan: tujuan,
-                metode: metode,
-                media: media,
-                kegiatan: kegiatan,
+                kelas: kelas, waktu: waktu, tujuan: tujuan,
+                metode: metode, media: media, kegiatan: kegiatan,
                 materiId: materiId,
                 tahun: sekolahData.year || '2026/2027',
                 createdAt: new Date().toISOString()
             }).then(function() {
                 alertEl.innerHTML = '<div class="alert alert-success">✅ RPL berhasil disimpan!</div>';
-                setTimeout(function() { closeModal('rplModal');
-                    loadRPL(); }, 1000);
-            }).catch(function(err) { alertEl.innerHTML = '<div class="alert alert-danger">❌ Gagal: ' + err
-                    .message + '</div>'; });
+                setTimeout(function() { closeModal('rplModal'); loadRPL(); }, 1000);
+            }).catch(function(err) { alertEl.innerHTML = '<div class="alert alert-danger">❌ Gagal: ' + err.message + '</div>'; });
         }
 
         function viewRPL(id) {
             var r = allRPL.find(function(item) { return item.id === id; });
             if (!r) { alert('RPL tidak ditemukan!'); return; }
-            alert('📝 RPL: ' + r.judul + '\n\n📚 Kelas: ' + r.kelas + '\n⏰ Waktu: ' + r.waktu + '\n\n🎯 Tujuan:\n' + r
-                .tujuan + '\n\n📋 Metode: ' + r.metode + '\n📺 Media: ' + r.media + '\n\n📝 Kegiatan:\n' + r
-                .kegiatan);
+            alert('📝 RPL: ' + r.judul + '\n\n📚 Kelas: ' + r.kelas + '\n⏰ Waktu: ' + r.waktu + '\n\n🎯 Tujuan:\n' + r.tujuan + '\n\n📋 Metode: ' + r.metode + '\n📺 Media: ' + r.media + '\n\n📝 Kegiatan:\n' + r.kegiatan);
         }
 
         function exportRPLPDF(id) {
             var r = allRPL.find(function(item) { return item.id === id; });
             if (!r) { alert('RPL tidak ditemukan!'); return; }
             var content = document.createElement('div');
-            content.innerHTML =
-                '<h1 style="text-align:center;color:#1A5A4A;">RENCANA PELAKSANAAN LAYANAN (RPL)</h1><h2 style="text-align:center;">' +
-                r.judul + '</h2><hr>';
-            content.innerHTML += '<p><strong>Kelas:</strong> ' + r.kelas + '</p><p><strong>Waktu:</strong> ' + r
-                .waktu + '</p>';
+            content.innerHTML = '<h1 style="text-align:center;color:#1A5A4A;">RENCANA PELAKSANAAN LAYANAN (RPL)</h1><h2 style="text-align:center;">' + r.judul + '</h2><hr>';
+            content.innerHTML += '<p><strong>Kelas:</strong> ' + r.kelas + '</p><p><strong>Waktu:</strong> ' + r.waktu + '</p>';
             content.innerHTML += '<h3>Tujuan Layanan</h3><p>' + r.tujuan + '</p>';
             content.innerHTML += '<h3>Metode</h3><p>' + r.metode + '</p>';
             content.innerHTML += '<h3>Media</h3><p>' + r.media + '</p>';
             content.innerHTML += '<h3>Kegiatan</h3><pre style="white-space:pre-wrap;">' + r.kegiatan + '</pre>';
-            content.innerHTML += '<hr><p style="text-align:center;color:#6e7d77;">KONSELIA by NaFaS BK - ' + new Date()
-                .toLocaleDateString('id-ID') + '</p>';
+            content.innerHTML += '<hr><p style="text-align:center;color:#6e7d77;">KONSELIA by NaFaS BK - ' + new Date().toLocaleDateString('id-ID') + '</p>';
             html2pdf().from(content).save('RPL_' + r.judul + '.pdf');
         }
 
@@ -1776,16 +1246,12 @@
 
         function generateLKPD() {
             var content = document.createElement('div');
-            content.innerHTML =
-                '<h1 style="text-align:center;color:#1A5A4A;">LEMBAR KERJA PESERTA DIDIK (LKPD)</h1><hr>';
-            content.innerHTML +=
-                '<p><strong>Nama:</strong> ______________________</p><p><strong>Kelas:</strong> ______________________</p><p><strong>Tanggal:</strong> ______________________</p><hr>';
-            content.innerHTML +=
-                '<h3>Petunjuk:</h3><ol><li>Baca materi dengan saksama</li><li>Jawab pertanyaan dengan jujur</li><li>Kerjakan secara mandiri</li></ol>';
-            content.innerHTML +=
-                '<h3>Pertanyaan:</h3><ol><li>Apa yang kamu pelajari dari materi ini?</li><li>Apa manfaat yang kamu dapatkan?</li><li>Apa yang akan kamu terapkan?</li></ol>';
+            content.innerHTML = '<h1 style="text-align:center;color:#1A5A4A;">LEMBAR KERJA PESERTA DIDIK (LKPD)</h1><hr>';
+            content.innerHTML += '<p><strong>Nama:</strong> ______________________</p><p><strong>Kelas:</strong> ______________________</p><p><strong>Tanggal:</strong> ______________________</p><hr>';
+            content.innerHTML += '<h3>Petunjuk:</h3><ol><li>Baca materi dengan saksama</li><li>Jawab pertanyaan dengan jujur</li><li>Kerjakan secara mandiri</li></ol>';
+            content.innerHTML += '<h3>Pertanyaan:</h3><ol><li>Apa yang kamu pelajari dari materi ini?</li><li>Apa manfaat yang kamu dapatkan?</li><li>Apa yang akan kamu terapkan?</li></ol>';
             content.innerHTML += '<hr><p style="text-align:center;color:#6e7d77;">KONSELIA by NaFaS BK</p>';
-            html2pdf().from(content).save('LKPD_' + new Date().toISOString().slice(0, 10) + '.pdf');
+            html2pdf().from(content).save('LKPD_' + new Date().toISOString().slice(0,10) + '.pdf');
         }
 
         // ==================== AKPD - SESI ====================
@@ -1800,15 +1266,13 @@
                     allAKPD.push(data);
                 });
                 renderAKPD();
-            }).catch(function() { allAKPD = [];
-                renderAKPD(); });
+            }).catch(function() { allAKPD = []; renderAKPD(); });
         }
 
         function renderAKPD() {
             var container = document.getElementById('akpdList');
             if (allAKPD.length === 0) {
-                container.innerHTML =
-                    '<div class="alert alert-info">📭 Belum ada sesi AKPD. Klik "Buat Sesi AKPD" untuk membuat.</div>';
+                container.innerHTML = '<div class="alert alert-info">📭 Belum ada sesi AKPD. Klik "Buat Sesi AKPD" untuk membuat.</div>';
                 return;
             }
             var html = '';
@@ -1817,15 +1281,14 @@
                 var totalSiswa = a.jumlahSiswa || 0;
                 html += '<div class="sesi-card">';
                 html += '<div class="judul">📋 ' + a.nama + '</div>';
-                html += '<div class="info">📚 ' + a.jenjang + ' ' + a.kelas + ' | 👥 ' + totalSiswa +
-                ' siswa | 📅 ' + new Date(a.createdAt).toLocaleDateString('id-ID') + '</div>';
+                html += '<div class="info">📚 ' + a.jenjang + ' ' + a.kelas + ' | 👥 ' + totalSiswa + ' siswa | 📅 ' + new Date(a.createdAt).toLocaleDateString('id-ID') + '</div>';
                 html += '<div class="link-sesi">🔗 ' + (a.link || '-') + '</div>';
-                html +=
-                    '<div style="margin-top:8px;display:flex;gap:6px;flex-wrap:wrap;"><button class="btn btn-primary btn-sm" onclick="copyAKPDLink(\'' +
-                    a.id + '\')">📋 Salin Link</button>';
-                html +=
-                    ' <button class="btn btn-danger btn-sm" onclick="deleteAKPD(\'' + a.id + '\')">🗑️ Hapus Sesi</button></div>';
-                html += '</div>';
+                html += '<div class="actions">';
+                html += '<button class="btn btn-primary btn-sm" onclick="copyAKPDLink(\'' + a.id + '\')">📋 Salin Link</button>';
+                html += '<button class="btn btn-success btn-sm" onclick="printAKPDSesi(\'' + a.id + '\')">🖨️ Print AKPD</button>';
+                html += '<button class="btn btn-warning btn-sm" onclick="entryAKPDSesi(\'' + a.id + '\')">📝 Entry Manual</button>';
+                html += '<button class="btn btn-danger btn-sm" onclick="deleteAKPD(\'' + a.id + '\')">🗑️ Hapus</button>';
+                html += '</div></div>';
             }
             container.innerHTML = html;
         }
@@ -1842,20 +1305,14 @@
                 return;
             }
             db.collection('konselia_akpd').add({
-                nama: nama,
-                jenjang: jenjang,
-                kelas: kelas,
-                jumlahSiswa: jumlahSiswa,
-                link: link,
+                nama: nama, jenjang: jenjang, kelas: kelas,
+                jumlahSiswa: jumlahSiswa, link: link,
                 tahun: sekolahData.year || '2026/2027',
                 createdAt: new Date().toISOString()
             }).then(function() {
-                alertEl.innerHTML =
-                    '<div class="alert alert-success">✅ Sesi AKPD berhasil dibuat! Bagikan link ke siswa.</div>';
-                setTimeout(function() { closeModal('akpdModal');
-                    loadAKPD(); }, 1000);
-            }).catch(function(err) { alertEl.innerHTML = '<div class="alert alert-danger">❌ Gagal: ' + err
-                    .message + '</div>'; });
+                alertEl.innerHTML = '<div class="alert alert-success">✅ Sesi AKPD berhasil dibuat! Bagikan link ke siswa.</div>';
+                setTimeout(function() { closeModal('akpdModal'); loadAKPD(); }, 1000);
+            }).catch(function(err) { alertEl.innerHTML = '<div class="alert alert-danger">❌ Gagal: ' + err.message + '</div>'; });
         }
 
         function copyAKPDLink(id) {
@@ -1879,6 +1336,234 @@
             db.collection('konselia_akpd').doc(id).delete().then(function() { loadAKPD(); });
         }
 
+        // ==================== PRINT AKPD ====================
+        function populatePrintSesiSelect() {
+            var select = document.getElementById('printSesi');
+            select.innerHTML = '<option value="">Pilih Sesi</option>';
+            for (var i = 0; i < allAKPD.length; i++) {
+                select.innerHTML += '<option value="' + allAKPD[i].id + '">' + allAKPD[i].nama + ' (' + allAKPD[i].jenjang + ' ' + allAKPD[i].kelas + ')</option>';
+            }
+        }
+
+        function generatePrintAKPD() {
+            var sesiId = document.getElementById('printSesi').value;
+            var jumlah = parseInt(document.getElementById('printJumlah').value) || 30;
+            var alertEl = document.getElementById('printAKPDAlert');
+
+            if (!sesiId) {
+                alertEl.innerHTML = '<div class="alert alert-danger">⚠️ Pilih sesi terlebih dahulu!</div>';
+                return;
+            }
+
+            var sesi = allAKPD.find(function(s) { return s.id === sesiId; });
+            if (!sesi) {
+                alertEl.innerHTML = '<div class="alert alert-danger">⚠️ Sesi tidak ditemukan!</div>';
+                return;
+            }
+
+            closeModal('printAKPDModal');
+
+            // Build print content
+            var urlSiswa = window.location.href.split('?')[0] + '?mode=akpd&id=' + sesiId;
+            var jenjang = sesi.jenjang;
+            var butir = AKPD_BUTIR[jenjang] || AKPD_BUTIR.SMP;
+            var soalList = butir.pernyataan;
+            var bidangList = butir.bidang;
+
+            var printWin = window.open('', '_blank', 'width=900,height=700');
+            printWin.document.write('<html><head><title>AKPD - ' + sesi.nama + '</title>');
+            printWin.document.write('<style>');
+            printWin.document.write('* { margin: 0; padding: 0; box-sizing: border-box; }');
+            printWin.document.write('body { font-family: Arial, sans-serif; padding: 10px; background: #fff; }');
+            printWin.document.write('.akpd-item { border: 1px solid #000; padding: 8px 10px; width: 48%; float: left; min-height: 190px; font-size: 10px; page-break-inside: avoid; margin: 3px; }');
+            printWin.document.write('.akpd-item .header { text-align: center; font-weight: bold; border-bottom: 1px dashed #000; padding-bottom: 4px; font-size: 11px; }');
+            printWin.document.write('.akpd-item .qr { text-align: center; margin: 3px 0; font-size: 9px; }');
+            printWin.document.write('.akpd-item .field { margin: 2px 0; font-size: 10px; }');
+            printWin.document.write('.akpd-item .field .line { display: inline-block; width: 100px; border-bottom: 1px solid #000; min-height: 14px; }');
+            printWin.document.write('.akpd-item .field .label { display: inline-block; width: 55px; }');
+            printWin.document.write('.akpd-item .keterangan { margin-top: 5px; font-size: 8px; border-top: 1px solid #ccc; padding-top: 4px; }');
+            printWin.document.write('.akpd-item .no { font-size: 9px; color: #666; }');
+            printWin.document.write('.akpd-item .soal-print { font-size: 8px; margin: 1px 0; }');
+            printWin.document.write('.page-break { page-break-after: always; clear: both; }');
+            printWin.document.write('.header-print { text-align: center; margin-bottom: 10px; }');
+            printWin.document.write('.header-print h2 { color: #1A5A4A; }');
+            printWin.document.write('.header-print p { color: #666; font-size: 11px; }');
+            printWin.document.write('.clear { clear: both; }');
+            printWin.document.write('.soal-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px 10px; font-size: 8px; }');
+            printWin.document.write('.soal-grid .s { padding: 1px 0; }');
+            printWin.document.write('.soal-grid .s .nomor { display: inline-block; width: 18px; }');
+            printWin.document.write('.soal-grid .s .jawab { display: inline-block; width: 35px; border-bottom: 1px solid #999; margin-left: 4px; }');
+            printWin.document.write('.soal-grid .s .bidang-tag { font-size: 7px; padding: 0 4px; border-radius: 3px; background: #E8F3EF; color: #1A5A4A; margin-left: 4px; }');
+            printWin.document.write('</style>');
+            printWin.document.write('</head><body>');
+
+            printWin.document.write('<div class="header-print">');
+            printWin.document.write('<h2>📋 AKPD - ' + sesi.nama + '</h2>');
+            printWin.document.write('<p>Kelas: ' + sesi.jenjang + ' ' + sesi.kelas + ' | Scan QR atau akses: ' + urlSiswa + '</p>');
+            printWin.document.write('<p style="font-size:9px;color:#999;">💡 Siswa cukup tulis NAMA (kelas otomatis dari sesi)</p>');
+            printWin.document.write('</div>');
+
+            for (var i = 1; i <= jumlah; i++) {
+                printWin.document.write('<div class="akpd-item">');
+                printWin.document.write('<div class="header">AKPD - ' + sesi.nama + ' <span class="no">(No.' + i + ')</span></div>');
+                printWin.document.write('<div class="qr">📱 Scan QR untuk akses online<br><span style="font-size:7px;color:#666;">' + urlSiswa + '</span></div>');
+                printWin.document.write('<div class="field"><span class="label">Nama:</span> <span class="line"></span></div>');
+                printWin.document.write('<div class="field"><span class="label">Tanggal:</span> <span class="line"></span></div>');
+                printWin.document.write('<div class="keterangan">');
+                printWin.document.write('<strong>📝 Isian untuk Guru (entry manual):</strong><br>');
+                printWin.document.write('<div class="soal-grid">');
+                for (var j = 0; j < soalList.length; j++) {
+                    var bidangTag = bidangList[j] || 'Pribadi';
+                    printWin.document.write('<div class="s"><span class="nomor">' + (j+1) + '.</span> ' + soalList[j].substring(0, 50) + (soalList[j].length > 50 ? '...' : '') + ' <span class="bidang-tag">' + bidangTag + '</span> <span class="jawab">&nbsp;&nbsp;&nbsp;</span></div>');
+                }
+                printWin.document.write('</div>');
+                printWin.document.write('</div>');
+                printWin.document.write('</div>');
+
+                if (i % 2 === 0 && i < jumlah) {
+                    printWin.document.write('<div class="page-break"></div>');
+                }
+            }
+
+            printWin.document.write('<div class="clear"></div>');
+            printWin.document.write('<div style="text-align:center;font-size:9px;color:#999;margin-top:10px;">KONSELIA by NaFaS BK © 2026</div>');
+            printWin.document.write('</body></html>');
+            printWin.document.close();
+            setTimeout(function() { printWin.print(); }, 500);
+        }
+
+        function printAKPDSesi(id) {
+            var sesi = allAKPD.find(function(s) { return s.id === id; });
+            if (!sesi) { alert('Sesi tidak ditemukan!'); return; }
+            document.getElementById('printSesi').value = id;
+            document.getElementById('printJumlah').value = sesi.jumlahSiswa || 30;
+            openModal('printAKPDModal');
+        }
+
+        // ==================== ENTRY MANUAL AKPD ====================
+        function populateEntrySesiSelect() {
+            var select = document.getElementById('entrySesi');
+            select.innerHTML = '<option value="">Pilih Sesi</option>';
+            for (var i = 0; i < allAKPD.length; i++) {
+                select.innerHTML += '<option value="' + allAKPD[i].id + '">' + allAKPD[i].nama + ' (' + allAKPD[i].jenjang + ' ' + allAKPD[i].kelas + ')</option>';
+            }
+        }
+
+        function loadEntrySiswa() {
+            var sesiId = document.getElementById('entrySesi').value;
+            var container = document.getElementById('entrySoalContainer');
+            var alertEl = document.getElementById('entryAKPDAlert');
+            alertEl.innerHTML = '';
+
+            if (!sesiId) {
+                container.innerHTML = '<div class="alert alert-info">⚠️ Pilih sesi terlebih dahulu.</div>';
+                return;
+            }
+
+            var sesi = allAKPD.find(function(s) { return s.id === sesiId; });
+            if (!sesi) {
+                container.innerHTML = '<div class="alert alert-danger">⚠️ Sesi tidak ditemukan!</div>';
+                return;
+            }
+
+            var butir = AKPD_BUTIR[sesi.jenjang] || AKPD_BUTIR.SMP;
+            currentEntrySoal = butir.pernyataan;
+
+            var html = '<div style="background:#f0f8f5;padding:12px;border-radius:8px;margin:8px 0;border-left:4px solid var(--primary);">';
+            html += '<strong>📚 ' + sesi.nama + '</strong> - ' + sesi.jenjang + ' ' + sesi.kelas;
+            html += '</div>';
+
+            html += '<div style="max-height:400px;overflow-y:auto;border:1px solid var(--gray-light);border-radius:8px;padding:8px;">';
+            for (var i = 0; i < butir.pernyataan.length; i++) {
+                html += '<div class="soal-item" style="font-size:12px;padding:6px 10px;margin:3px 0;">';
+                html += '<span class="soal" style="font-size:12px;">' + (i+1) + '. ' + butir.pernyataan[i] + ' <span class="bidang" style="font-size:9px;">' + butir.bidang[i] + '</span></span>';
+                html += '<div class="radio-group" style="gap:8px;">';
+                html += '<label style="font-size:12px;"><input type="radio" name="entry_soal_' + i + '" value="1"> Ya</label>';
+                html += '<label style="font-size:12px;"><input type="radio" name="entry_soal_' + i + '" value="0" checked> Tidak</label>';
+                html += '</div></div>';
+            }
+            html += '</div>';
+
+            container.innerHTML = html;
+        }
+
+        function entryAKPDSesi(id) {
+            document.getElementById('entrySesi').value = id;
+            openModal('entryAKPDModal');
+            loadEntrySiswa();
+        }
+
+        function saveEntryAKPD() {
+            var sesiId = document.getElementById('entrySesi').value;
+            var nama = document.getElementById('entryNama').value.trim();
+            var alertEl = document.getElementById('entryAKPDAlert');
+
+            if (!sesiId) {
+                alertEl.innerHTML = '<div class="alert alert-danger">⚠️ Pilih sesi terlebih dahulu!</div>';
+                return;
+            }
+            if (!nama) {
+                alertEl.innerHTML = '<div class="alert alert-danger">⚠️ Nama siswa harus diisi!</div>';
+                return;
+            }
+
+            var sesi = allAKPD.find(function(s) { return s.id === sesiId; });
+            if (!sesi) {
+                alertEl.innerHTML = '<div class="alert alert-danger">⚠️ Sesi tidak ditemukan!</div>';
+                return;
+            }
+
+            var butir = AKPD_BUTIR[sesi.jenjang] || AKPD_BUTIR.SMP;
+            var jawaban = [];
+            var semuaTerisi = true;
+            for (var i = 0; i < butir.pernyataan.length; i++) {
+                var el = document.querySelector('input[name="entry_soal_' + i + '"]:checked');
+                if (!el) { semuaTerisi = false; break; }
+                jawaban.push(parseInt(el.value));
+            }
+
+            if (!semuaTerisi) {
+                alertEl.innerHTML = '<div class="alert alert-danger">⚠️ Semua pernyataan harus dijawab!</div>';
+                return;
+            }
+
+            var bidangCount = { Pribadi: 0, Sosial: 0, Belajar: 0, Karier: 0 };
+            var bidangTotal = { Pribadi: 8, Sosial: 8, Belajar: 8, Karier: 6 };
+            for (var j = 0; j < jawaban.length; j++) {
+                var bidang = butir.bidang[j];
+                if (jawaban[j] === 1) bidangCount[bidang] = (bidangCount[bidang] || 0) + 1;
+            }
+
+            var pribadi = Math.round((bidangCount.Pribadi / bidangTotal.Pribadi) * 100);
+            var sosial = Math.round((bidangCount.Sosial / bidangTotal.Sosial) * 100);
+            var belajar = Math.round((bidangCount.Belajar / bidangTotal.Belajar) * 100);
+            var karier = Math.round((bidangCount.Karier / bidangTotal.Karier) * 100);
+
+            db.collection('konselia_hasil_akpd').add({
+                siswa: nama,
+                kelas: sesi.kelas,
+                jenjang: sesi.jenjang,
+                pribadi: pribadi,
+                sosial: sosial,
+                belajar: belajar,
+                karier: karier,
+                jawaban: jawaban,
+                akpdId: sesiId,
+                tahun: sekolahData.year || '2026/2027',
+                entryBy: 'guru',
+                createdAt: new Date().toISOString()
+            }).then(function() {
+                alertEl.innerHTML = '<div class="alert alert-success">✅ Data ' + nama + ' berhasil disimpan!</div>';
+                document.getElementById('entryNama').value = '';
+                setTimeout(function() {
+                    alertEl.innerHTML = '';
+                    loadEntrySiswa();
+                }, 2000);
+            }).catch(function(err) {
+                alertEl.innerHTML = '<div class="alert alert-danger">❌ Gagal: ' + err.message + '</div>';
+            });
+        }
+
         // ==================== HASIL AKPD ====================
         function loadHasilAKPD() {
             var container = document.getElementById('hasilAKPDContainer');
@@ -1889,8 +1574,7 @@
             sesiSelect.innerHTML = '<option value="">Semua Sesi</option>';
             for (var i = 0; i < allAKPD.length; i++) {
                 var selected = (allAKPD[i].id === currentSesi) ? 'selected' : '';
-                sesiSelect.innerHTML += '<option value="' + allAKPD[i].id + '" ' + selected + '>' + allAKPD[i].nama +
-                    ' (' + allAKPD[i].jenjang + ' ' + allAKPD[i].kelas + ')</option>';
+                sesiSelect.innerHTML += '<option value="' + allAKPD[i].id + '" ' + selected + '>' + allAKPD[i].nama + ' (' + allAKPD[i].jenjang + ' ' + allAKPD[i].kelas + ')</option>';
             }
 
             db.collection('konselia_hasil_akpd').orderBy('createdAt', 'desc').get().then(function(snapshot) {
@@ -1901,8 +1585,7 @@
                     allHasilAKPD.push(data);
                 });
                 renderHasilAKPD();
-            }).catch(function() { allHasilAKPD = [];
-                renderHasilAKPD(); });
+            }).catch(function() { allHasilAKPD = []; renderHasilAKPD(); });
         }
 
         function renderHasilAKPD() {
@@ -1920,15 +1603,11 @@
             if (jenjangFilter) filtered = filtered.filter(function(h) { return h.jenjang === jenjangFilter; });
 
             if (filtered.length === 0) {
-                container.innerHTML =
-                    '<div class="alert alert-info">📭 Belum ada hasil AKPD. Siswa perlu mengisi AKPD terlebih dahulu.</div>';
+                container.innerHTML = '<div class="alert alert-info">📭 Belum ada hasil AKPD. Siswa perlu mengisi AKPD terlebih dahulu.</div>';
                 return;
             }
 
-            var avgPribadi = 0,
-                avgSosial = 0,
-                avgBelajar = 0,
-                avgKarier = 0;
+            var avgPribadi = 0, avgSosial = 0, avgBelajar = 0, avgKarier = 0;
             for (var i = 0; i < filtered.length; i++) {
                 avgPribadi += filtered[i].pribadi || 0;
                 avgSosial += filtered[i].sosial || 0;
@@ -1940,41 +1619,28 @@
             avgBelajar = Math.round(avgBelajar / filtered.length);
             avgKarier = Math.round(avgKarier / filtered.length);
 
-            var html =
-                '<div style="margin-bottom:12px;padding:10px;background:#E8F3EF;border-radius:10px;"><strong>📊 ' +
-                filtered.length + ' siswa mengisi AKPD</strong></div>';
+            var html = '<div style="margin-bottom:12px;padding:10px;background:#E8F3EF;border-radius:10px;"><strong>📊 ' + filtered.length + ' siswa mengisi AKPD</strong></div>';
 
-            html +=
-                '<div class="chart-container"><h4>📊 Rata-rata Kebutuhan per Bidang</h4><canvas id="chartHasilAKPD" style="max-height:200px;"></canvas></div>';
+            html += '<div class="chart-container"><h4>📊 Rata-rata Kebutuhan per Bidang</h4><canvas id="chartHasilAKPD" style="max-height:200px;"></canvas></div>';
 
             var rekomendasi = [];
-            if (avgBelajar >= 65) rekomendasi.push({ bidang: 'Belajar', skor: avgBelajar,
-                materi: 'Manajemen Waktu, Belajar Efektif' });
-            if (avgKarier >= 65) rekomendasi.push({ bidang: 'Karier', skor: avgKarier,
-                materi: 'Perencanaan Karir, Persiapan Dunia Kerja' });
-            if (avgPribadi >= 65) rekomendasi.push({ bidang: 'Pribadi', skor: avgPribadi,
-                materi: 'Kesehatan Mental, Kepercayaan Diri' });
-            if (avgSosial >= 65) rekomendasi.push({ bidang: 'Sosial', skor: avgSosial,
-                materi: 'Komunikasi Efektif, Pergaulan Sehat' });
+            if (avgBelajar >= 65) rekomendasi.push({ bidang: 'Belajar', skor: avgBelajar, materi: 'Manajemen Waktu, Belajar Efektif' });
+            if (avgKarier >= 65) rekomendasi.push({ bidang: 'Karier', skor: avgKarier, materi: 'Perencanaan Karir, Persiapan Dunia Kerja' });
+            if (avgPribadi >= 65) rekomendasi.push({ bidang: 'Pribadi', skor: avgPribadi, materi: 'Kesehatan Mental, Kepercayaan Diri' });
+            if (avgSosial >= 65) rekomendasi.push({ bidang: 'Sosial', skor: avgSosial, materi: 'Komunikasi Efektif, Pergaulan Sehat' });
 
             if (rekomendasi.length > 0) {
-                html +=
-                    '<div class="panel" style="border:2px solid var(--primary);"><h4>🎯 Rekomendasi Materi BK (Rata-rata Kelas)</h4><div class="rekomendasi-list">';
+                html += '<div class="panel" style="border:2px solid var(--primary);"><h4>🎯 Rekomendasi Materi BK (Rata-rata Kelas)</h4><div class="rekomendasi-list">';
                 for (var r = 0; r < rekomendasi.length; r++) {
                     var rec = rekomendasi[r];
-                    html += '<div class="rekomendasi-item"><span class="name">' + rec.bidang +
-                        '</span><span class="score ' + (rec.skor >= 75 ? 'high' : rec.skor >= 65 ? 'medium' :
-                            'low') + '">' + rec.skor + '%</span><div style="font-size:10px;color:var(--gray);">' +
-                        rec.materi + '</div></div>';
+                    html += '<div class="rekomendasi-item"><span class="name">' + rec.bidang + '</span><span class="score ' + (rec.skor >= 75 ? 'high' : rec.skor >= 65 ? 'medium' : 'low') + '">' + rec.skor + '%</span><div style="font-size:10px;color:var(--gray);">' + rec.materi + '</div></div>';
                 }
                 html += '</div></div>';
             } else {
-                html +=
-                    '<div class="panel" style="border:2px solid var(--success);"><h4>✅ Semua bidang sudah baik! Pertahankan dan tingkatkan terus.</h4></div>';
+                html += '<div class="panel" style="border:2px solid var(--success);"><h4>✅ Semua bidang sudah baik! Pertahankan dan tingkatkan terus.</h4></div>';
             }
 
-            html +=
-                '<div class="table-wrap"><table><thead><tr><th>No</th><th>Siswa</th><th>Kelas</th><th>Pribadi</th><th>Sosial</th><th>Belajar</th><th>Karier</th><th>Status</th><th>Aksi</th></tr></thead><tbody>';
+            html += '<div class="table-wrap"><table><thead><tr><th>No</th><th>Siswa</th><th>Kelas</th><th>Pribadi</th><th>Sosial</th><th>Belajar</th><th>Karier</th><th>Status</th><th>Aksi</th></tr></thead><tbody>';
             for (var i = 0; i < filtered.length; i++) {
                 var h = filtered[i];
                 var minSkor = Math.min(h.pribadi || 0, h.sosial || 0, h.belajar || 0, h.karier || 0);
@@ -1991,23 +1657,13 @@
                     statusColor = 'badge-success';
                 }
 
-                html += '<tr><td>' + (i + 1) + '</td><td><strong>' + h.siswa + '</strong></td><td>' + h.kelas +
-                    '</td>';
-                html += '<td><span class="badge ' + (h.pribadi >= 70 ? 'badge-success' : h.pribadi >= 50 ?
-                    'badge-warning' :
-                    'badge-danger') + '">' + h.pribadi + '%</span></td>';
-                html += '<td><span class="badge ' + (h.sosial >= 70 ? 'badge-success' : h.sosial >= 50 ?
-                    'badge-warning' :
-                    'badge-danger') + '">' + h.sosial + '%</span></td>';
-                html += '<td><span class="badge ' + (h.belajar >= 70 ? 'badge-success' : h.belajar >= 50 ?
-                    'badge-warning' :
-                    'badge-danger') + '">' + h.belajar + '%</span></td>';
-                html += '<td><span class="badge ' + (h.karier >= 70 ? 'badge-success' : h.karier >= 50 ?
-                    'badge-warning' :
-                    'badge-danger') + '">' + h.karier + '%</span></td>';
+                html += '<tr><td>' + (i+1) + '</td><td><strong>' + h.siswa + '</strong></td><td>' + h.kelas + '</td>';
+                html += '<td><span class="badge ' + (h.pribadi >= 70 ? 'badge-success' : h.pribadi >= 50 ? 'badge-warning' : 'badge-danger') + '">' + h.pribadi + '%</span></td>';
+                html += '<td><span class="badge ' + (h.sosial >= 70 ? 'badge-success' : h.sosial >= 50 ? 'badge-warning' : 'badge-danger') + '">' + h.sosial + '%</span></td>';
+                html += '<td><span class="badge ' + (h.belajar >= 70 ? 'badge-success' : h.belajar >= 50 ? 'badge-warning' : 'badge-danger') + '">' + h.belajar + '%</span></td>';
+                html += '<td><span class="badge ' + (h.karier >= 70 ? 'badge-success' : h.karier >= 50 ? 'badge-warning' : 'badge-danger') + '">' + h.karier + '%</span></td>';
                 html += '<td><span class="badge ' + statusColor + '">' + status + '</span></td>';
-                html += '<td><button class="btn btn-primary btn-sm" onclick="viewDetailAKPD(\'' + h.id +
-                '\')">📊</button></td></tr>';
+                html += '<td><button class="btn btn-primary btn-sm" onclick="viewDetailAKPD(\'' + h.id + '\')">📊</button></td></tr>';
             }
             html += '</tbody></table></div>';
             container.innerHTML = html;
@@ -2057,9 +1713,7 @@
                 statusColor = '#2D8B7A';
             }
 
-            var html = '<div style="text-align:center;margin-bottom:16px;"><h3>' + h.siswa +
-                '</h3><p><strong>Kelas:</strong> ' + h.kelas + ' | <strong>Jenjang:</strong> ' + h.jenjang +
-                '</p></div>';
+            var html = '<div style="text-align:center;margin-bottom:16px;"><h3>' + h.siswa + '</h3><p><strong>Kelas:</strong> ' + h.kelas + ' | <strong>Jenjang:</strong> ' + h.jenjang + '</p></div>';
 
             html += '<div class="rekap-hasil-grid">';
             var items = [
@@ -2078,41 +1732,35 @@
             }
             html += '</div>';
 
-            html += '<div style="background:#f8faf8;padding:12px;border-radius:8px;margin-top:12px;border-left:4px solid ' +
-                statusColor + ';">';
+            html += '<div style="background:#f8faf8;padding:12px;border-radius:8px;margin-top:12px;border-left:4px solid ' + statusColor + ';">';
             html += '<strong>📋 Status Tindak Lanjut:</strong> ' + statusText;
             html += '</div>';
 
             var rekom = [];
             var needCounseling = false;
             if (h.belajar >= 70) rekom.push('📚 Manajemen Waktu & Belajar Efektif');
-            else if (h.belajar < 50) { rekom.push('📚 Bimbingan Belajar (Konseling Individu)');
-                needCounseling = true; } else rekom.push('📚 Bimbingan Belajar (Kelompok)');
+            else if (h.belajar < 50) { rekom.push('📚 Bimbingan Belajar (Konseling Individu)'); needCounseling = true; }
+            else rekom.push('📚 Bimbingan Belajar (Kelompok)');
 
             if (h.karier >= 70) rekom.push('🎯 Perencanaan Karir & Persiapan Masa Depan');
-            else if (h.karier < 50) { rekom.push('🎯 Konseling Karir (Individu)');
-                needCounseling = true; } else rekom.push('🎯 Bimbingan Karir (Kelompok)');
+            else if (h.karier < 50) { rekom.push('🎯 Konseling Karir (Individu)'); needCounseling = true; }
+            else rekom.push('🎯 Bimbingan Karir (Kelompok)');
 
             if (h.pribadi >= 70) rekom.push('💪 Kesehatan Mental & Kepercayaan Diri');
-            else if (h.pribadi < 50) { rekom.push('💪 Konseling Pribadi (Individu)');
-                needCounseling = true; } else rekom.push('💪 Bimbingan Pribadi (Kelompok)');
+            else if (h.pribadi < 50) { rekom.push('💪 Konseling Pribadi (Individu)'); needCounseling = true; }
+            else rekom.push('💪 Bimbingan Pribadi (Kelompok)');
 
             if (h.sosial >= 70) rekom.push('🤝 Komunikasi Efektif & Pergaulan Sehat');
-            else if (h.sosial < 50) { rekom.push('🤝 Konseling Sosial (Individu)');
-                needCounseling = true; } else rekom.push('🤝 Bimbingan Sosial (Kelompok)');
+            else if (h.sosial < 50) { rekom.push('🤝 Konseling Sosial (Individu)'); needCounseling = true; }
+            else rekom.push('🤝 Bimbingan Sosial (Kelompok)');
 
             if (rekom.length > 0) {
-                html +=
-                    '<div style="background:#E8F3EF;padding:12px;border-radius:8px;margin-top:12px;"><strong>🎯 Rekomendasi Layanan untuk ' +
-                    h.siswa + ':</strong><br>' + rekom.join('<br>') + '</div>';
+                html += '<div style="background:#E8F3EF;padding:12px;border-radius:8px;margin-top:12px;"><strong>🎯 Rekomendasi Layanan untuk ' + h.siswa + ':</strong><br>' + rekom.join('<br>') + '</div>';
             }
 
             if (needCounseling) {
-                html +=
-                    '<div style="background:#f8d7da;padding:12px;border-radius:8px;margin-top:12px;border:2px solid #C45A6D;">';
-                html +=
-                    '<strong>⚠️ Perhatian:</strong> ' + h.siswa +
-                    ' memerlukan <strong>Konseling Individu</strong> karena ada bidang dengan skor di bawah 50%. Silakan jadwalkan sesi konseling segera.';
+                html += '<div style="background:#f8d7da;padding:12px;border-radius:8px;margin-top:12px;border:2px solid #C45A6D;">';
+                html += '<strong>⚠️ Perhatian:</strong> ' + h.siswa + ' memerlukan <strong>Konseling Individu</strong> karena ada bidang dengan skor di bawah 50%. Silakan jadwalkan sesi konseling segera.';
                 html += '</div>';
             }
 
@@ -2126,7 +1774,7 @@
             var url = URL.createObjectURL(blob);
             var a = document.createElement('a');
             a.href = url;
-            a.download = 'hasil_akpd_' + new Date().toISOString().slice(0, 10) + '.json';
+            a.download = 'hasil_akpd_' + new Date().toISOString().slice(0,10) + '.json';
             a.click();
             URL.revokeObjectURL(url);
         }
@@ -2143,8 +1791,7 @@
                     allJurnal.push(data);
                 });
                 renderJurnal();
-            }).catch(function() { allJurnal = [];
-                renderJurnal(); });
+            }).catch(function() { allJurnal = []; renderJurnal(); });
         }
 
         function renderJurnal() {
@@ -2153,28 +1800,20 @@
             var monthFilter = document.getElementById('filterJurnalMonth').value;
             var filtered = allJurnal;
             if (kelasFilter) filtered = filtered.filter(function(j) { return j.kelas === kelasFilter; });
-            if (monthFilter) filtered = filtered.filter(function(j) { return j.tanggal && j.tanggal.startsWith(
-                monthFilter); });
+            if (monthFilter) filtered = filtered.filter(function(j) { return j.tanggal && j.tanggal.startsWith(monthFilter); });
             if (filtered.length === 0) {
-                container.innerHTML =
-                    '<div class="alert alert-info">📭 Belum ada jurnal. Klik "Tambah Jurnal" untuk mencatat.</div>';
+                container.innerHTML = '<div class="alert alert-info">📭 Belum ada jurnal. Klik "Tambah Jurnal" untuk mencatat.</div>';
                 return;
             }
-            var html =
-                '<div class="table-wrap"><table><thead><tr><th>Tanggal</th><th>Kelas</th><th>Materi</th><th>Hadir</th><th>Izin</th><th>Sakit</th><th>Alpa</th><th>Total</th><th>Catatan</th><th>Aksi</th></tr></thead><tbody>';
+            var html = '<div class="table-wrap"><table><thead><tr><th>Tanggal</th><th>Kelas</th><th>Materi</th><th>Hadir</th><th>Izin</th><th>Sakit</th><th>Alpa</th><th>Total</th><th>Catatan</th><th>Aksi</th></tr></thead><tbody>';
             for (var i = 0; i < filtered.length; i++) {
                 var j = filtered[i];
                 var total = (j.hadir || 0) + (j.izin || 0) + (j.sakit || 0) + (j.alpa || 0);
-                html += '<tr><td>' + (j.tanggal ? new Date(j.tanggal).toLocaleDateString('id-ID') : '-') +
-                '</td><td><strong>' + j.kelas + '</strong></td><td>' + j.materi + '</td>';
-                html += '<td><span class="status-hadir">' + (j.hadir || 0) + '</span></td><td><span class="status-izin">' +
-                    (j.izin || 0) + '</span></td>';
-                html += '<td><span class="status-sakit">' + (j.sakit || 0) + '</span></td><td><span class="status-alpa">' +
-                    (j.alpa || 0) + '</span></td>';
-                html += '<td><strong>' + total + '</strong></td><td style="max-width:150px;">' + (j.catatan || '-') +
-                    '</td>';
-                html += '<td><button class="btn btn-danger btn-sm" onclick="deleteJurnal(\'' + j.id +
-                '\')">🗑️</button></td></tr>';
+                html += '<tr><td>' + (j.tanggal ? new Date(j.tanggal).toLocaleDateString('id-ID') : '-') + '</td><td><strong>' + j.kelas + '</strong></td><td>' + j.materi + '</td>';
+                html += '<td><span class="status-hadir">' + (j.hadir || 0) + '</span></td><td><span class="status-izin">' + (j.izin || 0) + '</span></td>';
+                html += '<td><span class="status-sakit">' + (j.sakit || 0) + '</span></td><td><span class="status-alpa">' + (j.alpa || 0) + '</span></td>';
+                html += '<td><strong>' + total + '</strong></td><td style="max-width:150px;">' + (j.catatan || '-') + '</td>';
+                html += '<td><button class="btn btn-danger btn-sm" onclick="deleteJurnal(\'' + j.id + '\')">🗑️</button></td></tr>';
             }
             html += '</tbody></table></div>';
             container.innerHTML = html;
@@ -2184,8 +1823,7 @@
             var select = document.getElementById('jurnalMateri');
             select.innerHTML = '<option value="">Pilih Materi</option>';
             for (var i = 0; i < allMateri.length; i++) {
-                select.innerHTML += '<option value="' + allMateri[i].judul + '">' + allMateri[i].judul + ' (' +
-                    allMateri[i].jenjang + ' ' + allMateri[i].kelas + ')</option>';
+                select.innerHTML += '<option value="' + allMateri[i].judul + '">' + allMateri[i].judul + ' (' + allMateri[i].jenjang + ' ' + allMateri[i].kelas + ')</option>';
             }
         }
 
@@ -2201,28 +1839,19 @@
             var catatan = document.getElementById('jurnalCatatan').value.trim();
             var alertEl = document.getElementById('jurnalModalAlert');
             if (!tanggal || !kelas || !materi || !jumlah) {
-                alertEl.innerHTML =
-                    '<div class="alert alert-danger">⚠️ Tanggal, kelas, materi, dan jumlah siswa wajib diisi!</div>';
+                alertEl.innerHTML = '<div class="alert alert-danger">⚠️ Tanggal, kelas, materi, dan jumlah siswa wajib diisi!</div>';
                 return;
             }
             db.collection('konselia_jurnal').add({
-                tanggal: tanggal,
-                kelas: kelas,
-                materi: materi,
-                jumlah: jumlah,
-                hadir: hadir,
-                izin: izin,
-                sakit: sakit,
-                alpa: alpa,
+                tanggal: tanggal, kelas: kelas, materi: materi,
+                jumlah: jumlah, hadir: hadir, izin: izin, sakit: sakit, alpa: alpa,
                 catatan: catatan,
                 tahun: sekolahData.year || '2026/2027',
                 createdAt: new Date().toISOString()
             }).then(function() {
                 alertEl.innerHTML = '<div class="alert alert-success">✅ Jurnal berhasil disimpan!</div>';
-                setTimeout(function() { closeModal('jurnalModal');
-                    loadJurnal(); }, 1000);
-            }).catch(function(err) { alertEl.innerHTML = '<div class="alert alert-danger">❌ Gagal: ' + err
-                    .message + '</div>'; });
+                setTimeout(function() { closeModal('jurnalModal'); loadJurnal(); }, 1000);
+            }).catch(function(err) { alertEl.innerHTML = '<div class="alert alert-danger">❌ Gagal: ' + err.message + '</div>'; });
         }
 
         function deleteJurnal(id) {
@@ -2236,7 +1865,7 @@
             var url = URL.createObjectURL(blob);
             var a = document.createElement('a');
             a.href = url;
-            a.download = 'jurnal_bk_' + new Date().toISOString().slice(0, 10) + '.json';
+            a.download = 'jurnal_bk_' + new Date().toISOString().slice(0,10) + '.json';
             a.click();
             URL.revokeObjectURL(url);
         }
@@ -2259,28 +1888,21 @@
                     allProgram = DEFAULT_PROGRAM;
                 }
                 renderProgram();
-            }).catch(function() { allProgram = DEFAULT_PROGRAM;
-                renderProgram(); });
+            }).catch(function() { allProgram = DEFAULT_PROGRAM; renderProgram(); });
         }
 
         function renderProgram() {
             var container = document.getElementById('programList');
             if (allProgram.length === 0) {
-                container.innerHTML =
-                    '<div class="alert alert-info">📭 Belum ada program BK. Klik "Tambah Program" untuk membuat.</div>';
+                container.innerHTML = '<div class="alert alert-info">📭 Belum ada program BK. Klik "Tambah Program" untuk membuat.</div>';
                 return;
             }
             var html = '<div class="program-grid">';
             for (var i = 0; i < allProgram.length; i++) {
                 var p = allProgram[i];
-                var badgeClass = p.jenis === 'Tahunan' ? 'badge-danger' : p.jenis === 'Semester 1' ? 'badge-info' :
-                    p.jenis === 'Semester 2' ? 'badge-success' : 'badge-warning';
-                html += '<div class="program-card"><h4>' + p.nama + '</h4><div><span class="badge ' + badgeClass +
-                    '">' + p.jenis + '</span><span class="badge badge-secondary" style="margin-left:4px;">' + p
-                    .tahun + '</span></div>';
-                html += '<div class="desc">' + p.deskripsi +
-                    '</div><button class="btn btn-danger btn-sm" onclick="deleteProgram(\'' + p.id +
-                    '\')">🗑️</button></div>';
+                var badgeClass = p.jenis === 'Tahunan' ? 'badge-danger' : p.jenis === 'Semester 1' ? 'badge-info' : p.jenis === 'Semester 2' ? 'badge-success' : 'badge-warning';
+                html += '<div class="program-card"><h4>' + p.nama + '</h4><div><span class="badge ' + badgeClass + '">' + p.jenis + '</span><span class="badge badge-secondary" style="margin-left:4px;">' + p.tahun + '</span></div>';
+                html += '<div class="desc">' + p.deskripsi + '</div><button class="btn btn-danger btn-sm" onclick="deleteProgram(\'' + p.id + '\')">🗑️</button></div>';
             }
             html += '</div>';
             container.innerHTML = html;
@@ -2297,17 +1919,12 @@
                 return;
             }
             db.collection('konselia_program').add({
-                nama: nama,
-                jenis: jenis,
-                tahun: tahun,
-                deskripsi: deskripsi,
+                nama: nama, jenis: jenis, tahun: tahun, deskripsi: deskripsi,
                 createdAt: new Date().toISOString()
             }).then(function() {
                 alertEl.innerHTML = '<div class="alert alert-success">✅ Program berhasil dibuat!</div>';
-                setTimeout(function() { closeModal('programModal');
-                    loadProgram(); }, 1000);
-            }).catch(function(err) { alertEl.innerHTML = '<div class="alert alert-danger">❌ Gagal: ' + err
-                    .message + '</div>'; });
+                setTimeout(function() { closeModal('programModal'); loadProgram(); }, 1000);
+            }).catch(function(err) { alertEl.innerHTML = '<div class="alert alert-danger">❌ Gagal: ' + err.message + '</div>'; });
         }
 
         function deleteProgram(id) {
@@ -2333,26 +1950,20 @@
                     allAsesmen = DEFAULT_ASESMEN;
                 }
                 renderAsesmen();
-            }).catch(function() { allAsesmen = DEFAULT_ASESMEN;
-                renderAsesmen(); });
+            }).catch(function() { allAsesmen = DEFAULT_ASESMEN; renderAsesmen(); });
         }
 
         function renderAsesmen() {
             var container = document.getElementById('asesmenList');
             if (allAsesmen.length === 0) {
-                container.innerHTML =
-                    '<div class="alert alert-info">📭 Belum ada asesmen. Klik "Tambah Asesmen" untuk menambahkan.</div>';
+                container.innerHTML = '<div class="alert alert-info">📭 Belum ada asesmen. Klik "Tambah Asesmen" untuk menambahkan.</div>';
                 return;
             }
             var html = '';
             for (var i = 0; i < allAsesmen.length; i++) {
                 var a = allAsesmen[i];
-                html += '<div class="asesmen-card"><div class="info"><h4>' + a.nama + '</h4><div class="desc">' +
-                    a.jenjang + ' ' + a.kelas + ' | ' + (a.deskripsi || '') + '</div></div>';
-                html +=
-                    '<div><button class="btn btn-primary btn-sm" onclick="window.open(\'' + a.link +
-                    '\',\'_blank\')">🚀 Buka</button><button class="btn btn-danger btn-sm" onclick="deleteAsesmen(\'' +
-                    a.id + '\')">🗑️</button></div></div>';
+                html += '<div class="asesmen-card"><div class="info"><h4>' + a.nama + '</h4><div class="desc">' + a.jenjang + ' ' + a.kelas + ' | ' + (a.deskripsi || '') + '</div></div>';
+                html += '<div><button class="btn btn-primary btn-sm" onclick="window.open(\'' + a.link + '\',\'_blank\')">🚀 Buka</button><button class="btn btn-danger btn-sm" onclick="deleteAsesmen(\'' + a.id + '\')">🗑️</button></div></div>';
             }
             container.innerHTML = html;
         }
@@ -2369,19 +1980,14 @@
                 return;
             }
             db.collection('konselia_asesmen').add({
-                nama: nama,
-                jenjang: jenjang,
-                kelas: kelas,
-                deskripsi: deskripsi,
-                link: link,
+                nama: nama, jenjang: jenjang, kelas: kelas,
+                deskripsi: deskripsi, link: link,
                 tahun: sekolahData.year || '2026/2027',
                 createdAt: new Date().toISOString()
             }).then(function() {
                 alertEl.innerHTML = '<div class="alert alert-success">✅ Asesmen berhasil disimpan!</div>';
-                setTimeout(function() { closeModal('asesmenModal');
-                    loadAsesmen(); }, 1000);
-            }).catch(function(err) { alertEl.innerHTML = '<div class="alert alert-danger">❌ Gagal: ' + err
-                    .message + '</div>'; });
+                setTimeout(function() { closeModal('asesmenModal'); loadAsesmen(); }, 1000);
+            }).catch(function(err) { alertEl.innerHTML = '<div class="alert alert-danger">❌ Gagal: ' + err.message + '</div>'; });
         }
 
         function deleteAsesmen(id) {
@@ -2406,8 +2012,7 @@
                     allGuru = DEFAULT_GURU;
                 }
                 renderGuru();
-            }).catch(function() { allGuru = DEFAULT_GURU;
-                renderGuru(); });
+            }).catch(function() { allGuru = DEFAULT_GURU; renderGuru(); });
         }
 
         function renderGuru() {
@@ -2420,8 +2025,7 @@
             for (var i = 0; i < allGuru.length; i++) {
                 var g = allGuru[i];
                 html += '<div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--gray-light);font-size:12px;">';
-                html += '<span><strong>' + g.nama + '</strong> (' + g.email + ')</span><span class="badge badge-primary">' +
-                    (g.role || 'guru') + '</span></div>';
+                html += '<span><strong>' + g.nama + '</strong> (' + g.email + ')</span><span class="badge badge-primary">' + (g.role || 'guru') + '</span></div>';
             }
             html += '</div><button class="btn btn-primary btn-sm" onclick="openModal(\'guruModal\')" style="margin-top:8px;">➕ Tambah Guru</button>';
             container.innerHTML = html;
@@ -2442,17 +2046,12 @@
                 return;
             }
             db.collection('konselia_guru').add({
-                nama: nama,
-                email: email,
-                password: password,
-                role: role,
+                nama: nama, email: email, password: password, role: role,
                 createdAt: new Date().toISOString()
             }).then(function() {
                 alertEl.innerHTML = '<div class="alert alert-success">✅ Guru berhasil ditambahkan!</div>';
-                setTimeout(function() { closeModal('guruModal');
-                    loadGuru(); }, 1000);
-            }).catch(function(err) { alertEl.innerHTML = '<div class="alert alert-danger">❌ Gagal: ' + err
-                    .message + '</div>'; });
+                setTimeout(function() { closeModal('guruModal'); loadGuru(); }, 1000);
+            }).catch(function(err) { alertEl.innerHTML = '<div class="alert alert-danger">❌ Gagal: ' + err.message + '</div>'; });
         }
 
         // ==================== DASHBOARD ====================
@@ -2485,17 +2084,13 @@
                 var html = '';
                 for (var j = 0; j < items.length; j++) {
                     var item = items[j];
-                    var color = item.value >= 70 ? 'var(--danger)' : item.value >= 50 ? 'var(--warning)' :
-                        'var(--success)';
-                    html +=
-                        '<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--gray-light);">';
-                    html += '<span>' + item.label + '</span><span style="font-weight:700;color:' + color + ';">' +
-                        item.value + '%</span></div>';
+                    var color = item.value >= 70 ? 'var(--danger)' : item.value >= 50 ? 'var(--warning)' : 'var(--success)';
+                    html += '<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--gray-light);">';
+                    html += '<span>' + item.label + '</span><span style="font-weight:700;color:' + color + ';">' + item.value + '%</span></div>';
                 }
                 container.innerHTML = html;
             } else {
-                container.innerHTML =
-                    '<div class="alert alert-info">Belum ada data AKPD. Buat sesi AKPD dan bagikan link ke siswa.</div>';
+                container.innerHTML = '<div class="alert alert-info">Belum ada data AKPD. Buat sesi AKPD dan bagikan link ke siswa.</div>';
             }
         }
 
@@ -2547,22 +2142,17 @@
 
         function exportAllData() {
             var data = {
-                materi: allMateri,
-                rpl: allRPL,
-                akpd: allAKPD,
-                hasil: allHasilAKPD,
-                jurnal: allJurnal,
-                program: allProgram,
-                asesmen: allAsesmen,
-                guru: allGuru,
-                settings: sekolahData,
+                materi: allMateri, rpl: allRPL, akpd: allAKPD,
+                hasil: allHasilAKPD, jurnal: allJurnal,
+                program: allProgram, asesmen: allAsesmen,
+                guru: allGuru, settings: sekolahData,
                 exportedAt: new Date().toISOString()
             };
             var blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
             var url = URL.createObjectURL(blob);
             var a = document.createElement('a');
             a.href = url;
-            a.download = 'konselia_backup_' + new Date().toISOString().slice(0, 10) + '.json';
+            a.download = 'konselia_backup_' + new Date().toISOString().slice(0,10) + '.json';
             a.click();
             URL.revokeObjectURL(url);
         }
@@ -2574,9 +2164,7 @@
             reader.onload = function(e) {
                 try {
                     var data = JSON.parse(e.target.result);
-                    var collections = ['materi', 'rpl', 'akpd', 'hasil_akpd', 'jurnal', 'program', 'asesmen',
-                        'guru'
-                    ];
+                    var collections = ['materi', 'rpl', 'akpd', 'hasil_akpd', 'jurnal', 'program', 'asesmen', 'guru'];
                     for (var i = 0; i < collections.length; i++) {
                         var col = collections[i];
                         if (data[col]) {
@@ -2601,61 +2189,60 @@
             if (mode === 'akpd' && id) {
                 document.querySelector('.app').style.display = 'none';
                 document.body.innerHTML = '<div style="max-width:700px;margin:30px auto;padding:24px;background:#fff;border-radius:16px;box-shadow:0 4px 24px rgba(0,0,0,0.1);">';
-                document.body.innerHTML +=
-                    '<div style="text-align:center;margin-bottom:20px;"><h1 style="color:#1A5A4A;">📋 KONSELIA <span style="color:#D4A853;">BK</span></h1><p style="color:#6E7D77;">by NaFaS BK · AKPD Digital</p></div>';
-                document.body.innerHTML +=
-                    '<div id="akpdStep1"><h2 style="color:#1A5A4A;">📝 Isi Identitas Diri</h2>';
+                document.body.innerHTML += '<div style="text-align:center;margin-bottom:20px;"><h1 style="color:#1A5A4A;">📋 KONSELIA <span style="color:#D4A853;">BK</span></h1><p style="color:#6E7D77;">by NaFaS BK · AKPD Digital</p></div>';
+
+                // Cari sesi
+                var sesiData = null;
+                for (var i = 0; i < allAKPD.length; i++) {
+                    if (allAKPD[i].id === id) {
+                        sesiData = allAKPD[i];
+                        break;
+                    }
+                }
+
+                document.body.innerHTML += '<div id="akpdStep1"><h2 style="color:#1A5A4A;">📝 Isi Identitas</h2>';
                 document.body.innerHTML += '<form id="akpdIdentitas">';
-                document.body.innerHTML +=
-                    '<div class="form-group"><label>Nama Lengkap <span class="required">*</span></label><input type="text" id="akpdSiswa" class="form-control" required></div>';
-                document.body.innerHTML +=
-                    '<div class="form-group"><label>Kelas <span class="required">*</span></label><input type="text" id="akpdSiswaKelas" class="form-control" required></div>';
-                document.body.innerHTML +=
-                    '<div class="form-group"><label>Jenjang <span class="required">*</span></label><select id="akpdSiswaJenjang" class="form-control"><option value="SMP">SMP</option><option value="SMA">SMA</option><option value="SMK">SMK</option></select></div>';
-                document.body.innerHTML +=
-                    '<button type="button" class="btn btn-primary" onclick="startAKPD()" style="width:100%;padding:14px;">🚀 Mulai Mengisi AKPD</button>';
+                document.body.innerHTML += '<div class="form-group"><label>Nama Lengkap <span class="required">*</span></label><input type="text" id="akpdSiswa" class="form-control" required></div>';
+                // SISWA TIDAK INPUT KELAS - ambil dari sesi
+                document.body.innerHTML += '<div class="form-group" style="background:#f0f8f5;padding:10px;border-radius:8px;border-left:4px solid var(--primary);">';
+                document.body.innerHTML += '<strong>📚 Kelas: ' + (sesiData ? sesiData.jenjang + ' ' + sesiData.kelas : '') + '</strong>';
+                document.body.innerHTML += '<input type="hidden" id="akpdSiswaKelas" value="' + (sesiData ? sesiData.kelas : '') + '">';
+                document.body.innerHTML += '<input type="hidden" id="akpdSiswaJenjang" value="' + (sesiData ? sesiData.jenjang : 'SMP') + '">';
+                document.body.innerHTML += '</div>';
+                document.body.innerHTML += '<button type="button" class="btn btn-primary" onclick="startAKPD()" style="width:100%;padding:14px;">🚀 Mulai Mengisi AKPD</button>';
                 document.body.innerHTML += '</form></div>';
-                document.body.innerHTML +=
-                    '<div id="akpdStep2" style="display:none;"><h2 style="color:#1A5A4A;">📋 AKPD - 30 Pernyataan</h2>';
-                document.body.innerHTML +=
-                    '<p style="color:#6E7D77;font-size:13px;">Jawab dengan jujur sesuai kondisi Anda. Klik <strong>Ya</strong> jika sesuai, <strong>Tidak</strong> jika tidak sesuai.</p>';
+
+                document.body.innerHTML += '<div id="akpdStep2" style="display:none;"><h2 style="color:#1A5A4A;">📋 AKPD - 30 Pernyataan</h2>';
+                document.body.innerHTML += '<p style="color:#6E7D77;font-size:13px;">Jawab dengan jujur sesuai kondisi Anda. Klik <strong>Ya</strong> jika sesuai, <strong>Tidak</strong> jika tidak sesuai.</p>';
                 document.body.innerHTML += '<div id="akpdSoalContainer"></div>';
-                document.body.innerHTML +=
-                    '<button class="btn btn-success" onclick="submitAKPD()" style="width:100%;padding:14px;margin-top:16px;">📤 Kirim Jawaban</button>';
-                document.body.innerHTML +=
-                    '<div id="akpdResult" style="margin-top:16px;display:none;"></div>';
-                document.body.innerHTML +=
-                    '<div style="margin-top:20px;text-align:center;color:#6E7D77;font-size:11px;">KONSELIA by NaFaS BK © 2026</div></div>';
-                document.body.innerHTML +=
-                    '<style>.form-group{margin-bottom:14px}.form-control{width:100%;padding:10px;border:2px solid #E8EDEA;border-radius:10px;font-size:14px;}.btn{padding:12px;border:0;border-radius:10px;font-weight:600;cursor:pointer;}.btn-primary{background:#1A5A4A;color:#fff;}.btn-success{background:#2D8B7A;color:#fff;}.alert{padding:12px;border-radius:10px;margin:8px 0;}.alert-success{background:#d4edda;color:#155724;}.alert-danger{background:#f8d7da;color:#721c24;}.required{color:#C45A6D;}.soal-item{padding:10px 14px;margin:6px 0;background:#f8faf8;border-radius:8px;border-left:3px solid #1A5A4A;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;}.soal-item .soal{flex:1;font-size:14px;}.soal-item .bidang{font-size:10px;padding:2px 10px;border-radius:12px;background:#E8F3EF;color:#1A5A4A;}.radio-group{display:flex;gap:12px;}.radio-group label{display:flex;align-items:center;gap:4px;font-size:13px;cursor:pointer;}.radio-group input[type="radio"]{width:16px;height:16px;accent-color:#1A5A4A;}.progress-bar{height:6px;background:#E8EDEA;border-radius:10px;margin:12px 0;overflow:hidden;}.progress-fill{height:100%;background:#1A5A4A;border-radius:10px;transition:width 0.3s;}</style>';
+                document.body.innerHTML += '<button class="btn btn-success" onclick="submitAKPD()" style="width:100%;padding:14px;margin-top:16px;">📤 Kirim Jawaban</button>';
+                document.body.innerHTML += '<div id="akpdResult" style="margin-top:16px;display:none;"></div>';
+                document.body.innerHTML += '<div style="margin-top:20px;text-align:center;color:#6E7D77;font-size:11px;">KONSELIA by NaFaS BK © 2026</div></div>';
+                document.body.innerHTML += '<style>.form-group{margin-bottom:14px}.form-control{width:100%;padding:10px;border:2px solid #E8EDEA;border-radius:10px;font-size:14px;}.btn{padding:12px;border:0;border-radius:10px;font-weight:600;cursor:pointer;}.btn-primary{background:#1A5A4A;color:#fff;}.btn-success{background:#2D8B7A;color:#fff;}.alert{padding:12px;border-radius:10px;margin:8px 0;}.alert-success{background:#d4edda;color:#155724;}.alert-danger{background:#f8d7da;color:#721c24;}.required{color:#C45A6D;}.soal-item{padding:10px 14px;margin:6px 0;background:#f8faf8;border-radius:8px;border-left:3px solid #1A5A4A;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;}.soal-item .soal{flex:1;font-size:14px;}.soal-item .bidang{font-size:10px;padding:2px 10px;border-radius:12px;background:#E8F3EF;color:#1A5A4A;}.radio-group{display:flex;gap:12px;}.radio-group label{display:flex;align-items:center;gap:4px;font-size:13px;cursor:pointer;}.radio-group input[type="radio"]{width:16px;height:16px;accent-color:#1A5A4A;}.progress-bar{height:6px;background:#E8EDEA;border-radius:10px;margin:12px 0;overflow:hidden;}.progress-fill{height:100%;background:#1A5A4A;border-radius:10px;transition:width 0.3s;}</style>';
 
                 window.startAKPD = function() {
                     var nama = document.getElementById('akpdSiswa').value.trim();
-                    var kelas = document.getElementById('akpdSiswaKelas').value.trim();
-                    var jenjang = document.getElementById('akpdSiswaJenjang').value;
-                    if (!nama || !kelas) { alert('⚠️ Nama dan kelas wajib diisi!'); return; }
-                    window._akpdData = { nama: nama, kelas: kelas, jenjang: jenjang };
+                    if (!nama) { alert('⚠️ Nama wajib diisi!'); return; }
+                    window._akpdData = {
+                        nama: nama,
+                        kelas: document.getElementById('akpdSiswaKelas').value,
+                        jenjang: document.getElementById('akpdSiswaJenjang').value
+                    };
                     document.getElementById('akpdStep1').style.display = 'none';
                     document.getElementById('akpdStep2').style.display = 'block';
-                    var butir = AKPD_BUTIR[jenjang] || AKPD_BUTIR.SMP;
+                    var butir = AKPD_BUTIR[window._akpdData.jenjang] || AKPD_BUTIR.SMP;
                     var container = document.getElementById('akpdSoalContainer');
-                    var html =
-                        '<div class="progress-bar"><div class="progress-fill" id="akpdProgress" style="width:0%;"></div></div>';
+                    var html = '<div class="progress-bar"><div class="progress-fill" id="akpdProgress" style="width:0%;"></div></div>';
                     for (var i = 0; i < butir.pernyataan.length; i++) {
-                        html += '<div class="soal-item"><div><span class="soal">' + (i + 1) + '. ' + butir
-                            .pernyataan[i] + '</span> <span class="bidang">' + butir.bidang[i] +
-                        '</span></div>';
-                        html +=
-                            '<div class="radio-group"><label><input type="radio" name="akpd_' + i + '" value="1" required> Ya</label><label><input type="radio" name="akpd_' + i + '" value="0" required> Tidak</label></div></div>';
+                        html += '<div class="soal-item"><div><span class="soal">' + (i+1) + '. ' + butir.pernyataan[i] + '</span> <span class="bidang">' + butir.bidang[i] + '</span></div>';
+                        html += '<div class="radio-group"><label><input type="radio" name="akpd_' + i + '" value="1" required> Ya</label><label><input type="radio" name="akpd_' + i + '" value="0" required> Tidak</label></div></div>';
                     }
                     container.innerHTML = html;
                     document.querySelectorAll('#akpdSoalContainer input[type="radio"]').forEach(function(el) {
                         el.addEventListener('change', function() {
                             var total = 30;
-                            var terisi = document.querySelectorAll(
-                                '#akpdSoalContainer input[type="radio"]:checked').length;
-                            document.getElementById('akpdProgress').style.width = Math.round((terisi /
-                                total) * 100) + '%';
+                            var terisi = document.querySelectorAll('#akpdSoalContainer input[type="radio"]:checked').length;
+                            document.getElementById('akpdProgress').style.width = Math.round((terisi / total) * 100) + '%';
                         });
                     });
                 };
@@ -2698,15 +2285,12 @@
                     }).then(function() {
                         var result = document.getElementById('akpdResult');
                         result.style.display = 'block';
-                        result.innerHTML =
-                            '<div class="alert alert-success">✅ Terima kasih <strong>' + data.nama +
-                            '</strong>! Jawaban Anda berhasil dikirim. Guru BK akan memberikan tindak lanjut.</div>';
+                        result.innerHTML = '<div class="alert alert-success">✅ Terima kasih <strong>' + data.nama + '</strong>! Jawaban Anda berhasil dikirim. Guru BK akan memberikan tindak lanjut.</div>';
                         document.getElementById('akpdStep2').style.display = 'none';
                     }).catch(function(err) {
                         var result = document.getElementById('akpdResult');
                         result.style.display = 'block';
-                        result.innerHTML =
-                            '<div class="alert alert-danger">❌ Gagal mengirim: ' + err.message + '</div>';
+                        result.innerHTML = '<div class="alert alert-danger">❌ Gagal mengirim: ' + err.message + '</div>';
                     });
                 };
             }
@@ -2714,11 +2298,13 @@
 
         // ==================== START ====================
         init();
-        console.log('✅ KONSELIA by NaFaS BK v3.0 - AKPD → Hasil → Materi');
+        console.log('✅ KONSELIA by NaFaS BK v3.1 - AKPD Digital + Print + Entry Manual');
         console.log('📅 Pilihan Tahun Ajaran: 2026/2027 - 2037/2038 (12 tahun)');
         console.log('📚 60 Materi BK siap pakai');
         console.log('📋 Sesi AKPD per kelas - Hasil & Rekomendasi langsung muncul');
-        console.log('✅ Siswa hanya melihat pertanyaan, hasil & rekomendasi hanya di guru');
+        console.log('🖨️ Print AKPD ringkas (2 per halaman)');
+        console.log('📝 Entry Manual untuk siswa tanpa HP');
+        console.log('✅ Siswa hanya input NAMA (kelas otomatis dari sesi)');
     </script>
 </body>
 </html>
