@@ -829,7 +829,6 @@
             <div class="sub">BK Digital Platform</div>
             <div class="nav">
                 <button class="active" onclick="showPage('dashboard')"><span class="icon">📊</span><span>Dashboard</span></button>
-                <!-- URUTAN BARU: AKPD & Hasil di atas Materi -->
                 <button onclick="showPage('akpd')"><span class="icon">📋</span><span>AKPD Digital</span></button>
                 <button onclick="showPage('hasil')"><span class="icon">📊</span><span>Hasil AKPD</span></button>
                 <button onclick="showPage('materi')"><span class="icon">📚</span><span>Materi BK</span></button>
@@ -881,7 +880,7 @@
                 </div>
             </div>
 
-            <!-- AKPD - Sesi -->
+            <!-- AKPD -->
             <div id="page-akpd" class="page">
                 <div class="panel">
                     <div class="panel-header">
@@ -905,7 +904,7 @@
             <div id="page-hasil" class="page">
                 <div class="panel">
                     <div class="panel-header">
-                        <h2>📊 Hasil AKPD & Rekomendasi Materi</h2>
+                        <h2>📊 Hasil AKPD & Rekomendasi</h2>
                         <div class="actions">
                             <button class="btn btn-warning" onclick="exportHasilAKPD()">📤 Ekspor</button>
                             <button class="btn btn-outline" onclick="loadHasilAKPD()">🔄 Refresh</button>
@@ -1073,7 +1072,7 @@
         </div>
     </div>
 
-    <!-- MODAL AKPD - BUAT SESI -->
+    <!-- MODAL AKPD -->
     <div class="modal-overlay" id="akpdModal">
         <div class="modal-box">
             <div class="modal-header"><h2>📋 Buat Sesi AKPD</h2><button class="close-btn" onclick="closeModal('akpdModal')">&times;</button></div>
@@ -1885,7 +1884,6 @@
             var container = document.getElementById('hasilAKPDContainer');
             container.innerHTML = '<div class="loading"><span class="spinner"></span> Memuat hasil...</div>';
 
-            // Populate filter sesi
             var sesiSelect = document.getElementById('filterHasilSesi');
             var currentSesi = sesiSelect.value;
             sesiSelect.innerHTML = '<option value="">Semua Sesi</option>';
@@ -1915,7 +1913,6 @@
 
             var filtered = allHasilAKPD;
 
-            // Filter berdasarkan sesi
             if (sesiFilter) {
                 filtered = filtered.filter(function(h) { return h.akpdId === sesiFilter; });
             }
@@ -1950,7 +1947,6 @@
             html +=
                 '<div class="chart-container"><h4>📊 Rata-rata Kebutuhan per Bidang</h4><canvas id="chartHasilAKPD" style="max-height:200px;"></canvas></div>';
 
-            // REKOMENDASI MATERI berdasarkan skor tertinggi
             var rekomendasi = [];
             if (avgBelajar >= 65) rekomendasi.push({ bidang: 'Belajar', skor: avgBelajar,
                 materi: 'Manajemen Waktu, Belajar Efektif' });
@@ -1963,7 +1959,7 @@
 
             if (rekomendasi.length > 0) {
                 html +=
-                    '<div class="panel" style="border:2px solid var(--primary);"><h4>🎯 Rekomendasi Materi BK</h4><div class="rekomendasi-list">';
+                    '<div class="panel" style="border:2px solid var(--primary);"><h4>🎯 Rekomendasi Materi BK (Rata-rata Kelas)</h4><div class="rekomendasi-list">';
                 for (var r = 0; r < rekomendasi.length; r++) {
                     var rec = rekomendasi[r];
                     html += '<div class="rekomendasi-item"><span class="name">' + rec.bidang +
@@ -1977,21 +1973,39 @@
                     '<div class="panel" style="border:2px solid var(--success);"><h4>✅ Semua bidang sudah baik! Pertahankan dan tingkatkan terus.</h4></div>';
             }
 
-            // Tabel detail siswa
             html +=
-                '<div class="table-wrap"><table><thead><tr><th>No</th><th>Siswa</th><th>Kelas</th><th>Pribadi</th><th>Sosial</th><th>Belajar</th><th>Karier</th><th>Aksi</th></tr></thead><tbody>';
+                '<div class="table-wrap"><table><thead><tr><th>No</th><th>Siswa</th><th>Kelas</th><th>Pribadi</th><th>Sosial</th><th>Belajar</th><th>Karier</th><th>Status</th><th>Aksi</th></tr></thead><tbody>';
             for (var i = 0; i < filtered.length; i++) {
                 var h = filtered[i];
+                var minSkor = Math.min(h.pribadi || 0, h.sosial || 0, h.belajar || 0, h.karier || 0);
+                var status = '';
+                var statusColor = '';
+                if (minSkor < 50) {
+                    status = '🟡 Perlu Konseling Individu';
+                    statusColor = 'badge-danger';
+                } else if (minSkor >= 50 && minSkor < 70) {
+                    status = '🟢 Bimbingan Kelompok';
+                    statusColor = 'badge-warning';
+                } else {
+                    status = '✅ Layanan Klasikal (Penguatan)';
+                    statusColor = 'badge-success';
+                }
+
                 html += '<tr><td>' + (i + 1) + '</td><td><strong>' + h.siswa + '</strong></td><td>' + h.kelas +
                     '</td>';
-                html += '<td><span class="badge ' + (h.pribadi >= 70 ? 'badge-danger' : 'badge-info') + '">' + h
-                    .pribadi + '%</span></td>';
-                html += '<td><span class="badge ' + (h.sosial >= 70 ? 'badge-danger' : 'badge-info') + '">' + h
-                    .sosial + '%</span></td>';
-                html += '<td><span class="badge ' + (h.belajar >= 70 ? 'badge-danger' : 'badge-info') + '">' + h
-                    .belajar + '%</span></td>';
-                html += '<td><span class="badge ' + (h.karier >= 70 ? 'badge-danger' : 'badge-info') + '">' + h
-                    .karier + '%</span></td>';
+                html += '<td><span class="badge ' + (h.pribadi >= 70 ? 'badge-success' : h.pribadi >= 50 ?
+                    'badge-warning' :
+                    'badge-danger') + '">' + h.pribadi + '%</span></td>';
+                html += '<td><span class="badge ' + (h.sosial >= 70 ? 'badge-success' : h.sosial >= 50 ?
+                    'badge-warning' :
+                    'badge-danger') + '">' + h.sosial + '%</span></td>';
+                html += '<td><span class="badge ' + (h.belajar >= 70 ? 'badge-success' : h.belajar >= 50 ?
+                    'badge-warning' :
+                    'badge-danger') + '">' + h.belajar + '%</span></td>';
+                html += '<td><span class="badge ' + (h.karier >= 70 ? 'badge-success' : h.karier >= 50 ?
+                    'badge-warning' :
+                    'badge-danger') + '">' + h.karier + '%</span></td>';
+                html += '<td><span class="badge ' + statusColor + '">' + status + '</span></td>';
                 html += '<td><button class="btn btn-primary btn-sm" onclick="viewDetailAKPD(\'' + h.id +
                 '\')">📊</button></td></tr>';
             }
@@ -2028,9 +2042,25 @@
             var h = allHasilAKPD.find(function(item) { return item.id === id; });
             if (!h) { alert('Data tidak ditemukan!'); return; }
             var content = document.getElementById('detailAKPDContent');
+
+            var minSkor = Math.min(h.pribadi || 0, h.sosial || 0, h.belajar || 0, h.karier || 0);
+            var statusText = '';
+            var statusColor = '';
+            if (minSkor < 50) {
+                statusText = '🟡 Perlu Konseling Individu';
+                statusColor = '#C45A6D';
+            } else if (minSkor >= 50 && minSkor < 70) {
+                statusText = '🟢 Bimbingan Kelompok';
+                statusColor = '#E8B84B';
+            } else {
+                statusText = '✅ Layanan Klasikal (Penguatan)';
+                statusColor = '#2D8B7A';
+            }
+
             var html = '<div style="text-align:center;margin-bottom:16px;"><h3>' + h.siswa +
                 '</h3><p><strong>Kelas:</strong> ' + h.kelas + ' | <strong>Jenjang:</strong> ' + h.jenjang +
                 '</p></div>';
+
             html += '<div class="rekap-hasil-grid">';
             var items = [
                 { label: 'Pribadi', value: h.pribadi, color: '#1A5A4A' },
@@ -2048,22 +2078,44 @@
             }
             html += '</div>';
 
-            // Rekomendasi personal per siswa
+            html += '<div style="background:#f8faf8;padding:12px;border-radius:8px;margin-top:12px;border-left:4px solid ' +
+                statusColor + ';">';
+            html += '<strong>📋 Status Tindak Lanjut:</strong> ' + statusText;
+            html += '</div>';
+
             var rekom = [];
+            var needCounseling = false;
             if (h.belajar >= 70) rekom.push('📚 Manajemen Waktu & Belajar Efektif');
+            else if (h.belajar < 50) { rekom.push('📚 Bimbingan Belajar (Konseling Individu)');
+                needCounseling = true; } else rekom.push('📚 Bimbingan Belajar (Kelompok)');
+
             if (h.karier >= 70) rekom.push('🎯 Perencanaan Karir & Persiapan Masa Depan');
+            else if (h.karier < 50) { rekom.push('🎯 Konseling Karir (Individu)');
+                needCounseling = true; } else rekom.push('🎯 Bimbingan Karir (Kelompok)');
+
             if (h.pribadi >= 70) rekom.push('💪 Kesehatan Mental & Kepercayaan Diri');
+            else if (h.pribadi < 50) { rekom.push('💪 Konseling Pribadi (Individu)');
+                needCounseling = true; } else rekom.push('💪 Bimbingan Pribadi (Kelompok)');
+
             if (h.sosial >= 70) rekom.push('🤝 Komunikasi Efektif & Pergaulan Sehat');
+            else if (h.sosial < 50) { rekom.push('🤝 Konseling Sosial (Individu)');
+                needCounseling = true; } else rekom.push('🤝 Bimbingan Sosial (Kelompok)');
 
             if (rekom.length > 0) {
                 html +=
-                    '<div style="background:#E8F3EF;padding:12px;border-radius:8px;margin-top:12px;"><strong>🎯 Rekomendasi Materi untuk ' +
+                    '<div style="background:#E8F3EF;padding:12px;border-radius:8px;margin-top:12px;"><strong>🎯 Rekomendasi Layanan untuk ' +
                     h.siswa + ':</strong><br>' + rekom.join('<br>') + '</div>';
-            } else {
-                html +=
-                    '<div style="background:#E8F3EF;padding:12px;border-radius:8px;margin-top:12px;"><strong>✅ ' +
-                    h.siswa + ' sudah baik di semua bidang! Pertahankan.</strong></div>';
             }
+
+            if (needCounseling) {
+                html +=
+                    '<div style="background:#f8d7da;padding:12px;border-radius:8px;margin-top:12px;border:2px solid #C45A6D;">';
+                html +=
+                    '<strong>⚠️ Perhatian:</strong> ' + h.siswa +
+                    ' memerlukan <strong>Konseling Individu</strong> karena ada bidang dengan skor di bawah 50%. Silakan jadwalkan sesi konseling segera.';
+                html += '</div>';
+            }
+
             content.innerHTML = html;
             openModal('detailAKPDModal');
         }
@@ -2541,7 +2593,7 @@
             event.target.value = '';
         }
 
-        // ==================== AKPD MODE (SISWA) - HANYA PERTANYAAN ====================
+        // ==================== AKPD MODE (SISWA) ====================
         (function() {
             var params = new URLSearchParams(window.location.search);
             var mode = params.get('mode');
@@ -2662,10 +2714,10 @@
 
         // ==================== START ====================
         init();
-        console.log('✅ KONSELIA by NaFaS BK v3.0 - Alur: AKPD → Hasil → Materi');
+        console.log('✅ KONSELIA by NaFaS BK v3.0 - AKPD → Hasil → Materi');
         console.log('📅 Pilihan Tahun Ajaran: 2026/2027 - 2037/2038 (12 tahun)');
-        console.log('📚 SMP: 30 Materi | SMA: 30 Materi | SMK: 30 Materi');
-        console.log('📋 Sesi AKPD per kelas - Hasil & Rekomendasi langsung muncul di dashboard guru');
+        console.log('📚 60 Materi BK siap pakai');
+        console.log('📋 Sesi AKPD per kelas - Hasil & Rekomendasi langsung muncul');
         console.log('✅ Siswa hanya melihat pertanyaan, hasil & rekomendasi hanya di guru');
     </script>
 </body>
