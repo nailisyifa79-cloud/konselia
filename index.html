@@ -144,6 +144,7 @@
             display: inline-flex; align-items: center; gap: 6px;
         }
         .btn:hover { transform: translateY(-2px); box-shadow: 0 4px 16px rgba(26,90,74,0.20); }
+        .btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
         .btn-primary { background: var(--primary); color: #fff; }
         .btn-primary:hover { background: var(--primary-dark); }
         .btn-success { background: var(--success); color: #fff; }
@@ -309,7 +310,37 @@
         .sesi-card .info { font-size: 12px; color: var(--gray); margin: 4px 0; }
         .sesi-card .link-sesi { font-size: 12px; color: var(--primary); word-break: break-all; background: #fff; padding: 6px 10px; border-radius: 6px; border: 1px solid var(--gray-light); margin: 6px 0; }
         .sesi-card .actions { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px; }
-        .sesi-card .actions .btn { flex: 0 1 auto; }
+        .sesi-card.deleting { opacity: 0.5; pointer-events: none; }
+        .sesi-card.saving { opacity: 0.7; }
+
+        /* TOAST */
+        .toast-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .toast {
+            background: var(--primary-dark);
+            color: #fff;
+            padding: 12px 20px;
+            border-radius: 10px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+            font-size: 13px;
+            font-weight: 600;
+            animation: toastIn 0.3s ease;
+            min-width: 200px;
+        }
+        .toast.success { background: var(--success); }
+        .toast.danger { background: var(--danger); }
+        .toast.warning { background: var(--warning); color: #333; }
+        @keyframes toastIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
 
         @media print {
             .no-print { display: none !important; }
@@ -365,6 +396,8 @@
     </style>
 </head>
 <body>
+    <div class="toast-container" id="toastContainer"></div>
+    
     <button class="hamburger" onclick="toggleSidebar()">☰</button>
     <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
 
@@ -384,7 +417,7 @@
                 <button onclick="showPage('asesmen')"><span class="icon">🧠</span><span>Asesmen</span></button>
                 <button onclick="showPage('settings')"><span class="icon">⚙️</span><span>Pengaturan</span></button>
             </div>
-            <div style="position:absolute;bottom:20px;left:18px;font-size:10px;opacity:.4;">v3.6 · 2026</div>
+            <div style="position:absolute;bottom:20px;left:18px;font-size:10px;opacity:.4;">v3.7 · 2026</div>
         </aside>
 
         <main class="main">
@@ -563,7 +596,7 @@
                 <span>by NaFaS BK</span>
                 <span style="margin:0 8px;color:#d0d8e0;">|</span>
                 <span>AKPD · 60 Materi BK · RPL · LKPD · Jurnal</span>
-                <span class="version-tag">v3.6</span>
+                <span class="version-tag">v3.7</span>
             </div>
         </main>
     </div>
@@ -662,7 +695,7 @@
                 </ul>
             </div>
 
-            <button class="btn btn-success" onclick="saveAKPD()" style="width:100%;padding:14px;margin-top:8px;">💾 Simpan Sesi</button>
+            <button class="btn btn-success" id="btnSaveAKPD" onclick="saveAKPD()" style="width:100%;padding:14px;margin-top:8px;">💾 Simpan Sesi</button>
         </div>
     </div>
 
@@ -748,6 +781,11 @@
         firebase.initializeApp(firebaseConfig);
         var db = firebase.firestore();
         var storage = firebase.storage();
+        
+        // Enable offline persistence untuk response lebih cepat
+        db.enablePersistence({ synchronizeTabs: true }).catch(function(err) {
+            console.log('Offline persistence tidak aktif:', err.code);
+        });
 
         // ==================== VARIABLES ====================
         var allMateri = [];
@@ -760,6 +798,21 @@
         var allGuru = [];
         var sekolahData = { name: '', year: '2026/2027' };
         var currentAKPDLink = '';
+        var isSavingAKPD = false;
+
+        // ==================== TOAST ====================
+        function showToast(message, type) {
+            type = type || 'success';
+            var container = document.getElementById('toastContainer');
+            var toast = document.createElement('div');
+            toast.className = 'toast ' + type;
+            toast.textContent = message;
+            container.appendChild(toast);
+            setTimeout(function() {
+                toast.style.opacity = '0';
+                setTimeout(function() { toast.remove(); }, 300);
+            }, 2500);
+        }
 
         // ==================== SIDEBAR TOGGLE ====================
         function toggleSidebar() {
@@ -1095,6 +1148,12 @@
                 document.getElementById('akpdLink').value = link;
                 currentAKPDLink = link;
                 selectMode('hp');
+                isSavingAKPD = false;
+                var btn = document.getElementById('btnSaveAKPD');
+                if (btn) {
+                    btn.disabled = false;
+                    btn.textContent = '💾 Simpan Sesi';
+                }
             }
         }
 
@@ -1108,14 +1167,14 @@
 
         function copyAKPDLinkFromModal() {
             var link = document.getElementById('akpdLink').value;
-            if (!link) { alert('⚠️ Link belum dibuat!'); return; }
+            if (!link) { showToast('⚠️ Link belum dibuat!', 'warning'); return; }
             navigator.clipboard.writeText(link).then(function() {
-                alert('✅ Link berhasil disalin! Bagikan ke siswa.');
+                showToast('✅ Link berhasil disalin!', 'success');
             }).catch(function() {
                 var input = document.getElementById('akpdLink');
                 input.select();
                 document.execCommand('copy');
-                alert('✅ Link berhasil disalin!');
+                showToast('✅ Link berhasil disalin!', 'success');
             });
         }
 
@@ -1201,21 +1260,24 @@
                         return db.collection('konselia_materi').add(data);
                     })
                     .then(function() {
-                        alertEl.innerHTML = '<div class="alert alert-success">✅ Materi berhasil disimpan!</div>';
-                        setTimeout(function() { closeModal('materiModal'); loadMateri(); }, 1000);
+                        showToast('✅ Materi berhasil disimpan!', 'success');
+                        closeModal('materiModal'); loadMateri();
                     })
                     .catch(function(err) { alertEl.innerHTML = '<div class="alert alert-danger">❌ Gagal: ' + err.message + '</div>'; });
             } else {
                 db.collection('konselia_materi').add(data).then(function() {
-                    alertEl.innerHTML = '<div class="alert alert-success">✅ Materi berhasil disimpan!</div>';
-                    setTimeout(function() { closeModal('materiModal'); loadMateri(); }, 1000);
+                    showToast('✅ Materi berhasil disimpan!', 'success');
+                    closeModal('materiModal'); loadMateri();
                 }).catch(function(err) { alertEl.innerHTML = '<div class="alert alert-danger">❌ Gagal: ' + err.message + '</div>'; });
             }
         }
 
         function deleteMateri(id) {
             if (!confirm('Yakin ingin menghapus materi ini?')) return;
-            db.collection('konselia_materi').doc(id).delete().then(function() { loadMateri(); });
+            db.collection('konselia_materi').doc(id).delete().then(function() { 
+                showToast('✅ Materi dihapus!', 'success');
+                loadMateri(); 
+            });
         }
 
         // ==================== RPL ====================
@@ -1279,8 +1341,8 @@
                 tahun: sekolahData.year || '2026/2027',
                 createdAt: new Date().toISOString()
             }).then(function() {
-                alertEl.innerHTML = '<div class="alert alert-success">✅ RPL berhasil disimpan!</div>';
-                setTimeout(function() { closeModal('rplModal'); loadRPL(); }, 1000);
+                showToast('✅ RPL berhasil disimpan!', 'success');
+                closeModal('rplModal'); loadRPL();
             }).catch(function(err) { alertEl.innerHTML = '<div class="alert alert-danger">❌ Gagal: ' + err.message + '</div>'; });
         }
 
@@ -1306,7 +1368,10 @@
 
         function deleteRPL(id) {
             if (!confirm('Yakin menghapus RPL ini?')) return;
-            db.collection('konselia_rpl').doc(id).delete().then(function() { loadRPL(); });
+            db.collection('konselia_rpl').doc(id).delete().then(function() { 
+                showToast('✅ RPL dihapus!', 'success');
+                loadRPL(); 
+            });
         }
 
         function generateLKPD() {
@@ -1350,7 +1415,7 @@
                 var mode = a.mode || 'hp';
                 var modeIcon = mode === 'hp' ? '📱' : '📄';
                 var modeLabel = mode === 'hp' ? 'Mode HP' : 'Mode Tanpa HP';
-                html += '<div class="sesi-card">';
+                html += '<div class="sesi-card" id="sesi-' + a.id + '">';
                 html += '<div class="judul">📋 ' + a.nama + ' <span class="badge badge-primary">' + modeIcon + ' ' + modeLabel + '</span></div>';
                 html += '<div class="info">📚 ' + a.jenjang + ' ' + a.kelas + ' | 👥 ' + (a.jumlahSiswa || 0) + ' siswa | 📅 ' + new Date(a.createdAt).toLocaleDateString('id-ID') + '</div>';
                 if (a.link) {
@@ -1368,8 +1433,13 @@
             container.innerHTML = html;
         }
 
-        // ==================== SAVE AKPD ====================
+        // ==================== SAVE AKPD (OPTIMISTIC - LANGSUNG MUNCUL) ====================
         function saveAKPD() {
+            if (isSavingAKPD) {
+                showToast('⏳ Sedang menyimpan, mohon tunggu...', 'warning');
+                return;
+            }
+
             var nama = document.getElementById('akpdNama').value.trim();
             var jenjang = document.getElementById('akpdJenjang').value;
             var kelas = document.getElementById('akpdKelas').value;
@@ -1390,14 +1460,18 @@
                 return;
             }
 
+            isSavingAKPD = true;
+            var btn = document.getElementById('btnSaveAKPD');
+            btn.disabled = true;
+            btn.textContent = '⏳ Menyimpan...';
             alertEl.innerHTML = '<div class="alert alert-info">⏳ Menyimpan sesi...</div>';
 
             var baseUrl = window.location.href.split('?')[0];
             var link = baseUrl + '?mode=akpd&id=' + Date.now();
+            var createdAt = new Date().toISOString();
             
-            document.getElementById('akpdLink').value = link;
-
-            db.collection('konselia_akpd').add({
+            // Buat data lokal dulu
+            var localData = {
                 nama: nama,
                 jenjang: jenjang,
                 kelas: kelas,
@@ -1405,33 +1479,78 @@
                 link: mode === 'hp' ? link : '',
                 mode: mode,
                 tahun: sekolahData.year || '2026/2027',
-                createdAt: new Date().toISOString()
-            }).then(function(docRef) {
-                alertEl.innerHTML = '<div class="alert alert-success">✅ Sesi AKPD berhasil dibuat!</div>';
+                createdAt: createdAt
+            };
+
+            // Simpan ke Firestore
+            db.collection('konselia_akpd').add(localData).then(function(docRef) {
+                // Berhasil
+                showToast('✅ Sesi AKPD berhasil dibuat!', 'success');
+                
+                // Update data lokal dengan ID dari Firestore
+                localData.id = docRef.id;
+                
+                // Tambahkan ke list lokal (kalau belum ada)
+                var exists = allAKPD.some(function(a) { return a.id === docRef.id; });
+                if (!exists) {
+                    allAKPD.unshift(localData);
+                }
+                
+                // Reset form
                 document.getElementById('akpdNama').value = '';
                 document.getElementById('akpdJumlahSiswa').value = '';
-                setTimeout(function() {
-                    closeModal('akpdModal');
-                    loadAKPD();
-                    updateDashboard();
-                }, 1000);
+                
+                // Close modal dan render
+                closeModal('akpdModal');
+                renderAKPD();
+                updateDashboard();
+                
+                isSavingAKPD = false;
+                btn.disabled = false;
+                btn.textContent = '💾 Simpan Sesi';
             }).catch(function(err) {
-                alertEl.innerHTML = '<div class="alert alert-danger">❌ Gagal menyimpan: ' + err.message + '</div>';
                 console.error('Error saving AKPD:', err);
+                alertEl.innerHTML = '<div class="alert alert-danger">❌ Gagal menyimpan: ' + err.message + '<br><br>Cek Firestore Rules di Firebase Console.</div>';
+                showToast('❌ Gagal menyimpan: ' + err.message, 'danger');
+                isSavingAKPD = false;
+                btn.disabled = false;
+                btn.textContent = '💾 Simpan Sesi';
             });
         }
 
-        // ==================== DELETE AKPD ====================
+        // ==================== DELETE AKPD (OPTIMISTIC - LANGSUNG HILANG) ====================
         function deleteAKPD(id) {
-            if (!confirm('Yakin ingin menghapus sesi AKPD "' + (allAKPD.find(a => a.id === id)?.nama || '') + '"?')) return;
+            var sesi = allAKPD.find(function(a) { return a.id === id; });
+            var nama = sesi ? sesi.nama : '';
             
+            if (!confirm('Yakin ingin menghapus sesi AKPD "' + nama + '"?')) return;
+            
+            // 1. LANGSUNG hapus dari UI (optimistic)
+            var card = document.getElementById('sesi-' + id);
+            if (card) {
+                card.classList.add('deleting');
+                card.style.display = 'none';
+            }
+            
+            // 2. Hapus dari array lokal
+            allAKPD = allAKPD.filter(function(a) { return a.id !== id; });
+            
+            // 3. Update statistik langsung
+            updateDashboard();
+            
+            // 4. Beri feedback langsung
+            showToast('⏳ Menghapus...', 'warning');
+            
+            // 5. Hapus dari Firestore di background
             db.collection('konselia_akpd').doc(id).delete().then(function() {
-                alert('✅ Sesi AKPD berhasil dihapus!');
-                loadAKPD();
-                updateDashboard();
+                showToast('✅ Sesi AKPD berhasil dihapus!', 'success');
+                // Re-render untuk bersihkan
+                renderAKPD();
             }).catch(function(err) {
-                alert('❌ Gagal menghapus: ' + err.message);
                 console.error('Error deleting AKPD:', err);
+                showToast('❌ Gagal menghapus: ' + err.message, 'danger');
+                // Kembalikan ke UI
+                loadAKPD();
             });
         }
 
@@ -1439,12 +1558,12 @@
         function copyAKPD(id) {
             var a = allAKPD.find(function(item) { return item.id === id; });
             if (!a || !a.link) { 
-                alert('⚠️ Link tidak tersedia!');
+                showToast('⚠️ Link tidak tersedia!', 'warning');
                 return; 
             }
             
             navigator.clipboard.writeText(a.link).then(function() {
-                alert('✅ Link berhasil disalin!');
+                showToast('✅ Link berhasil disalin!', 'success');
             }).catch(function() {
                 var dummy = document.createElement('textarea');
                 dummy.value = a.link;
@@ -1452,7 +1571,7 @@
                 dummy.select();
                 document.execCommand('copy');
                 dummy.remove();
-                alert('✅ Link berhasil disalin!');
+                showToast('✅ Link berhasil disalin!', 'success');
             });
         }
 
@@ -1460,7 +1579,7 @@
         function printAKPD(id) {
             var sesi = allAKPD.find(function(s) { return s.id === id; });
             if (!sesi) { 
-                alert('⚠️ Sesi tidak ditemukan!');
+                showToast('⚠️ Sesi tidak ditemukan!', 'warning');
                 return; 
             }
 
@@ -1473,7 +1592,7 @@
 
             var printWin = window.open('', '_blank', 'width=900,height=700');
             if (!printWin) {
-                alert('⚠️ Mohon izinkan popup untuk print.');
+                showToast('⚠️ Mohon izinkan popup untuk print.', 'warning');
                 return;
             }
             
@@ -1547,7 +1666,7 @@
         function entryAKPD(id) {
             var sesi = allAKPD.find(function(s) { return s.id === id; });
             if (!sesi) { 
-                alert('⚠️ Sesi tidak ditemukan!');
+                showToast('⚠️ Sesi tidak ditemukan!', 'warning');
                 return; 
             }
 
@@ -1589,7 +1708,7 @@
         function saveEntryTemp(akpdId) {
             var sesi = window._entrySesiData;
             if (!sesi) { 
-                alert('⚠️ Data sesi tidak ditemukan!');
+                showToast('⚠️ Data sesi tidak ditemukan!', 'warning');
                 return; 
             }
 
@@ -1644,14 +1763,11 @@
                 entryBy: 'guru',
                 createdAt: new Date().toISOString()
             }).then(function() {
-                alertEl.innerHTML = '<div class="alert alert-success">✅ Data ' + nama + ' berhasil disimpan!</div>';
+                showToast('✅ Data ' + nama + ' berhasil disimpan!', 'success');
                 document.getElementById('entryNamaTemp').value = '';
                 document.querySelectorAll('#entryModalTemp input[type="radio"][value="0"]').forEach(function(el) {
                     el.checked = true;
                 });
-                setTimeout(function() { 
-                    alertEl.innerHTML = ''; 
-                }, 2000);
                 loadHasilAKPD();
                 updateDashboard();
             }).catch(function(err) {
@@ -1792,7 +1908,7 @@
         function viewDetailAKPD(id) {
             var h = allHasilAKPD.find(function(item) { return item.id === id; });
             if (!h) { 
-                alert('Data tidak ditemukan!'); 
+                showToast('Data tidak ditemukan!', 'warning');
                 return; 
             }
             var content = document.getElementById('detailAKPDContent');
@@ -1815,10 +1931,10 @@
 
             html += '<div class="rekap-hasil-grid">';
             var items = [
-                { label: 'Pribadi', value: h.pribadi, color: '#1A5A4A' },
-                { label: 'Sosial', value: h.sosial, color: '#2D8B7A' },
-                { label: 'Belajar', value: h.belajar, color: '#D4A853' },
-                { label: 'Karier', value: h.karier, color: '#C45A6D' }
+                { label: 'Pribadi', value: h.pribadi },
+                { label: 'Sosial', value: h.sosial },
+                { label: 'Belajar', value: h.belajar },
+                { label: 'Karier', value: h.karier }
             ];
             for (var i = 0; i < items.length; i++) {
                 var item = items[i];
@@ -1868,7 +1984,7 @@
 
         function exportHasilAKPD() {
             if (allHasilAKPD.length === 0) { 
-                alert('⚠️ Tidak ada data!'); 
+                showToast('⚠️ Tidak ada data!', 'warning');
                 return; 
             }
             var blob = new Blob([JSON.stringify(allHasilAKPD, null, 2)], { type: 'application/json' });
@@ -1950,18 +2066,21 @@
                 tahun: sekolahData.year || '2026/2027',
                 createdAt: new Date().toISOString()
             }).then(function() {
-                alertEl.innerHTML = '<div class="alert alert-success">✅ Jurnal berhasil disimpan!</div>';
-                setTimeout(function() { closeModal('jurnalModal'); loadJurnal(); }, 1000);
+                showToast('✅ Jurnal berhasil disimpan!', 'success');
+                closeModal('jurnalModal'); loadJurnal();
             }).catch(function(err) { alertEl.innerHTML = '<div class="alert alert-danger">❌ Gagal: ' + err.message + '</div>'; });
         }
 
         function deleteJurnal(id) {
             if (!confirm('Yakin menghapus jurnal ini?')) return;
-            db.collection('konselia_jurnal').doc(id).delete().then(function() { loadJurnal(); });
+            db.collection('konselia_jurnal').doc(id).delete().then(function() { 
+                showToast('✅ Jurnal dihapus!', 'success');
+                loadJurnal(); 
+            });
         }
 
         function exportJurnal() {
-            if (allJurnal.length === 0) { alert('⚠️ Tidak ada data!'); return; }
+            if (allJurnal.length === 0) { showToast('⚠️ Tidak ada data!', 'warning'); return; }
             var blob = new Blob([JSON.stringify(allJurnal, null, 2)], { type: 'application/json' });
             var url = URL.createObjectURL(blob);
             var a = document.createElement('a');
@@ -2023,14 +2142,17 @@
                 nama: nama, jenis: jenis, tahun: tahun, deskripsi: deskripsi,
                 createdAt: new Date().toISOString()
             }).then(function() {
-                alertEl.innerHTML = '<div class="alert alert-success">✅ Program berhasil dibuat!</div>';
-                setTimeout(function() { closeModal('programModal'); loadProgram(); }, 1000);
+                showToast('✅ Program berhasil dibuat!', 'success');
+                closeModal('programModal'); loadProgram();
             }).catch(function(err) { alertEl.innerHTML = '<div class="alert alert-danger">❌ Gagal: ' + err.message + '</div>'; });
         }
 
         function deleteProgram(id) {
             if (!confirm('Yakin menghapus program ini?')) return;
-            db.collection('konselia_program').doc(id).delete().then(function() { loadProgram(); });
+            db.collection('konselia_program').doc(id).delete().then(function() { 
+                showToast('✅ Program dihapus!', 'success');
+                loadProgram(); 
+            });
         }
 
         // ==================== ASESMEN ====================
@@ -2086,14 +2208,17 @@
                 tahun: sekolahData.year || '2026/2027',
                 createdAt: new Date().toISOString()
             }).then(function() {
-                alertEl.innerHTML = '<div class="alert alert-success">✅ Asesmen berhasil disimpan!</div>';
-                setTimeout(function() { closeModal('asesmenModal'); loadAsesmen(); }, 1000);
+                showToast('✅ Asesmen berhasil disimpan!', 'success');
+                closeModal('asesmenModal'); loadAsesmen();
             }).catch(function(err) { alertEl.innerHTML = '<div class="alert alert-danger">❌ Gagal: ' + err.message + '</div>'; });
         }
 
         function deleteAsesmen(id) {
             if (!confirm('Yakin menghapus asesmen ini?')) return;
-            db.collection('konselia_asesmen').doc(id).delete().then(function() { loadAsesmen(); });
+            db.collection('konselia_asesmen').doc(id).delete().then(function() { 
+                showToast('✅ Asesmen dihapus!', 'success');
+                loadAsesmen(); 
+            });
         }
 
         // ==================== GURU ====================
@@ -2150,8 +2275,8 @@
                 nama: nama, email: email, password: password, role: role,
                 createdAt: new Date().toISOString()
             }).then(function() {
-                alertEl.innerHTML = '<div class="alert alert-success">✅ Guru berhasil ditambahkan!</div>';
-                setTimeout(function() { closeModal('guruModal'); loadGuru(); }, 1000);
+                showToast('✅ Guru berhasil ditambahkan!', 'success');
+                closeModal('guruModal'); loadGuru();
             }).catch(function(err) { alertEl.innerHTML = '<div class="alert alert-danger">❌ Gagal: ' + err.message + '</div>'; });
         }
 
@@ -2238,7 +2363,7 @@
             localStorage.setItem('KONSELIA_SETTINGS', JSON.stringify(sekolahData));
             document.getElementById('schoolDisplay').textContent = name || 'Sekolah';
             document.getElementById('yearSelect').value = year;
-            alert('✅ Pengaturan berhasil disimpan!');
+            showToast('✅ Pengaturan berhasil disimpan!', 'success');
         }
 
         function exportAllData() {
@@ -2274,9 +2399,9 @@
                             }
                         }
                     }
-                    alert('✅ Data berhasil dipulihkan!');
+                    showToast('✅ Data berhasil dipulihkan!', 'success');
                     location.reload();
-                } catch (err) { alert('❌ File tidak valid: ' + err.message); }
+                } catch (err) { showToast('❌ File tidak valid: ' + err.message, 'danger'); }
             };
             reader.readAsText(file);
             event.target.value = '';
@@ -2413,11 +2538,10 @@
 
         // ==================== START ====================
         init();
-        console.log('✅ KONSELIA by NaFaS BK v3.6 - AKPD FIX');
-        console.log('📋 Sesi AKPD per Kelas dengan 2 Mode: HP & Tanpa HP');
-        console.log('🖨️ Print AKPD ringkas (2 per halaman)');
-        console.log('📝 Entry Manual untuk siswa tanpa HP');
-        console.log('✅ Siswa hanya input NAMA (kelas otomatis dari sesi)');
+        console.log('✅ KONSELIA by NaFaS BK v3.7 - AKPD Cepat');
+        console.log('⚡ Save AKPD: Optimistic (langsung tampil)');
+        console.log('🗑️ Delete AKPD: Optimistic (langsung hilang dari UI)');
+        console.log('🔔 Toast notification untuk feedback cepat');
     </script>
 </body>
 </html>
