@@ -309,6 +309,7 @@
         .sesi-card .info { font-size: 12px; color: var(--gray); margin: 4px 0; }
         .sesi-card .link-sesi { font-size: 12px; color: var(--primary); word-break: break-all; background: #fff; padding: 6px 10px; border-radius: 6px; border: 1px solid var(--gray-light); margin: 6px 0; }
         .sesi-card .actions { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px; }
+        .sesi-card .actions .btn { flex: 0 1 auto; }
 
         @media print {
             .no-print { display: none !important; }
@@ -383,7 +384,7 @@
                 <button onclick="showPage('asesmen')"><span class="icon">🧠</span><span>Asesmen</span></button>
                 <button onclick="showPage('settings')"><span class="icon">⚙️</span><span>Pengaturan</span></button>
             </div>
-            <div style="position:absolute;bottom:20px;left:18px;font-size:10px;opacity:.4;">v3.5 · 2026</div>
+            <div style="position:absolute;bottom:20px;left:18px;font-size:10px;opacity:.4;">v3.6 · 2026</div>
         </aside>
 
         <main class="main">
@@ -562,7 +563,7 @@
                 <span>by NaFaS BK</span>
                 <span style="margin:0 8px;color:#d0d8e0;">|</span>
                 <span>AKPD · 60 Materi BK · RPL · LKPD · Jurnal</span>
-                <span class="version-tag">v3.5</span>
+                <span class="version-tag">v3.6</span>
             </div>
         </main>
     </div>
@@ -1349,7 +1350,7 @@
                 var mode = a.mode || 'hp';
                 var modeIcon = mode === 'hp' ? '📱' : '📄';
                 var modeLabel = mode === 'hp' ? 'Mode HP' : 'Mode Tanpa HP';
-                html += '<div class="sesi-card" data-id="' + a.id + '">';
+                html += '<div class="sesi-card">';
                 html += '<div class="judul">📋 ' + a.nama + ' <span class="badge badge-primary">' + modeIcon + ' ' + modeLabel + '</span></div>';
                 html += '<div class="info">📚 ' + a.jenjang + ' ' + a.kelas + ' | 👥 ' + (a.jumlahSiswa || 0) + ' siswa | 📅 ' + new Date(a.createdAt).toLocaleDateString('id-ID') + '</div>';
                 if (a.link) {
@@ -1357,7 +1358,7 @@
                 }
                 html += '<div class="actions">';
                 if (a.mode === 'hp' && a.link) {
-                    html += '<button class="btn btn-primary btn-sm" onclick="copyAKPDLink(\'' + a.id + '\')">📋 Salin Link</button>';
+                    html += '<button class="btn btn-primary btn-sm" onclick="copyAKPD(\'' + a.id + '\')">📋 Salin Link</button>';
                 }
                 html += '<button class="btn btn-success btn-sm" onclick="printAKPD(\'' + a.id + '\')">🖨️ Print</button>';
                 html += '<button class="btn btn-warning btn-sm" onclick="entryAKPD(\'' + a.id + '\')">📝 Entry</button>';
@@ -1394,7 +1395,6 @@
             var baseUrl = window.location.href.split('?')[0];
             var link = baseUrl + '?mode=akpd&id=' + Date.now();
             
-            // Update link di modal
             document.getElementById('akpdLink').value = link;
 
             db.collection('konselia_akpd').add({
@@ -1407,16 +1407,14 @@
                 tahun: sekolahData.year || '2026/2027',
                 createdAt: new Date().toISOString()
             }).then(function(docRef) {
-                alertEl.innerHTML = '<div class="alert alert-success">✅ Sesi AKPD berhasil dibuat! ID: ' + docRef.id + '</div>';
-                // Reset form
+                alertEl.innerHTML = '<div class="alert alert-success">✅ Sesi AKPD berhasil dibuat!</div>';
                 document.getElementById('akpdNama').value = '';
                 document.getElementById('akpdJumlahSiswa').value = '';
-                // Refresh list setelah 1 detik
                 setTimeout(function() {
                     closeModal('akpdModal');
                     loadAKPD();
                     updateDashboard();
-                }, 1500);
+                }, 1000);
             }).catch(function(err) {
                 alertEl.innerHTML = '<div class="alert alert-danger">❌ Gagal menyimpan: ' + err.message + '</div>';
                 console.error('Error saving AKPD:', err);
@@ -1425,14 +1423,8 @@
 
         // ==================== DELETE AKPD ====================
         function deleteAKPD(id) {
-            if (!confirm('Yakin ingin menghapus sesi AKPD ini?')) return;
+            if (!confirm('Yakin ingin menghapus sesi AKPD "' + (allAKPD.find(a => a.id === id)?.nama || '') + '"?')) return;
             
-            var btn = document.querySelector('.sesi-card[data-id="' + id + '"] .btn-danger');
-            if (btn) {
-                btn.textContent = '⏳';
-                btn.disabled = true;
-            }
-
             db.collection('konselia_akpd').doc(id).delete().then(function() {
                 alert('✅ Sesi AKPD berhasil dihapus!');
                 loadAKPD();
@@ -1440,15 +1432,11 @@
             }).catch(function(err) {
                 alert('❌ Gagal menghapus: ' + err.message);
                 console.error('Error deleting AKPD:', err);
-                if (btn) {
-                    btn.textContent = '🗑️ Hapus';
-                    btn.disabled = false;
-                }
             });
         }
 
         // ==================== COPY LINK AKPD ====================
-        function copyAKPDLink(id) {
+        function copyAKPD(id) {
             var a = allAKPD.find(function(item) { return item.id === id; });
             if (!a || !a.link) { 
                 alert('⚠️ Link tidak tersedia!');
@@ -1458,7 +1446,6 @@
             navigator.clipboard.writeText(a.link).then(function() {
                 alert('✅ Link berhasil disalin!');
             }).catch(function() {
-                // Fallback
                 var dummy = document.createElement('textarea');
                 dummy.value = a.link;
                 document.body.appendChild(dummy);
@@ -2426,7 +2413,7 @@
 
         // ==================== START ====================
         init();
-        console.log('✅ KONSELIA by NaFaS BK v3.5 - AKPD per Kelas + 2 Mode');
+        console.log('✅ KONSELIA by NaFaS BK v3.6 - AKPD FIX');
         console.log('📋 Sesi AKPD per Kelas dengan 2 Mode: HP & Tanpa HP');
         console.log('🖨️ Print AKPD ringkas (2 per halaman)');
         console.log('📝 Entry Manual untuk siswa tanpa HP');
